@@ -1,16 +1,16 @@
-function CatskyInformation(catsky_price, catsky_volume) {
+function RccnInformation(rccn_price, rccn_volume) {
     // String tools
     const formatter = new Intl.NumberFormat('en-US');
   
     // Basic
-    const coin_name = 'Catsky Token';
-    const ticker = '$CATSKY';
-    const token_logo = '/token-images/catsky.png';
+    const coin_name = 'Racoons Club';
+    const ticker = '$RCCN';
+    const token_logo = '/token-images/rccn.png';
   
     // Raw Economics
-    const raw_supply = 1000000000000;
-    const raw_price = catsky_price;
-    const raw_volume = catsky_volume;
+    const raw_supply = 5000000000;
+    const raw_price = rccn_price;
+    const raw_volume = rccn_volume;
     const raw_marketcap = Number(raw_supply * raw_price).toFixed(0);
   
     // Formatted Economics
@@ -40,7 +40,7 @@ function CatskyInformation(catsky_price, catsky_volume) {
     };
 
     const verfied_buy_information = {
-      buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921&tokenNameB=434154534b59',
+      buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=a3e9d397a62992efd2bb54c954b59044948f11f4e14b28add5ebd847&tokenNameB=5243434e',
       ticker: ticker,
     };
 
@@ -50,16 +50,16 @@ function CatskyInformation(catsky_price, catsky_volume) {
       coin_price: formatted_price,
       coin_mc: formatted_marketcap,
       ticker: ticker,
-      coin_logo: '/token-images/catsky.png'
+      coin_logo: '/token-images/rccn.png'
     } 
 
     const token_bio_information = {
       coin_name: coin_name,
-      coin_motto: 'Believers in Cardano',
-      coin_paragraph_1: 'Catsky Token is more than just a token; its a mission to make a substantial impact in the crypto world. With continuous development, Catsky offers unique NFT airdrops to its holders, fostering a community driven by creativity and innovation. Dive into the thrilling and engaging crypto journey that Catsky Token provides.',
+      coin_motto: 'The first 3D/VR Website in Cardano',
+      coin_paragraph_1: 'Racoons Club are building an educational platform in multichain Cardano & Polygon',
       coin_paragraph_2: '',
-      coin_about_image: 'https://pbs.twimg.com/profile_banners/1651627976759341056/1684892915/1500x500',
-      website_link: 'https://catsky.io/',
+      coin_about_image: 'https://pbs.twimg.com/profile_banners/1655815882415718401/1684121392/1500x500',
+      website_link: 'https://racoonsclub.io/',
       ticker: ticker
     };
   
@@ -101,5 +101,5 @@ function CatskyInformation(catsky_price, catsky_volume) {
     return data;
   }
   
-  export default CatskyInformation;
+  export default RccnInformation;
   

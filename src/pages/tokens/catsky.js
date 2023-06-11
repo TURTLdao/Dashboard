@@ -15,19 +15,22 @@ import { Pie } from 'src/sections/launchpad/charts/distribution';
 import { Bio } from 'src/sections/launchpad/profile/bio';
 import { Profile } from 'src/sections/launchpad/profile/profile';
 
-import { getLastPrice } from 'src/api/fetch-calls';
+import { fetchTTdata } from 'src/api/fetch-calls';
 
 import CatskyInformation from 'src/tokens/catsky';
 
-export async function getStaticProps() {
-  const baseId = '9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921434154534b59_lovelace';
+export async function getServerSideProps() {
+  const token_id = '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.d3c99ba691189e9be4e524ee1453d8aa4436d504432ec9be264f8a037f7b6840';
 
   try {
-    const price = await getLastPrice(baseId);
+    const { circulatingSupply, dailyVolume, dilutedMarketCap, holders,
+      monthPercentChange, weekPercentChange, pricePercentChange, nativePrice,
+      numTransactions } = await fetchTTdata(token_id);
 
     return {
       props: {
-        catsky_price: price
+        catsky_price: nativePrice,
+        catsky_24h_volume: dailyVolume
       },
     };
   } catch (error) {
@@ -35,13 +38,14 @@ export async function getStaticProps() {
 
     return {
       props: {
-        catsky_price: 0
+        catsky_price: 0,
+        catsky_24h_volume: 0
       },
     };
   }
 }
 
-export default function Page({ catsky_price }) {
+export default function Page({ catsky_price, catsky_24h_volume }) {
   const {
     future_events,
     current_events,
@@ -51,12 +55,14 @@ export default function Page({ catsky_price }) {
     token_logo,
     formatted_marketcap,
     formatted_price,
+    formatted_volume,
     marketcap_title,
     price_title,
+    volume_title,
     verfied_buy_information,
     token_bio_information,
     token_profile_information
-  } = CatskyInformation(catsky_price);
+  } = CatskyInformation(catsky_price, catsky_24h_volume);
 
   const theme = createTheme({
     palette: {
@@ -97,7 +103,11 @@ export default function Page({ catsky_price }) {
           </Grid>
 
           <Grid xs={12} sm={6} lg={3} >
-            <AdaCompareCard sx={{ height: '100%', marginRight: '10px' }} tokenPrice={catsky_price} ticker={ticker} />
+            <PriceCard sx={{ height: '100%', marginRight: '10px' }} lastPrice={formatted_volume} cardTitle={volume_title}/>
+          </Grid>
+
+          <Grid xs={12} sm={6} lg={3} >
+            <AdaCompareCard sx={{ height: '100%', marginRight: '10px' }} tokenPrice={formatted_price} ticker={ticker} />
           </Grid>
           
         </Grid>

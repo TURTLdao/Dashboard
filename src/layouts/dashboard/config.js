@@ -6,9 +6,11 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import DrawIcon from '@mui/icons-material/Draw';
+import ArticleIcon from '@mui/icons-material/Article';
 
 export const items = [
-  {
+/*  {
     title: 'Dashboard',
     path: '/dashboard',
     icon: (
@@ -17,12 +19,21 @@ export const items = [
       </SvgIcon>
     )
   },
-  {
+*/  {
     title: 'AAID',
     path: '/launchpad',
     icon: (
       <SvgIcon fontSize="small">
         <RocketLaunchIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Discover NFTs',
+    path: '/nft',
+    icon: (
+      <SvgIcon fontSize="small">
+        <DrawIcon />
       </SvgIcon>
     )
   }
@@ -76,6 +87,18 @@ export const items2 = [
     icon: (
       <SvgIcon fontSize="small">
         <StackedLineChartIcon />
+      </SvgIcon>
+    )
+  }
+];
+
+export const items3 = [
+  {
+    title: 'Docs',
+    path: 'https://turtle-docs.vercel.app/',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ArticleIcon />
       </SvgIcon>
     )
   }

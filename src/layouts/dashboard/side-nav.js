@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
-import { items, items2 } from './config';
+import { items, items2, items3 } from './config';
 import { SideNavItem } from './side-nav-item';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -75,7 +75,7 @@ export const SideNav = (props) => {
             </Typography>
           </Box>
         </Box>
-        <Divider sx={{ borderColor: 'neutral.700' }} />
+
         <Box
           component="nav"
           sx={{
@@ -112,7 +112,7 @@ export const SideNav = (props) => {
           </Stack>
         </Box>
 
-        <Divider sx={{ borderColor: 'neutral.700' }} />
+        <Divider sx={{ borderColor: 'primary.main' }} />
         <Box
           component="nav"
           sx={{
@@ -144,6 +144,23 @@ export const SideNav = (props) => {
                 />
               );
             })}
+
+            <Divider sx={{ borderColor: 'primary.main' }} />
+
+            {items3.map((item3) => {
+              const active = item3.path ? (pathname === item3.path) : false;
+
+              return (
+                <NextLink href={item3.path} style={{ color: 'white'}}>
+                <SideNavItem
+                  active={active}
+                  external={item3.external}
+                  icon={item3.icon}
+                  key={item3.title}
+                  title={item3.title}
+                /></NextLink>
+              );
+            })}
           </Stack>
         </Box>
 
@@ -155,7 +172,7 @@ export const SideNav = (props) => {
           }}
         >
           <Typography
-            color="neutral.100"
+            color="primary.main"
             variant="subtitle2"
           >
             Want to learn more?

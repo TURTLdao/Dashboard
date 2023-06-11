@@ -132,7 +132,7 @@ export const TurtleDaoWatchlist = ({ market_data }) => {
           </div>
         )}
         sx={{ color: 'primary.main'}}
-        title="TurtleDAO's Watchlist"
+        title="TurtleDAO's Token Watchlist"
       />
 
       <Scrollbar 

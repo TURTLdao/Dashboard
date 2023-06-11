@@ -39,7 +39,7 @@ const App = (props) => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>
-          Devias Kit
+          TurtleDAO Platform
         </title>
         <meta
           name="viewport"

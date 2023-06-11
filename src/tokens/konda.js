@@ -1,4 +1,4 @@
-function KondaInformation(konda_price) {
+function KondaInformation(konda_price, konda_volume) {
     // String tools
     const formatter = new Intl.NumberFormat('en-US');
   
@@ -10,16 +10,20 @@ function KondaInformation(konda_price) {
     // Raw Economics
     const raw_supply = 84322711100;
     const raw_price = konda_price;
+    const raw_volume = konda_volume;
     const raw_marketcap = Number(raw_supply * raw_price).toFixed(0);
   
     // Formatted Economics
     const formatted_marketcap = formatter.format(raw_marketcap);
     const formatted_price = Number(raw_price).toFixed(8);
     const formatted_supply = formatter.format(raw_supply);
+    const formatted_volume = formatter.format(raw_volume.toFixed(2));
+  
   
     // Dashboard Information
     const marketcap_title = ticker + ' Marketcap';
     const price_title = ticker + ' Price';
+    const volume_title = ticker + ' Daily Volume';
   
     // Token Events
     const future_events = {
@@ -75,18 +79,20 @@ function KondaInformation(konda_price) {
       future_events,
       current_events,
       past_events,
-      formatter,
+  
       coin_name,
       ticker,
       token_logo,
-      raw_supply,
-      raw_price,
-      raw_marketcap,
+  
       formatted_marketcap,
       formatted_price,
       formatted_supply,
+      formatted_volume,
+  
       marketcap_title,
       price_title,
+      volume_title,
+  
       market_table_information,
       verfied_buy_information,
       token_bio_information,

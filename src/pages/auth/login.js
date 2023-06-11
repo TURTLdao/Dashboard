@@ -32,12 +32,20 @@ export default function Page() {
   const handleSearchInputChange = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
-    setUserWalletAddress(query);
   };
 
   const handleSkip = useCallback(
     () => {
       auth.skip();
+      router.push('/launchpad');
+    },
+    [auth, router]
+  );
+
+  const handleConnectWallet = useCallback(
+    () => {
+      setUserWalletAddress(query);
+      auth.skip(); // this is from what we forked, we'll look into this deeper one day - for now stay on track
       router.push('/launchpad');
     },
     [auth, router]
@@ -127,7 +135,8 @@ export default function Page() {
                 type="submit"
                 variant="contained"
                 style={{ backgroundColor: "#4CAF50", color: 'white' }}
-                onClick={handleSkip}
+                onClick={handleConnectWallet}
+                disabled={!searchQuery}
               >
                 Connect Wallet
               </Button>

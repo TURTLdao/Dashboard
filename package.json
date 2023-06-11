@@ -1,9 +1,9 @@
 {
   "name": "turtledao-dashboard",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "author": "TurtleDAO",
   "licence": "MIT",
-  "homepage": "https://turtledao.vercel.app/",
+  "homepage": "https://turtle-dao.com/",
   "private": false,
   "browser": {
     "fs": false,
@@ -43,9 +43,11 @@
     "react": "18.2.0",
     "react-apexcharts": "1.4.0",
     "react-dom": "18.2.0",
+    "react-slick": "0.29.0",
     "react-social-icons": "5.15.0",
     "react-twitter-embed": "^4.0.4",
     "simplebar-react": "^3.2.1",
+    "slick-carousel": "^1.8.1",
     "yup": "1.0.0"
   },
   "devDependencies": {
