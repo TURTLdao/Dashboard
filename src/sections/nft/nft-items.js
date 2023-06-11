@@ -19,7 +19,7 @@ export function NftItems()
       description: '5k Collection of Hand Drawn Turtles.',
       logo: 'https://pbs.twimg.com/profile_images/1528787695253835776/qENq3cTG_400x400.jpg',
       price: 0,
-      webite: 'https://http://theturtlesyndicate.xyz',
+      webite: 'http://theturtlesyndicate.xyz',
       buy_link: 'https://www.jpg.store/collection/theturtlesyndicate?tab=items',
     },
   ]
