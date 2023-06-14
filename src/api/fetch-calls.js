@@ -28,7 +28,7 @@ export async function fetchTTdata(ttID)
 {
   try
   {
-    const response = await fetch('https://www.taptools.io/_next/data/Mnr9ZWE9UMN4us86xyAcT/charts/token.json?pairID=' + ttID);
+    const response = await fetch('https://www.taptools.io/_next/data/eQ9ZcFEeAXhYpcTOcnQ7n/charts/token.json?pairID=' + ttID);
     const data = await response.json();
 
     const circulatingSupply = data.pageProps.pair.circulatingSupply;
