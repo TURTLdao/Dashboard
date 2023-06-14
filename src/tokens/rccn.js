@@ -68,10 +68,11 @@ function RccnInformation(rccn_price, rccn_volume) {
       name: coin_name,
       supply: formatted_supply,
       ticker: ticker,
-      policy_id: '9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921',
-      fingerprint: 'asset18zpauqujk3cu9cypneh8t7l46wmrwa5klmslnm',
-      governance_wallets: ['$catsky.catsky', 'stake1u9kqvuy7upxvegggjk42txxkzd4fvs0xa94a5c93y9nxp6c9cngv0'],
-      cardano_scan: 'https://cardanoscan.io/token/9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921434154534b59'
+      policy_id: 'a3e9d397a62992efd2bb54c954b59044948f11f4e14b28add5ebd847',
+      fingerprint: 'asset1ujn3wcycsm5t3mk9vg0ce5ctejx49c00qvgw82',
+      governance_wallets: ['$racoonscoinada', 'stake1u9wfl3uyy54vaj7yul5ghvhhqtl00azq9k7p69xjvjaxwcgehwlus'],
+      cardano_scan: 'https://cardanoscan.io/token/a3e9d397a62992efd2bb54c954b59044948f11f4e14b28add5ebd8475243434e',
+      is_active: true,
     };
   
     const data = {

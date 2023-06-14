@@ -1,6 +1,8 @@
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader,
-    IconButton, Divider, Stack, SvgIcon, Typography
+    IconButton, Divider, Stack, SvgIcon, Typography, Link
   } from '@mui/material';
+
+import { Scrollbar } from 'src/components/scrollbar';
     
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -13,21 +15,38 @@ export const BuyVerified = ({ verfied_buy_information }) => {
       }
     }
   });
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
 
       return (
         <ThemeProvider theme={theme}>
       <Card sx={{
-        background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-        border: "2px solid #4CAF50"
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        height: 500
       }}>
       <CardHeader
         sx={{ color: 'primary.main' }}
         title={"How to Buy " + verfied_buy_information.ticker}
         action={(
           <div>
+            <Button target='_blank' href={verfied_buy_information.buy_link} variant='outlined'>Buy Now</Button>
           </div>
         )}
       />
+      <Scrollbar
+      sx={{
+        height: '100%',
+        '& .simplebar-content': {
+          height: '100%'
+        },
+        '& .simplebar-scrollbar:before': {
+          background: 'neutral.400'
+        }
+      }}
+    >
         <CardContent>
           <Box
             sx={{
@@ -70,6 +89,7 @@ export const BuyVerified = ({ verfied_buy_information }) => {
             </Typography>
           </Stack>
         </Stack>
+        
       </CardContent>
             </Card>
 
@@ -123,7 +143,7 @@ export const BuyVerified = ({ verfied_buy_information }) => {
             </Typography>
             <Typography variant="body2"
               color="white">
-              Go to app.minswap.org in your the browser or inside your Eternl app.
+              Go to <Link underline='hover'>app.minswap.org</Link> in your the browser or inside your Eternl app.
               Connect your wallet. Because {verfied_buy_information.ticker} is a verified token on Minswap, you can select {verfied_buy_information.ticker} from the list, and confirm.
               When Eternl prompts you for a wallet signature, sign.
             </Typography>
@@ -134,22 +154,73 @@ export const BuyVerified = ({ verfied_buy_information }) => {
 
           </Box>
         </CardContent>
-    
+
+        { /* Dont even ask, lol */}
         <Divider />
-    
-        <CardActions>
-            <Button
-              sx={{ color: 'white' }}
-              fullWidth='true'
-              variant="contained"
-              target='_blank'
-              href={verfied_buy_information.buy_link}
-            >
-                Minswap
-            </Button>
-        </CardActions>
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+          </Scrollbar>
       </Card></ThemeProvider>
     );
 };
-    
-    

@@ -13,6 +13,12 @@ import {
   useTheme
 } from '@mui/material';
 import { Chart } from 'src/components/chart';
+import SavingsIcon from '@mui/icons-material/Savings';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import { Scrollbar } from 'src/components/scrollbar';
+
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const useChartOptions = (labels) => {
   const theme = useTheme();
@@ -22,9 +28,12 @@ const useChartOptions = (labels) => {
       background: 'transparent'
     },
     colors: [
-      theme.palette.primary.main,
-      theme.palette.success.main,
-      theme.palette.warning.main
+      "#4CAF50",
+      "#1d1d1d",
+      "#3d3d3d",
+      "#5d5d5d",
+      "#7d7d7d",
+      "#9d9d9d"
     ],
     dataLabels: {
       enabled: false
@@ -63,31 +72,54 @@ const useChartOptions = (labels) => {
 };
 
 const iconMap = {
-  Desktop: (
+  Banked: (
     <SvgIcon>
-      <ComputerDesktopIcon />
+      <SavingsIcon  />
     </SvgIcon>
   ),
-  Tablet: (
+  Unbanked: (
     <SvgIcon>
-      <DeviceTabletIcon />
-    </SvgIcon>
-  ),
-  Phone: (
-    <SvgIcon>
-      <PhoneIcon />
+      <PaymentsIcon  />
     </SvgIcon>
   )
 };
 
-export const OverviewTraffic = (props) => {
+export const Pie = (props) => {
   const { chartSeries, labels, sx } = props;
   const chartOptions = useChartOptions(labels);
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#4CAF50"
+      }
+    }
+  });
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
   return (
-    <Card sx={sx}>
-      <CardHeader title="Traffic Source" />
-      <CardContent>
+  <ThemeProvider theme={theme}>
+    <Card sx={{
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+    }}>
+      
+      <CardHeader sx={{ color: "primary.main" }} title="Token Distribution" />
+      <Scrollbar
+        sx={{
+          height: 500,
+            '& .simplebar-content': {
+              height: '100%',
+              width: '100%'
+            },
+            '& .simplebar-scrollbar:before': {
+              background: 'neutral.400'
+            }
+        }}>
+
+      <CardContent sx={{  }}>
         <Chart
           height={300}
           options={chartOptions}
@@ -97,7 +129,7 @@ export const OverviewTraffic = (props) => {
         />
         <Stack
           alignItems="center"
-          direction="row"
+          direction="column"
           justifyContent="center"
           spacing={2}
           sx={{ mt: 2 }}
@@ -105,38 +137,54 @@ export const OverviewTraffic = (props) => {
           {chartSeries.map((item, index) => {
             const label = labels[index];
 
-            return (
+            return (      
+      
               <Box
                 key={label}
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  width: 300,
                 }}
-              >
+              ><Scrollbar
+              sx={{
+                height: '100%',
+                  '& .simplebar-content': {
+                    height: '100%',
+                    width: '100%'
+                  },
+                  '& .simplebar-scrollbar:before': {
+                    background: 'neutral.400'
+                  }
+              }}>
                 {iconMap[label]}
                 <Typography
-                  sx={{ my: 1 }}
+                  sx={{ my: 1, fontWeight: 'bold' }}
                   variant="h6"
+                  color="primary.main"
+                  align='center'
                 >
                   {label}
                 </Typography>
                 <Typography
-                  color="text.secondary"
                   variant="subtitle2"
+                  color={'white'}
+                  align='center'
                 >
                   {item}%
                 </Typography>
+              </Scrollbar>
               </Box>
             );
           })}
         </Stack>
-      </CardContent>
-    </Card>
+      </CardContent></Scrollbar>
+    </Card></ThemeProvider>
   );
 };
 
-OverviewTraffic.propTypes = {
+Pie.propTypes = {
   chartSeries: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
   sx: PropTypes.object

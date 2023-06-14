@@ -53,7 +53,8 @@ function TurtleInformation(turtle_price) {
       policy_id: '',
       fingerprint: '',
       governance_wallets: ['$turtledao', ''],
-      cardano_scan: ''
+      cardano_scan: '',
+      is_active: false,
     };
   
     const data = {

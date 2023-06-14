@@ -1,15 +1,6 @@
-export async function getLastPrice(baseId) {
-  const response = await fetch('https://api-mainnet-prod.minswap.org/coinmarketcap/v2/pairs');
-  const data = await response.json();
 
-  const pair = data[baseId];
-
-  if (pair && pair.last_price) {
-    return pair.last_price;
-  }
-
-  return 0; // Return 0 if baseId or last_price is not found
-}
+const TT_API_BUILD_ID = 'eQ9ZcFEeAXhYpcTOcnQ7n';
+const JPG_API_BUILD_ID = 'iO8nO5wAH2nojCllOm3xm'
 
 export async function fetchCoinData(coinName)
 {
@@ -24,11 +15,12 @@ export async function fetchCoinData(coinName)
   }
 }
 
+// Example: ttID = 0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.1075ae9bcffa581ce9bc3a67d1cfdb1471ca8b62dd56ba0d065275682a7e8258 (this is $froggie)
 export async function fetchTTdata(ttID)
 {
   try
   {
-    const response = await fetch('https://www.taptools.io/_next/data/eQ9ZcFEeAXhYpcTOcnQ7n/charts/token.json?pairID=' + ttID);
+    const response = await fetch('https://www.taptools.io/_next/data/' + TT_API_BUILD_ID + '/charts/token.json?pairID=' + ttID);
     const data = await response.json();
 
     const circulatingSupply = data.pageProps.pair.circulatingSupply;
@@ -53,31 +45,32 @@ export async function fetchTTdata(ttID)
   }
 }
 
-export async function fetchMultiTTdata(ttIDs) {
-  try {
-    const requests = ttIDs.map(ttID =>
-      fetch(
-        `https://www.taptools.io/_next/data/Mnr9ZWE9UMN4us86xyAcT/charts/token.json?pairID=${ttID}`
-      )
-    );
+// Example: jpgID = racoonsclubmainseries.json?collection=racoonsclubmainseries
+export async function fetchJpgStoreData(jpgID)
+{
+  try
+  {
+    const response = await fetch('https://www.jpg.store/_next/data/' + JPG_API_BUILD_ID + '/en/collection/' + jpgID);
+    const data = await response.json();
 
-    const responses = await Promise.all(requests);
-    const data = await Promise.all(responses.map(response => response.json()));
+    const policy_id = data.pageProps.collection.policy_id;
+    const display_name = data.pageProps.collection.display_name;
+    const description = data.pageProps.collection.description;
+    const is_minting = data.pageProps.collection.is_minting;
+    const is_verified = data.pageProps.collection.is_verified;
+    const global_floor_lovelace = data.pageProps.collection.global_floor_lovelace;
+    const global_volume_lovelace_all_time = data.pageProps.collection.global_volume_lovelace_all_time;
+    const supply = data.pageProps.collection.supply;
+    const royalties = data.pageProps.collection.royalties.pct;
 
-    const ttData = data.map(d => ({
-      circulatingSupply: d.pageProps.pair.circulatingSupply,
-      dailyVolume: d.pageProps.pair.dailyVolume,
-      dilutedMarketCap: d.pageProps.pair.dilutedMarketCap,
-      holders: d.pageProps.pair.holders,
-      monthPercentChange: d.pageProps.pair.monthPercentChange,
-      weekPercentChange: d.pageProps.pair.weekPercentChange,
-      pricePercentChange: d.pageProps.pair.pricePercentChange,
-      nativePrice: d.pageProps.pair.nativePrice,
-      numTransactions: d.pageProps.pair.numTransactions,
-    }));
-
-    return ttData;
-  } catch (error) {
-    console.log('Failed to fetch TT data: ' + error.message);
+    return {
+      policy_id, display_name, description, is_minting, is_verified,
+      global_floor_lovelace, global_volume_lovelace_all_time, supply,
+      royalties
+    }
+  }
+  catch (error)
+  {
+    console.log('Failed to fetch JPG data for: ' + jpgID + ' - ' + error.message);
   }
 }

@@ -59,7 +59,7 @@ function KondaInformation(konda_price, konda_volume) {
       coin_motto: 'The sh*t coin that cares!',
       coin_paragraph_1: 'Our mission is both simple and effective: we find an NFT or a token, munch on it and spit it back out to the community. This concept is called ”FEED the KONDA”.',
       coin_paragraph_2: '',
-      coin_about_image: 'https://adakondacoin.com/wp-content/uploads/2023/05/Senza-nome.png',
+      coin_about_image: 'https://pbs.twimg.com/profile_banners/1654551139696750593/1683840792/1500x500',
       website_link: 'https://adakondacoin.com/',
       ticker: ticker
     };
@@ -72,7 +72,8 @@ function KondaInformation(konda_price, konda_volume) {
       policy_id: '501dd5d2fbab6af0a26b1421076ff3afc4d5a34d6b3f9694571116ea',
       fingerprint: 'asset195zkmk2c720ezqdnw8fl50un3tzn5u9fd5slm6',
       governance_wallets: ['$adakonda', 'stake1uxt3z77vx5708fys7kkdujh6ehxtcwqkxt7a9jtp4d3n7ggpv6nu3'],
-      cardano_scan: 'https://cardanoscan.io/token/asset195zkmk2c720ezqdnw8fl50un3tzn5u9fd5slm6'
+      cardano_scan: 'https://cardanoscan.io/token/asset195zkmk2c720ezqdnw8fl50un3tzn5u9fd5slm6',
+      is_active: true,
     };
   
     const data = {

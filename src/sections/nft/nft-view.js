@@ -19,11 +19,20 @@ export const NftView = (props) => {
     }
   });
 
+  let bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/basic-bg.svg';
+  if (nftItems.dao_supported === true)
+  {
+    bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Card sx={{
-        background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
         border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        height: 300,
         marginLeft: 2,
         marginRight: 2
       }}>
@@ -55,14 +64,14 @@ export const NftView = (props) => {
               <Typography
                 color={'white'}
                 variant="body2"
+                align='center'
               >
                 <i>{nftItems.description}</i>
               </Typography>
     
               </Box>
     
-              <Divider sx={{ mb: 2, mt: 2}} />
-            <div align="center">
+            <div align="center" style={{ marginTop: 5 }}>
               <Button
                 variant="contained"
                 target='_blank'

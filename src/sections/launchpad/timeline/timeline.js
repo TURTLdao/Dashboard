@@ -11,18 +11,29 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { styled } from '@mui/material/styles';
 
 export default function CustomizedTimeline() {
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#4CAF50"
+      }
+    }
+  });
   const ticker = '$TURTL'
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
   return (
-    
-  <Card 
-  sx={{
-    background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-    border: "2px solid #4CAF50"
+    <ThemeProvider theme={theme}>
+      <Card sx={{
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
   }}>
     <CardHeader
       sx={{ color: 'primary.main' }}
@@ -168,5 +179,6 @@ export default function CustomizedTimeline() {
     </CardContent>
     </Scrollbar>
     </Card>
+    </ThemeProvider>
   );
 }

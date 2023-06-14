@@ -14,6 +14,8 @@ import { NftView } from 'src/sections/nft/nft-view';
 import { NftSlider } from 'src/sections/dashboard/sliders/nft-slider';
 import { FeaturedTokensSlider } from 'src/sections/dashboard/sliders/feat-tokens';
 
+import Carousel from 'src/sections/dashboard/carousel';
+
 export async function getStaticProps() {
   const ttIDs = [
     '', // res for $TURTL
@@ -139,10 +141,11 @@ export default function Page({ formatted_prices }) {
             sm={4}
             lg={4}
           >
-            <NftSlider
+            <Carousel
               sx={{ height: '100%' }}
             />
           </Grid>
+
           
           
           

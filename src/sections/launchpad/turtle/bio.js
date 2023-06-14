@@ -4,6 +4,8 @@ import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Contai
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { Scrollbar } from 'src/components/scrollbar';
+
 export const TurtleBio = () => {
     
       const handleClick = () => {
@@ -21,21 +23,36 @@ export const TurtleBio = () => {
       }
     }
   });
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
 
-      return (
-        <ThemeProvider theme={theme}>
+  return (
+    <ThemeProvider theme={theme}>
       <Card sx={{
-        background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-        border: "2px solid #4CAF50"
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
       }}>
       <CardHeader
         sx={{ color: 'primary.main' }}
         title="About Turtle Token"
         action={(
           <div>
+            <Button target='_blank' href={'https://turtledao.vercel.app/'} variant='outlined'>Website</Button>
           </div>
         )}
       />
+      <Scrollbar
+      sx={{
+        height: 500,
+        '& .simplebar-content': {
+          height: '100%'
+        },
+        '& .simplebar-scrollbar:before': {
+          background: 'neutral.400'
+        }
+      }}
+    >
         <CardContent>
           <Box
             sx={{
@@ -151,20 +168,7 @@ export const TurtleBio = () => {
               />
           </Box>
         </CardContent>
-    
-        <Divider />
-    
-        <CardActions>
-            <Button
-              fullWidth
-              variant="contained"
-              href="https://turtledao.vercel.app/"
-              target="_blank"
-              sx={{ color: 'white' }}
-            >
-              TurtleDAO Website
-            </Button>
-        </CardActions>
+        </Scrollbar>
       </Card></ThemeProvider>
     );
     };

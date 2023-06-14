@@ -7,14 +7,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import CustomizedTimeline from 'src/sections/launchpad/timeline/timeline';
 
-import { Pie } from 'src/sections/launchpad/charts/distribution';
-import { Profile } from 'src/sections/launchpad/profile/profile';
-import { PriceCard } from 'src/sections/launchpad/market-cards/price';
-import { AdaCompareCard } from 'src/sections/launchpad/market-cards/compare';
+import { Pie } from 'src/components/charts/distro-pie';
+import { TokenInfo } from 'src/components/token-profile/token-info';
+import { PriceCard } from 'src/components/market-cards/price';
+import { AdaCompareCard } from 'src/components/market-cards/compare';
 
 import TurtleInformation from 'src/tokens/turtle';
 import { TurtleBio } from 'src/sections/launchpad/turtle/bio';
-import { TurtleDAOfunds } from 'src/sections/launchpad/turtle-funds';
+import { TwitterFeed } from 'src/components/twitter-feed';
 
 export default function Page() {
   const {
@@ -78,6 +78,10 @@ export default function Page() {
           </Grid>
 
           <Grid xs={12} sm={6} lg={3} >
+            <PriceCard sx={{ height: '100%', marginRight: '10px' }} lastPrice={0} cardTitle={'$TURTL Daily Volume'}/>
+          </Grid>
+
+          <Grid xs={12} sm={6} lg={3} >
             <AdaCompareCard sx={{ height: '100%', marginRight: '10px' }} tokenPrice={0} ticker={ticker} />
           </Grid>
         </Grid>
@@ -96,13 +100,22 @@ export default function Page() {
               md={6}
               lg={4}
             >
-              <Profile sx={{ height: '100%', marginRight: '10px' }} token_profile_information={token_profile_information}/>
+              <TokenInfo sx={{ height: '100%', marginRight: '10px' }} token_profile_information={token_profile_information}/>
             </Grid>
 
             <Grid
               xs={12}
               md={6}
-              lg={8}
+              lg={4}
+              
+            >
+              <TurtleBio sx={{ minWidth: "100%" }} />
+            </Grid>
+
+            <Grid
+              xs={12}
+              md={6}
+              lg={4}
             >
               <Pie
                 chartSeries={[30, 5, 10, 15, 40]}
@@ -123,11 +136,10 @@ export default function Page() {
           >
             <Grid
               xs={12}
-              md={6}
+              md={8}
               lg={4}
-              
             >
-            <TurtleBio sx={{ minWidth: "100%" }} />
+              <TwitterFeed twitter_handle={'_TurtleDAO'}/>
             </Grid>
 
             <Grid
@@ -155,27 +167,6 @@ export default function Page() {
               mt: 2
             }}
           >
-            <Grid
-              xs={12}
-              md={8}
-              lg={8}
-            >
-            <Card sx={{
-              background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-              border: "2px solid #4CAF50"
-            }}>
-              <CardContent>
-                <TwitterTimelineEmbed
-                  sourceType="profile"
-                  screenName="_TurtleDAO"
-                  theme='dark'
-                  options={{
-                    height: 500,
-                  }}
-                />
-              </CardContent>
-            </Card>
-            </Grid>
 
           </Grid>
         </div>

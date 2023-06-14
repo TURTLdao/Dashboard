@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 import GlobeAltIcon from '@heroicons/react/24/solid/GlobeAltIcon';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { Scrollbar } from 'src/components/scrollbar';
+
 export const TokenEvents = ({ future_events, current_events, past_events, ticker, coinName }) => {
   
   const theme = createTheme({
@@ -23,18 +25,33 @@ export const TokenEvents = ({ future_events, current_events, past_events, ticker
   const handleClick = () => {
   
   };
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
 
 return (
   <ThemeProvider theme={theme}>
   <Card sx={{
-    background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-    border: "2px solid #4CAF50"
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
   }}>
     <CardHeader
       sx={{ color: 'primary.main' }}
       title={ticker + " Events"}
       
     />
+    <Scrollbar
+    sx={{
+      height: 500,
+      '& .simplebar-content': {
+        height: '100%'
+      },
+      '& .simplebar-scrollbar:before': {
+        background: 'neutral.400'
+      }
+    }}
+  >
       <CardContent>
           {
             coinName ? 
@@ -313,6 +330,7 @@ return (
       </Card>
 
     </CardContent>
+    </Scrollbar>
     <Divider />
   </Card>
   </ThemeProvider>

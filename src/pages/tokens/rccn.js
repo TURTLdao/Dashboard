@@ -6,14 +6,14 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { BuyVerified } from 'src/sections/launchpad/buy/buy-verified';
-
-import { AdaCompareCard } from 'src/sections/launchpad/market-cards/compare';
-import { PriceCard } from 'src/sections/launchpad/market-cards/price';
+import { TwitterFeed } from 'src/components/twitter-feed';
+import { BuyVerified } from 'src/components/howto/buy';
+import { PriceCard } from 'src/components/market-cards/price';
+import { AdaCompareCard } from 'src/components/market-cards/compare';
+import { Pie } from 'src/components/charts/distro-pie';
+import { About } from 'src/components/token-profile/about';
+import { TokenInfo } from 'src/components/token-profile/token-info';
 import { TokenEvents } from 'src/sections/launchpad/events';
-import { Pie } from 'src/sections/launchpad/charts/distribution';
-import { Bio } from 'src/sections/launchpad/profile/bio';
-import { Profile } from 'src/sections/launchpad/profile/profile';
 
 import { fetchTTdata } from 'src/api/fetch-calls';
 
@@ -71,6 +71,8 @@ export default function Page({ rccn_price, rccn_24h_volume }) {
       }
     }
   });
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
 
   return (
   <>
@@ -126,7 +128,7 @@ export default function Page({ rccn_price, rccn_24h_volume }) {
               md={6}
               lg={4}
             >
-              <Profile sx={{ height: '100%', marginRight: '10px' }} token_profile_information={token_profile_information}/>
+              <TokenInfo sx={{ height: '100%', marginRight: '10px' }} token_profile_information={token_profile_information}/>
             </Grid>
 
             <Grid
@@ -134,7 +136,7 @@ export default function Page({ rccn_price, rccn_24h_volume }) {
               md={6}
               lg={4}
             >
-              <Bio sx={{ minWidth: "100%" }} token_bio_information={token_bio_information} />
+              <About sx={{ minWidth: "100%" }} token_bio_information={token_bio_information} />
             </Grid>
             <Grid
               xs={12}
@@ -159,8 +161,10 @@ export default function Page({ rccn_price, rccn_24h_volume }) {
               
             >
               <Card sx={{
-                background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-                border: "2px solid #4CAF50"
+                border: "2px solid #4CAF50",
+                backgroundImage: `url(${bg})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
               }}>
                 <CardContent>
                     <iframe style={{ width: "100%", height: "500px"}} src='https://racoonsclub.io/game'/>
@@ -182,24 +186,8 @@ export default function Page({ rccn_price, rccn_24h_volume }) {
               xs={12}
               md={8}
               lg={8}
-              
             >
-              <Card sx={{
-                background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-                border: "2px solid #4CAF50"
-              }}>
-                <CardContent>
-                  <TwitterTimelineEmbed
-                    sourceType="profile"
-                    screenName="racoonscoin"
-                    theme='dark'
-                    options={{
-                      height: 500,
-                    }}
-                  />
-                </CardContent>
-              </Card>
-
+              <TwitterFeed twitter_handle={'racoonscoin'}/>
             </Grid>
 
             <Grid

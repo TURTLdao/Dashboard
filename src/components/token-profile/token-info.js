@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import DocumentDuplicateIcon from '@heroicons/react/24/solid/DocumentDuplicateIcon';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
   
-export const Profile = ({ token_profile_information }) => {
+export const TokenInfo = ({ token_profile_information }) => {
   
   const theme = createTheme({
     palette: {
@@ -15,12 +15,17 @@ export const Profile = ({ token_profile_information }) => {
       }
     }
   });
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
   
   return (
     <ThemeProvider theme={theme}>
       <Card sx={{
-        background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-        border: "2px solid #4CAF50"
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        height: 500
       }}>
 
           <CardContent>
@@ -131,23 +136,24 @@ export const Profile = ({ token_profile_information }) => {
             </Box>
           </CardContent>
           <Divider />
-          <CardActions>
+        <CardActions>
             <Button
-              fullWidth
-              variant="text"
+              sx={{ color: 'white',width: '100%' }}
+              variant="contained"
               target='_blank'
               href={token_profile_information.cardano_scan}
+              disabled={!token_profile_information.is_active}
             >
               Cardano Scan
             </Button>
-          </CardActions>
+            </CardActions>
 
       </Card>
     </ThemeProvider>
   );
 };
 
-Profile.prototypes = {
+TokenInfo.prototypes = {
   sx: PropTypes.object,
   token_profile_information: PropTypes.string.isRequired,
 };

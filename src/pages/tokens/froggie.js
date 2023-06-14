@@ -1,22 +1,23 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { Box, Card, CardContent, Container, Divider, Unstable_Grid2 as Grid } from '@mui/material';
+import { Box, Card, CardHeader, CardContent, Container, Divider, Unstable_Grid2 as Grid } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 
-import { TwitterTimelineEmbed } from 'react-twitter-embed';
-import { useTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { FroggieNFTs } from 'src/sections/launchpad/showcase/froggie-nfts';
 
-import { AdaCompareCard } from 'src/sections/launchpad/market-cards/compare';
-import { PriceCard } from 'src/sections/launchpad/market-cards/price';
-import { TokenEvents } from 'src/sections/launchpad/events';
-import { Pie } from 'src/sections/launchpad/charts/distribution';
-import { Bio } from 'src/sections/launchpad/profile/bio';
-import { Profile } from 'src/sections/launchpad/profile/profile';
-import { BuyVerified } from 'src/sections/launchpad/buy/buy-verified';
+import { AdaCompareCard } from 'src/components/market-cards/compare';
+import { PriceCard } from 'src/components/market-cards/price';
+import { Pie } from 'src/components/charts/distro-pie';
+import { About } from 'src/components/token-profile/about';
+import { TokenInfo } from 'src/components/token-profile/token-info';
+import { BuyVerified } from 'src/components/howto/buy';
+import { TwitterFeed } from 'src/components/twitter-feed';
 
-import { FroggiePriceChart } from 'src/sections/launchpad/charts/froggie-price';
+import { ShowcaseCarousel } from 'src/components/carousels/showcase';
+
+import { TokenEvents } from 'src/sections/launchpad/events';
 
 import { fetchTTdata } from 'src/api/fetch-calls';
 
@@ -69,7 +70,27 @@ export default function Page({ froggie_price, froggie_24h_volume }) {
 
   // https://analyticsv2.muesliswap.com/price?policy-id=79906b9c8d2fbddeba9658387a2a1187f3edd8f546e5dc49225710a1&tokenname=FROGGIE&interval=hourly
 
-  const theme = useTheme();
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#4CAF50"
+      }
+    }
+  });
+  
+  const imagesArray =
+  [
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/1.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/2.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/3.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/4.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/5.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/6.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/7.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/8.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/9.png?raw=true',
+    'https://github.com/TURTLdao/Froggie-NFT/blob/main/10.png?raw=true',
+  ]
 
   return (
   <>
@@ -125,20 +146,25 @@ export default function Page({ froggie_price, froggie_24h_volume }) {
               md={6}
               lg={4}
             >
-              <Profile sx={{ height: '100%', marginRight: '10px' }} token_profile_information={token_profile_information}/>
+              <TokenInfo sx={{ height: '100%', marginRight: '10px' }} token_profile_information={token_profile_information}/>
             </Grid>
 
             <Grid
               xs={12}
               md={6}
-              lg={8}
-            >
-              <Pie
-                chartSeries={[38.18, 10.89, 20.72, 10.89, 19.32]}
-                labels={['LP', 'Airdrops', 'OTC', 'Distribution', 'Development']}
-                sx={{ height: '100%', marginRight: '10px' }}
-              />
+              lg={4}
+            ><About sx={{ minWidth: "100%" }} token_bio_information={token_bio_information} />
+              
             </Grid>
+            <Grid
+              xs={12}
+              md={6}
+              lg={4}
+            >
+              <BuyVerified sx={{ minWidth: "100%" }} verfied_buy_information={verfied_buy_information} />
+              
+            </Grid>
+              
           </Grid>
         </div>
         
@@ -156,28 +182,7 @@ export default function Page({ froggie_price, froggie_24h_volume }) {
               lg={4}
               
             >
-            <ThemeProvider theme={theme}>
-            <Card sx={{
-              background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-              border: "2px solid #4CAF50"
-            }}>
-              <CardContent>
-              <TwitterTimelineEmbed
-                sourceType="profile"
-                screenName="Froggieo_"
-                theme='dark'
-                options={{
-                  height: 600,
-                }}
-              />
-              </CardContent>
-              </Card>
-              </ThemeProvider>
-              <Divider/>
-              <Divider/>
-              <Divider/>
-              <Divider/>
-              <FroggieNFTs sx={{ height: '100%', marginRight: '10px' }} />
+              <TwitterFeed twitter_handle={'Froggieo_'}/>
             </Grid>
 
             <Grid
@@ -185,13 +190,12 @@ export default function Page({ froggie_price, froggie_24h_volume }) {
               md={6}
               lg={4}
             >
-              <Bio sx={{ minWidth: "100%" }} token_bio_information={token_bio_information} />
-              <Divider/>
-              <Divider/>
-              <Divider/>
-              <Divider/>
-              
-              <BuyVerified sx={{ minWidth: "100%" }} verfied_buy_information={verfied_buy_information} />
+            <Pie
+              chartSeries={[38.18, 10.89, 20.72, 10.89, 19.32]}
+              labels={['LP', 'Airdrops', 'OTC', 'Distribution', 'Development']}
+              sx={{ height: '100%', marginRight: '10px' }}
+            />
+
             </Grid>
             <Grid
               xs={12}
@@ -221,6 +225,16 @@ export default function Page({ froggie_price, froggie_24h_volume }) {
               mt: 2
             }}
           >
+          <Grid
+            xs={12}
+            md={12}
+            lg={6}
+          >
+            <div align='center'>
+              <ShowcaseCarousel sx={{ height: '100%' }} 
+                imagesArray={imagesArray}/>
+            </div>
+          </Grid>
 
 
           </Grid>

@@ -20,7 +20,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getLastPrice, fetchTTdata } from 'src/api/fetch-calls';
 import { daoItems } from 'src/tokens/dao-supported';
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const ttIDs = [
     '', // res for $TURTL
     '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.1075ae9bcffa581ce9bc3a67d1cfdb1471ca8b62dd56ba0d065275682a7e8258', // $FROGGIE

@@ -19,15 +19,18 @@ export const LaunchpadView = (props) => {
     }
   });
 
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
   return (
     <ThemeProvider theme={theme}>
-    <Card
-      sx={{
+      <Card sx={{
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-        border: "2px solid #4CAF50"
       }}
     >
       <CardContent>

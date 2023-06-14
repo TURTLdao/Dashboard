@@ -12,10 +12,14 @@ export const PriceCard = ({ lastPrice, sx, imageLink, cardTitle }) => {
     }
   });
 
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
   return (
     <ThemeProvider theme={theme}>
     <Card sx={{
-      background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
+      backgroundImage: `url(${bg})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
       border: "2px solid #4CAF50"
     }}>
       <CardContent>

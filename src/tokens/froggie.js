@@ -59,7 +59,7 @@ function FroggieInformation(froggie_price, froggie_volume) {
     coin_motto: 'Froggie is here for everyone. Froggie is the new wave. Join us in the pond.',
     coin_paragraph_1: 'Froggies are life, Froggies are love and we want Froggies to stay.',
     coin_paragraph_2: '',
-    coin_about_image: 'https://github.com/TURTLdao/TURTL-images/blob/main/1.png?raw=true',
+    coin_about_image: 'https://pbs.twimg.com/profile_banners/1395015797110628354/1686379339/1500x500',
     website_link: 'https://froggies.vercel.app/',
     ticker: ticker
   };
@@ -72,7 +72,8 @@ function FroggieInformation(froggie_price, froggie_volume) {
     policy_id: '79906b9c8d2fbddeba9658387a2a1187f3edd8f546e5dc49225710a1',
     fingerprint: 'asset19c3e54qhtme5pptxsgpwu4ea60904drzlyxn0l',
     governance_wallets: ['$froggiepond', 'stake1uytl7zf2sc2nxkjdjdnar05u4gfkuzdm0dyxrn7vvws833sy9t6ur'],
-    cardano_scan: 'https://cardanoscan.io/token/79906b9c8d2fbddeba9658387a2a1187f3edd8f546e5dc49225710a146524f47474945'
+    cardano_scan: 'https://cardanoscan.io/token/79906b9c8d2fbddeba9658387a2a1187f3edd8f546e5dc49225710a146524f47474945',
+    is_active: true,
   };
 
   const data = {

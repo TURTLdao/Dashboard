@@ -8,7 +8,7 @@ import Slider from "react-slick";
 import { NftItems } from 'src/sections/nft/nft-items';
 import { NftView } from 'src/sections/nft/nft-view';
 import { daoItems } from 'src/tokens/dao-supported';
-import { TokenView } from 'src/components/token-slider-view';
+import { TokenView } from 'src/components/sliders/token-view';
 
 
 export const FeaturedTokensSlider = ({ formatted_prices }) => {

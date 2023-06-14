@@ -71,7 +71,8 @@ function CatskyInformation(catsky_price, catsky_volume) {
       policy_id: '9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921',
       fingerprint: 'asset18zpauqujk3cu9cypneh8t7l46wmrwa5klmslnm',
       governance_wallets: ['$catsky.catsky', 'stake1u9kqvuy7upxvegggjk42txxkzd4fvs0xa94a5c93y9nxp6c9cngv0'],
-      cardano_scan: 'https://cardanoscan.io/token/9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921434154534b59'
+      cardano_scan: 'https://cardanoscan.io/token/9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921434154534b59',
+      is_active: true,
     };
   
     const data = {

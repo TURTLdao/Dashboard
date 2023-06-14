@@ -1,30 +1,99 @@
 import Head from 'next/head';
-import { subDays, subHours } from 'date-fns';
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { OverviewBudget } from 'src/sections/overview/overview-budget';
-import { OverviewLatestOrders } from 'src/sections/overview/overview-latest-orders';
-import { OverviewLatestProducts } from 'src/sections/overview/overview-latest-products';
-import { OverviewSales } from 'src/sections/overview/overview-sales';
-import { OverviewTasksProgress } from 'src/sections/overview/overview-tasks-progress';
-import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-customers';
-import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit';
-import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
+import { useState, useEffect } from 'react';
 
-const now = new Date();
+import Slider from "react-slick";
 
-const Page = () => (
+import { MainBanner } from 'src/sections/dashboard/banners/main';
+import { TurtleDaoWatchlist } from 'src/sections/dashboard/dao-watchlist';
+
+import { NftItems } from 'src/sections/nft/nft-items';
+import { NftView } from 'src/sections/nft/nft-view';
+
+import { NftSlider } from 'src/sections/dashboard/sliders/nft-slider';
+import { FeaturedTokensSlider } from 'src/sections/dashboard/sliders/feat-tokens';
+
+import Carousel from 'src/sections/dashboard/carousel';
+
+export async function getStaticProps() {
+  const ttIDs = [
+    '', // res for $TURTL
+    '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.1075ae9bcffa581ce9bc3a67d1cfdb1471ca8b62dd56ba0d065275682a7e8258', // $FROGGIE
+    '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.d3c99ba691189e9be4e524ee1453d8aa4436d504432ec9be264f8a037f7b6840', // $KONDA
+    '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.76ab3fb1e92b7a58ee94b712d1c1bff0e24146e8e508aa0008443e1db1f2244e', // $CATSKY
+    '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.778854dfbdabfd15860e20ade792f635cca51d27a45eae9083582889fc256938', // $RCCN
+  ];
+
+  try {
+    const { nativePrice: froggie_price } = await fetchTTdata(ttIDs[1]);
+    const { nativePrice: konda_price } = await fetchTTdata(ttIDs[2]);
+    const { nativePrice: catsky_price } = await fetchTTdata(ttIDs[3]);
+    const { nativePrice: rccn_price } = await fetchTTdata(ttIDs[4]);
+    
+    const formatted_prices = {
+      turtle: Number(0).toFixed(10),
+      froggie: Number(froggie_price).toFixed(10),
+      konda: Number(konda_price).toFixed(10),
+      catsky: Number(catsky_price).toFixed(10),
+      rccn: Number(rccn_price).toFixed(10),
+    }
+
+    return {
+      props: {
+        formatted_prices
+      },
+    };
+
+  } catch (error) {
+    console.error('Error:', error);
+    const formatted_prices = {};
+    return {
+      props: {
+        formatted_prices
+      },
+    };
+  }
+}
+
+
+export default function Page({ formatted_prices }) {
+  const calculate_tokens_to_ada = (tokenPrice) => {
+    if (tokenPrice <= 0) {
+      return 0; // Invalid tokenPrice
+    }
+
+    const out = 1 / tokenPrice;
+    if (out < 1) {
+      return out.toFixed(5);
+    } else {
+      return (1 / tokenPrice);
+    }
+  };
+
+  const calculateMarketValues = (price, rawSupply, volume) => {
+    return {
+      price: parseFloat(price),
+      marketcap: price * rawSupply,
+      to_ada: calculate_tokens_to_ada(price),
+      volume: parseFloat(volume)
+    };
+  };
+
+  return (
   <>
     <Head>
       <title>
-        Overview | Devias Kit
+        Dashboard | TurtleDAO Platform
       </title>
     </Head>
+
     <Box
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8
+        py: 8,
+        background: '#1d1d1d',
       }}
     >
       <Container maxWidth="xl">
@@ -32,196 +101,61 @@ const Page = () => (
           container
           spacing={3}
         >
+        <div align='center' style={{ width: '100%' }}>
           <Grid
             xs={12}
-            sm={6}
-            lg={3}
-          >
-            <OverviewBudget
-              difference={12}
-              positive
-              sx={{ height: '100%' }}
-              value="$24k"
-            />
-          </Grid>
-          <Grid
-            xs={12}
-            sm={6}
-            lg={3}
-          >
-            <OverviewTotalCustomers
-              difference={16}
-              positive={false}
-              sx={{ height: '100%' }}
-              value="1.6k"
-            />
-          </Grid>
-          <Grid
-            xs={12}
-            sm={6}
-            lg={3}
-          >
-            <OverviewTasksProgress
-              sx={{ height: '100%' }}
-              value={75.5}
-            />
-          </Grid>
-          <Grid
-            xs={12}
-            sm={6}
-            lg={3}
-          >
-            <OverviewTotalProfit
-              sx={{ height: '100%' }}
-              value="$15k"
-            />
-          </Grid>
-          <Grid
-            xs={12}
+            sm={12}
             lg={8}
           >
-            <OverviewSales
-              chartSeries={[
-                {
-                  name: 'This year',
-                  data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20]
-                },
-                {
-                  name: 'Last year',
-                  data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13]
-                }
-              ]}
-              sx={{ height: '100%' }}
-            />
-          </Grid>
+            <div align='center'>
+            <MainBanner
+              sx={{ width: '75%' }}
+            /></div>
+          </Grid></div>
+          { /*
+            
           <Grid
             xs={12}
-            md={6}
+            sm={12}
+            lg={12}
+          >
+            <TurtleDaoWatchlist
+              sx={{ height: '100%' }}
+              market_data={complete_markets}
+            />
+          </Grid> */
+          }
+
+          <Grid
+            xs={12}
+            sm={4}
             lg={4}
           >
-            <OverviewTraffic
-              chartSeries={[63, 15, 22]}
-              labels={['Desktop', 'Tablet', 'Phone']}
-              sx={{ height: '100%' }}
+            <FeaturedTokensSlider
+              sx={{ height: '100%' }} formatted_prices={formatted_prices}
             />
           </Grid>
+
           <Grid
             xs={12}
-            md={6}
+            sm={4}
             lg={4}
           >
-            <OverviewLatestProducts
-              products={[
-                {
-                  id: '5ece2c077e39da27658aa8a9',
-                  image: '/assets/products/product-1.png',
-                  name: 'Healthcare Erbology',
-                  updatedAt: subHours(now, 6).getTime()
-                },
-                {
-                  id: '5ece2c0d16f70bff2cf86cd8',
-                  image: '/assets/products/product-2.png',
-                  name: 'Makeup Lancome Rouge',
-                  updatedAt: subDays(subHours(now, 8), 2).getTime()
-                },
-                {
-                  id: 'b393ce1b09c1254c3a92c827',
-                  image: '/assets/products/product-5.png',
-                  name: 'Skincare Soja CO',
-                  updatedAt: subDays(subHours(now, 1), 1).getTime()
-                },
-                {
-                  id: 'a6ede15670da63f49f752c89',
-                  image: '/assets/products/product-6.png',
-                  name: 'Makeup Lipstick',
-                  updatedAt: subDays(subHours(now, 3), 3).getTime()
-                },
-                {
-                  id: 'bcad5524fe3a2f8f8620ceda',
-                  image: '/assets/products/product-7.png',
-                  name: 'Healthcare Ritual',
-                  updatedAt: subDays(subHours(now, 5), 6).getTime()
-                }
-              ]}
+            <Carousel
               sx={{ height: '100%' }}
             />
           </Grid>
-          <Grid
-            xs={12}
-            md={12}
-            lg={8}
-          >
-            <OverviewLatestOrders
-              orders={[
-                {
-                  id: 'f69f88012978187a6c12897f',
-                  ref: 'DEV1049',
-                  amount: 30.5,
-                  customer: {
-                    name: 'Ekaterina Tankova'
-                  },
-                  createdAt: 1555016400000,
-                  status: 'pending'
-                },
-                {
-                  id: '9eaa1c7dd4433f413c308ce2',
-                  ref: 'DEV1048',
-                  amount: 25.1,
-                  customer: {
-                    name: 'Cao Yu'
-                  },
-                  createdAt: 1555016400000,
-                  status: 'delivered'
-                },
-                {
-                  id: '01a5230c811bd04996ce7c13',
-                  ref: 'DEV1047',
-                  amount: 10.99,
-                  customer: {
-                    name: 'Alexa Richardson'
-                  },
-                  createdAt: 1554930000000,
-                  status: 'refunded'
-                },
-                {
-                  id: '1f4e1bd0a87cea23cdb83d18',
-                  ref: 'DEV1046',
-                  amount: 96.43,
-                  customer: {
-                    name: 'Anje Keizer'
-                  },
-                  createdAt: 1554757200000,
-                  status: 'pending'
-                },
-                {
-                  id: '9f974f239d29ede969367103',
-                  ref: 'DEV1045',
-                  amount: 32.54,
-                  customer: {
-                    name: 'Clarke Gillebert'
-                  },
-                  createdAt: 1554670800000,
-                  status: 'delivered'
-                },
-                {
-                  id: 'ffc83c1560ec2f66a1c05596',
-                  ref: 'DEV1044',
-                  amount: 16.76,
-                  customer: {
-                    name: 'Adam Denisov'
-                  },
-                  createdAt: 1554670800000,
-                  status: 'delivered'
-                }
-              ]}
-              sx={{ height: '100%' }}
-            />
-          </Grid>
+
+          
+          
+          
         </Grid>
       </Container>
     </Box>
   </>
-);
+  );
+};
+
 
 Page.getLayout = (page) => (
   <DashboardLayout>
@@ -229,4 +163,3 @@ Page.getLayout = (page) => (
   </DashboardLayout>
 );
 
-export default Page;

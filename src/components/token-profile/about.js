@@ -4,7 +4,7 @@ import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader,
 import PropTypes from 'prop-types';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export const Bio = ({ token_bio_information }) => {
+export const About = ({ token_bio_information }) => {
   const theme = createTheme({
     palette: {
       primary: {
@@ -12,12 +12,17 @@ export const Bio = ({ token_bio_information }) => {
       }
     }
   });
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
   
   return (
     <ThemeProvider theme={theme}>
       <Card sx={{
-        background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
-        border: "2px solid #4CAF50"
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        height: 500
       }}>
       <CardHeader
         sx={{ color: 'primary.main' }}
@@ -39,6 +44,7 @@ export const Bio = ({ token_bio_information }) => {
             <Typography
               color="white"
               variant="caption"
+              align='center'
             >
               {token_bio_information.coin_motto}
             </Typography>
@@ -47,6 +53,7 @@ export const Bio = ({ token_bio_information }) => {
               color="white"
               variant="body1"
               sx={{ marginBottom: 3 }}
+              align='center'
             >
               {token_bio_information.coin_paragraph_1}
             </Typography>
@@ -56,6 +63,7 @@ export const Bio = ({ token_bio_information }) => {
                 color="white"
                 variant="body1"
                 sx={{ marginBottom: 3 }}
+                align='center'
               >
                 {token_bio_information.coin_paragraph_2}
               </Typography>
@@ -64,7 +72,7 @@ export const Bio = ({ token_bio_information }) => {
             {token_bio_information.coin_about_image ? (
               <img src={token_bio_information.coin_about_image}
                 style={{
-                  height: 200,
+                  width: "100%",
                   mb: 2,
                 }}
               />
@@ -90,7 +98,7 @@ export const Bio = ({ token_bio_information }) => {
   );
 };
 
-Bio.prototypes = {
+About.prototypes = {
   sx: PropTypes.object,
   token_bio_information: PropTypes.string.isRequired,
 };

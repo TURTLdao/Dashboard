@@ -57,6 +57,20 @@ export const getDaoWatchlistItems = (market_data) => {
       discord_link: 'https://discord.gg/mqNHWb7hbX',
       buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921&tokenNameB=434154534b59',
     },
+    {
+      id: 4,
+      name: 'Racoons Club',
+      ticker: '$RCCN',
+      coin_logo: '/token-images/rccn.png',
+      price: market_data.rccn_market.price,
+      marketcap: market_data.rccn_market.marketcap,
+      volume: market_data.rccn_market.volume,
+      to_ada: market_data.rccn_market.to_ada,
+      dao_support_link: '/tokens/rccn',
+      twitter_link: 'https://twitter.com/Catskycrypto',
+      discord_link: 'https://discord.gg/mqNHWb7hbX',
+      buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921&tokenNameB=434154534b59',
+    },
   ];
 
   return dao_table_items;
