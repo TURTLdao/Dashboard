@@ -74,3 +74,28 @@ export async function fetchJpgStoreData(jpgID)
     console.log('Failed to fetch JPG data for: ' + jpgID + ' - ' + error.message);
   }
 }
+
+export async function blockfrost_CheckAddress(address)
+{
+  const apiKey = 'mainnetHeQmp2UUWJXYuE8TFt2KkmNlPPblhjyC';
+  try
+  {
+    const response = await fetch('https://cardano-mainnet.blockfrost.io/api/v0/addresses/' + address, {
+      headers: {
+        'Content-Type': 'application/json',
+        'project_id': apiKey
+      }
+    });
+
+    const amounts = data.amount;
+    const stake_address = data.stake_address;
+
+    return {
+      amounts, stake_address
+    }
+  }
+  catch (error)
+  {
+    console.log('Failed to fetch blockfrost_CheckAddress data for: ' + address + ' - ' + error.message);
+  }
+}

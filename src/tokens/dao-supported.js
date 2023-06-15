@@ -59,17 +59,6 @@ export function daoItems(formatted_prices)
       logo: '/token-images/rccn.png',
       buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=a3e9d397a62992efd2bb54c954b59044948f11f4e14b28add5ebd847&tokenNameB=5243434e'
     },
-    {
-      title: 'Future Project',
-      ticker: '',
-      category: '',
-      description: 'Example 1.',
-      page: '',
-      price: '0.00000000',
-      ready: false,
-      logo: '',
-      buy_link: ''
-    },
   ]
 
   return items;

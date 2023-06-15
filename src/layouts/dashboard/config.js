@@ -8,9 +8,11 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DrawIcon from '@mui/icons-material/Draw';
 import ArticleIcon from '@mui/icons-material/Article';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import CategoryIcon from '@mui/icons-material/Category';
 
 export const items = [
-/*  {
+  {
     title: 'Dashboard',
     path: '/dashboard',
     icon: (
@@ -19,7 +21,7 @@ export const items = [
       </SvgIcon>
     )
   },
-*/  {
+  {
     title: 'AAID',
     path: '/launchpad',
     icon: (
@@ -51,7 +53,7 @@ export const items2 = [
     )
   },
   {
-    title: 'Buy / Sell',
+    title: 'DEX',
     path: '/',
     disabled: true,
     icon: (
@@ -61,7 +63,7 @@ export const items2 = [
     )
   },
   {
-    title: 'Pool',
+    title: 'Earn',
     path: '/',
     disabled: true,
     icon: (
@@ -71,22 +73,22 @@ export const items2 = [
     )
   },
   {
-    title: 'Farming',
+    title: 'Learning Centre',
     path: '/',
     disabled: true,
     icon: (
       <SvgIcon fontSize="small">
-        <StackedLineChartIcon />
+        <MenuBookIcon />
       </SvgIcon>
     )
   },
   {
-    title: 'Stake',
+    title: 'Resources',
     path: '/',
     disabled: true,
     icon: (
       <SvgIcon fontSize="small">
-        <StackedLineChartIcon />
+        <CategoryIcon />
       </SvgIcon>
     )
   }

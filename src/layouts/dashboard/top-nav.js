@@ -84,23 +84,6 @@ export const TopNav = (props) => {
             spacing={2}
           >
 
-            <Tooltip title="Notifications">
-              <IconButton 
-                onClick={notificationsPopover.handleOpen}
-                ref={notificationsPopover.anchorRef}
-                sx={{ mr: 3 }}
-              >
-                <Badge
-                  badgeContent={4}
-                  color="success"
-                  variant="dot"
-                >
-                  <SvgIcon fontSize="small">
-                    <BellIcon />
-                  </SvgIcon>
-                </Badge>
-              </IconButton>
-            </Tooltip>
             <Avatar
               onClick={accountPopover.handleOpen}
               ref={accountPopover.anchorRef}

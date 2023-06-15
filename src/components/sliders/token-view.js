@@ -5,6 +5,7 @@ import { Avatar, Box, Button, Card, CardActions, CardContent, Divider,
 } from '@mui/material';
 
 import { useTheme, ThemeProvider } from '@mui/material/styles';
+import { width } from '@mui/system';
 
 export const TokenView = (props) => {
   const { nftItems, formatted_prices } = props;
@@ -14,14 +15,18 @@ export const TokenView = (props) => {
     window.open(link);
   };
 
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
 
   return (
     <ThemeProvider theme={theme}>
       <Card sx={{
-        background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
         border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
         marginLeft: 2,
-        marginRight: 2
+        marginRight: 2,
+        width: '75%'
       }}>
         <CardContent>
           <Box
@@ -63,18 +68,9 @@ export const TokenView = (props) => {
                 variant="contained"
                 target='_blank'
                 onClick={() => openNewTab(nftItems.page)}
-                sx={{ margin: 1 }}
+                sx={{ margin: 1, color: 'white', width: '75%' }}
               >
                 AAID
-              </Button>
-              <Button
-                variant="contained"
-                target='_blank'
-                onClick={() => openNewTab(nftItems.buy_link)}
-                sx={{ margin: 1 }}
-                disabled={!nftItems.buy_link}
-              >
-                Buy Now
               </Button>
             </div>
           <CardActions>
@@ -82,7 +78,7 @@ export const TokenView = (props) => {
                 color={'white'}
                 variant="body2"
               >
-                <i>{nftItems.price}</i>
+                <i>₳ {nftItems.price}</i>
               </Typography>
           </CardActions>
 

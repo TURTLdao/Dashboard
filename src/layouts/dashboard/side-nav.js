@@ -164,7 +164,6 @@ export const SideNav = (props) => {
           </Stack>
         </Box>
 
-        <Divider sx={{ borderColor: 'neutral.700' }} />
         <Box
           sx={{
             px: 2,

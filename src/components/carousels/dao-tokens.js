@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Box, Card, CardHeader, CardContent, Divider, Unstable_Grid2 as Grid } from '@mui/material';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
 
 import "swiper/css";
 import "swiper/css/effect-cards";
@@ -12,6 +13,8 @@ import "swiper/css/navigation";
 
 //import Arrow from "../assets/Arrow.svg";
 import { Pagination, Navigation, Autoplay, EffectCards } from "swiper";
+import { TokenView } from "../sliders/token-view";
+import { daoItems } from "src/tokens/dao-supported";
 
 const Container = styled.div`.square {
   width: 25vh;
@@ -38,7 +41,6 @@ const Container = styled.div`.square {
     height: 60vh;
   }
 }
-
   .swiper {
     width: 100%;
     height: 100%;
@@ -46,7 +48,6 @@ const Container = styled.div`.square {
 
   .swiper-slide {
     background-color: ${(props) => props.theme.carouselColor};
-    border-radius: 20px;
 
     display: flex;
     justify-content: center;
@@ -106,7 +107,7 @@ const Container = styled.div`.square {
   }
 `;
 
-export const ShowcaseCarousel = ({ imagesArray }) => {
+export const DaoTokensCarousel = ({ formatted_prices }) => {
 
   const theme = createTheme({
     palette: {
@@ -115,21 +116,29 @@ export const ShowcaseCarousel = ({ imagesArray }) => {
       }
     }
   });
+
+  const dao_items = daoItems(formatted_prices);
+  const [filteredCompanies, setFilteredCompanies] = useState(dao_items);
   const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
   
   return (
     <ThemeProvider theme={theme}>
       <Card sx={{
-          border: "2px solid #4CAF50",
-          backgroundImage: `url(${bg})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
+        border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
       }}>
+        <CardHeader
+          sx={{ color: 'primary.main' }}
+          title={"TurtleDAO Supported"}
+        />
+
     <Container style={{ margin: 10}}>
       <Swiper
         autoplay={{
           delay: 2000,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }}
         scrollbar={{
           draggable: true,
@@ -140,9 +149,9 @@ export const ShowcaseCarousel = ({ imagesArray }) => {
         grabCursor={true}
         className="mySwiper"
       >
-        {imagesArray.map((img, index) => (
+        {filteredCompanies.map((dao_items) => (
           <SwiperSlide>
-            <img src={img} style={{ height: "100%", width: "100%"}}/>
+            <TokenView nftItems={dao_items} formatted_prices={formatted_prices}/>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -151,8 +160,7 @@ export const ShowcaseCarousel = ({ imagesArray }) => {
   );
 };
 
-ShowcaseCarousel.prototypes = {
-    sx: PropTypes.object,
-    imagesArray: PropTypes.string.isRequired,
-  };
-  
+DaoTokensCarousel.prototypes = {
+  sx: PropTypes.object,
+  formatted_prices: PropTypes.string.isRequired
+};

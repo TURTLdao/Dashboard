@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 
-export const MainBanner = ({  }) => {
+export const VersionBanner = ({  }) => {
   const theme = createTheme({
     palette: {
       primary: {
@@ -24,11 +24,15 @@ export const MainBanner = ({  }) => {
     return null; // Return null to hide/remove the component
   }
 
+  const bg = 'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg';
+
   return (
     <ThemeProvider theme={theme}>
       <Card sx={{
-        background: 'radial-gradient(circle, rgba(42,97,44,1) 0%, rgba(45,45,45,1) 100%)',
         border: "2px solid #4CAF50",
+        backgroundImage: `url(${bg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
         maxHeight: 170
       }}>
         <CardContent>
@@ -45,7 +49,7 @@ export const MainBanner = ({  }) => {
               variant="caption"
               sx={{ marginBottom: 1 }}
             >
-              v1.3
+              v1.4.2
             </Typography>
 
             <Typography
@@ -71,6 +75,6 @@ export const MainBanner = ({  }) => {
   );
 };
 
-MainBanner.prototypes = {
+VersionBanner.prototypes = {
   sx: PropTypes.object,
 };

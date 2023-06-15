@@ -54,9 +54,6 @@ export const AccountPopover = (props) => {
             {userWalletAddress}
           </Typography> : null
         }
-
-      </Box>
-      <Divider />
       <MenuList
         disablePadding
         dense
@@ -69,9 +66,11 @@ export const AccountPopover = (props) => {
       >
         <MenuItem onClick={handleSignOut} 
           sx={{ color: 'white' }}>
-          Sign out
+          Sign In
         </MenuItem>
       </MenuList>
+      </Box>
+      <Divider />
     </Popover>
   );
 };
