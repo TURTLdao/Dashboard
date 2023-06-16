@@ -7,9 +7,13 @@
 - [x] Work out Marketcap
 - [x] Work out 1 ADA to Token
 - [ ] Implement Price Charts
+- [x] NFT projects
+- [x] NFT top projects
+- [x] NFT new projects
 
-### Current Tokens
+### Dao Supported Tokens
 - $TURTL - Turtle Token
 - $FROGGIE - Froggie Koin
 - $KONDA - AdaKonda Coin
 - $CATSKY - Catsky Coin
+- $RCCN - Racoons Club
