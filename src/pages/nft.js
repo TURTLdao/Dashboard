@@ -31,11 +31,14 @@ import { NewlyListedNftsCarousel } from 'src/components/carousels/newlisted-nfts
 
 export async function getServerSideProps() {
   try {
-    const [jpgstore_top_volume_data, jpgstore_newly_added_data] = await Promise.all([
+    const results = await Promise.all([
       fetchJpgStoreData(),
       fetchJpgStoreData(true),
     ]);
     
+    const jpgstore_top_volume_data = results[0];
+    const jpgstore_newly_added_data = results[1];
+
     return {
       props: {
         jpgstore_top_volume_data, jpgstore_newly_added_data,
