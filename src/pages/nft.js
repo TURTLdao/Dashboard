@@ -112,7 +112,7 @@ export default function Page({ jpgstore_top_volume_data, jpgstore_newly_added_da
               </Grid>
             ))}
           </Grid>
-
+{/*
           <Stack spacing={1}>
             <Typography variant="h6" color={'white'}>
               Top Traded by Daily Volume
@@ -127,6 +127,7 @@ export default function Page({ jpgstore_top_volume_data, jpgstore_newly_added_da
               <NewlyListedNftsCarousel jpgstore_newly_added_data={jpgstore_newly_added_data}/>
             </Grid>
           </Grid>
+*/}
 
         </Stack>
       </Container>
