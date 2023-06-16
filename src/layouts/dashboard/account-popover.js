@@ -9,7 +9,7 @@ export const AccountPopover = (props) => {
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
   const auth = useAuth();
-  const [ userWalletAddress ] = useGlobalState(walletAddress);
+  const [ userWalletAddress, setUserWalletAddress ] = useGlobalState(walletAddress);
 
   const handleSignOut = useCallback(
     () => {
@@ -50,25 +50,47 @@ export const AccountPopover = (props) => {
             color="text.secondary"
             variant="body2"
             sx={{ color: 'white' }}
+            align='center'
           >
-            {userWalletAddress}
+            {`${userWalletAddress.slice(0, 8)}...${userWalletAddress.slice(-8)}`}
           </Typography> : null
         }
-      <MenuList
-        disablePadding
-        dense
-        sx={{
-          p: '8px',
-          '& > *': {
-            borderRadius: 1
-          }
-        }}
-      >
-        <MenuItem onClick={handleSignOut} 
-          sx={{ color: 'white' }}>
-          Sign In
-        </MenuItem>
-      </MenuList>
+        
+        {
+        userWalletAddress && Object.keys(userWalletAddress).length > 0 ? 
+          <MenuList
+             disablePadding
+             dense
+             sx={{
+              p: '8px',
+              '& > *': {
+                borderRadius: 1
+              }
+            }}
+          >
+          <MenuItem onClick={handleSignOut} 
+            sx={{ color: 'white' }}>
+            Sign Out
+          </MenuItem>
+        </MenuList>
+        : 
+        <MenuList
+          disablePadding
+          dense
+          sx={{
+            p: '8px',
+            '& > *': {
+              borderRadius: 1
+            }
+          }}
+        >
+          <MenuItem onClick={handleSignOut} 
+            sx={{ color: 'white' }}>
+            Sign In
+          </MenuItem>
+        </MenuList>
+        }
+
       </Box>
       <Divider />
     </Popover>

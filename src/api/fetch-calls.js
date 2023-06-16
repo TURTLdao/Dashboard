@@ -1,4 +1,3 @@
-
 const TT_API_BUILD_ID = 'eQ9ZcFEeAXhYpcTOcnQ7n';
 const JPG_API_BUILD_ID = 'iO8nO5wAH2nojCllOm3xm'
 
@@ -45,8 +44,91 @@ export async function fetchTTdata(ttID)
   }
 }
 
+//
+export async function fetchTTtrendingData()
+{
+  try
+  {
+    const response = await fetch('https://www.taptools.io/_next/data/' + TT_API_BUILD_ID +'/index.json?Trending=&Tokens=');
+    const data = await response.json();
+
+    const trending = [];
+    const uniqueNames = new Set();
+    data.pageProps.top6TokenTrending.forEach(item => {
+      if (!uniqueNames.has(item.name)) {
+        trending.push(item);
+        uniqueNames.add(item.name);
+      }
+    });
+    data.pageProps.top25Tokens.forEach(item => {
+      if (!uniqueNames.has(item.name)) {
+        trending.push(item);
+        uniqueNames.add(item.name);
+      }
+    });
+
+    const results = [];
+    for (let i = 0; i < trending.length; i++) {
+      const item = trending[i];
+      const logo = item.logo;
+      const marketCap = item.marketCap;
+      const marketCapUSD = item.marketCapUSD;
+      let name = item.name;
+      const pairID = item.pairID;
+      const rank = item.rank;
+      const tokenID = item.tokenID;
+      const totalLiquidity = item.totalLiquidity;
+      const volume = item.volume;
+      const price = item.price;
+      const priceUSD = item.priceUSD;
+      let ticker = item.ticker;
+
+      if (name === 'SNEK') {
+        ticker = 'SNEK';
+        name = 'Snek'
+      } else if (name === '0014df1047454e53') {
+        name = 'Genius Yield Token'
+      } else if (name === 'AADA') {
+        name = 'Aada DAO Token'
+      } else if (name === 'INDY') {
+        name = 'Indigo DAO Token'
+      } else if (name === 'DjedMicroUSD') {
+        name = 'Djed Micro USD'
+      } else if (name === 'BANK') {
+        name = 'Bankercoin'
+      } else if (name === 'AGIX') {
+        name = 'Singularity Net Token'
+      }
+
+      results.push({
+        logo,
+        marketCap,
+        marketCapUSD,
+        name,
+        pairID,
+        rank,
+        tokenID,
+        totalLiquidity,
+        volume,
+        price,
+        priceUSD,
+        ticker
+      });
+    }
+
+    // Sort the results array by volume
+    results.sort((a, b) => b.volume - a.volume);
+    
+    return results
+  }
+  catch (error)
+  {
+    console.log('Failed to fetch TT data for trendingTTdata: ' + error.message);
+  }
+}
+
 // Example: jpgID = racoonsclubmainseries.json?collection=racoonsclubmainseries
-export async function fetchJpgStoreData(jpgID)
+export async function fetchJpgStoreProjectData(jpgID)
 {
   try
   {
@@ -74,6 +156,46 @@ export async function fetchJpgStoreData(jpgID)
     console.log('Failed to fetch JPG data for: ' + jpgID + ' - ' + error.message);
   }
 }
+
+export async function fetchJpgStoreData(showNew) {
+  try {
+    let response;
+    if (showNew) {
+      response = await fetch('https://server.jpgstoreapis.com/search/collections?nameQuery=&verified=should-be-verified&sortBy=recently-added&pagination=%7B%7D&size=24');
+    } else {
+      response = await fetch('https://server.jpgstoreapis.com/search/collections?nameQuery=&verified=should-be-verified&sortBy=score&pagination=%7B%7D&size=24');
+    }
+    const data = await response.json();
+
+    const collections = data.collections; // Access the "collections" array
+
+    const results = [];
+    for (let i = 0; i < collections.length; i++) {
+      const collection = collections[i]; // Access the current collection object
+      const policy_id = collection.policy_id;
+      const display_name = collection.display_name;
+      const description = collection.description;
+      const hero_image = collection.hero_image || null;
+      const global_floor = Number(collection.global_floor_lovelace / 1e6).toFixed(2);
+      const url = collection.url;
+
+      results.push({
+        policy_id,
+        display_name,
+        description,
+        hero_image,
+        global_floor,
+        url
+      });
+    }
+
+    return results;
+  } catch (error) {
+    console.log('Failed to fetch JPG data:', error);
+    throw error; // Rethrow the error to handle it elsewhere if necessary
+  }
+}
+
 
 export async function blockfrost_CheckAddress(address)
 {

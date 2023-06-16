@@ -10,6 +10,7 @@ import DrawIcon from '@mui/icons-material/Draw';
 import ArticleIcon from '@mui/icons-material/Article';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import CategoryIcon from '@mui/icons-material/Category';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 export const items = [
   {
@@ -49,6 +50,16 @@ export const items2 = [
     icon: (
       <SvgIcon fontSize="small">
         <VisibilityIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'TurtleDAO Treasury',
+    path: '/',
+    disabled: true,
+    icon: (
+      <SvgIcon fontSize="small">
+        <AccountBalanceIcon />
       </SvgIcon>
     )
   },

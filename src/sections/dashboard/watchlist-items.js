@@ -67,9 +67,9 @@ export const getDaoWatchlistItems = (market_data) => {
       volume: market_data.rccn_market.volume,
       to_ada: market_data.rccn_market.to_ada,
       dao_support_link: '/tokens/rccn',
-      twitter_link: 'https://twitter.com/Catskycrypto',
-      discord_link: 'https://discord.gg/mqNHWb7hbX',
-      buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921&tokenNameB=434154534b59',
+      twitter_link: 'https://twitter.com/racoonscoin',
+      discord_link: 'https://discord.com/invite/racoonsclub',
+      buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=a3e9d397a62992efd2bb54c954b59044948f11f4e14b28add5ebd847&tokenNameB=5243434e',
     },
   ];
 

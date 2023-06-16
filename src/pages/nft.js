@@ -17,13 +17,44 @@ import { useState, useEffect } from 'react';
 import LaunchpadSearch from 'src/sections/launchpad/launchpad-search';
 import { LaunchpadView } from 'src/sections/launchpad/launchpad-view';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getLastPrice, fetchTTdata } from 'src/api/fetch-calls';
+import { fetchJpgStoreData } from 'src/api/fetch-calls';
 import { daoItems } from 'src/tokens/dao-supported';
 import { NftView } from 'src/sections/nft/nft-view';
 import { NftItems } from 'src/sections/nft/nft-items';
+import { NftJPGView } from 'src/sections/nft/nft-view-jpg';
 
+import { TopVolumeNftsCarousel } from 'src/components/carousels/topvolume-nfts';
+import { NewlyListedNftsCarousel } from 'src/components/carousels/newlisted-nfts';
 
-export default function Page({  }) {
+// all time volume: https://server.jpgstoreapis.com/search/collections?nameQuery=&verified=should-be-verified&sortBy=score&pagination=%7B%7D&size=24
+// newly added, verified by JPG.store: https://server.jpgstoreapis.com/search/collections?nameQuery=&verified=should-be-verified&sortBy=recently-added&pagination=%7B%7D&size=24
+
+export async function getServerSideProps() {
+  try {
+    const [jpgstore_top_volume_data, jpgstore_newly_added_data] = await Promise.all([
+      fetchJpgStoreData(),
+      fetchJpgStoreData(true),
+    ]);
+    
+    return {
+      props: {
+        jpgstore_top_volume_data, jpgstore_newly_added_data,
+      },
+    };
+  } catch (error) {
+    console.error('Error:', error);
+    const jpgstore_top_volume_data = {};
+    const jpgstore_newly_added_data = {};
+
+    return {
+      props: {
+        jpgstore_top_volume_data, jpgstore_newly_added_data
+      },
+    };
+  }
+}
+
+export default function Page({ jpgstore_top_volume_data, jpgstore_newly_added_data }) {
   const theme = createTheme({
     palette: {
       primary: {
@@ -66,12 +97,32 @@ export default function Page({  }) {
             </Stack>
           </Stack>
 
+          <Stack spacing={1}>
+            <Typography variant="h6" color={'white'}>
+              TurtleDAO Spotlight
+            </Typography>
+          </Stack>
           <Grid container spacing={3}>
             {filteredCompanies.map((dao_items) => (
               <Grid xs={12} md={6} lg={4} key={dao_items.id}>
                 <NftView nftItems={dao_items} />
               </Grid>
             ))}
+          </Grid>
+
+          <Stack spacing={1}>
+            <Typography variant="h6" color={'white'}>
+              Top Traded by Daily Volume
+            </Typography>
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid xs={12} md={6} lg={6} key={dao_items.id}>
+              <TopVolumeNftsCarousel jpgstore_top_volume_data={jpgstore_top_volume_data}/>
+            </Grid>
+
+            <Grid xs={12} md={6} lg={6} key={dao_items.id}>
+              <NewlyListedNftsCarousel jpgstore_newly_added_data={jpgstore_newly_added_data}/>
+            </Grid>
           </Grid>
 
         </Stack>

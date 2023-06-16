@@ -4,11 +4,13 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { useState, useEffect } from 'react';
 
 import Slider from "react-slick";
-import { fetchTTdata } from 'src/api/fetch-calls';
+import { fetchTTdata, fetchTTtrendingData } from 'src/api/fetch-calls';
 
 import { VersionBanner } from 'src/components/banners/version';
 import { DaoTokensCarousel } from 'src/components/carousels/dao-tokens';
-import { FrontpageWatchlist } from 'src/components/tables/frontpage-watchlist';
+import { FrontpageWatchlist } from 'src/sections/dashboard/frontpage-watchlist';
+import { BalancesTable } from 'src/components/tables/balances';
+
 
 export async function getServerSideProps() {
   const ttIDs = [
@@ -20,11 +22,20 @@ export async function getServerSideProps() {
   ];
 
   try {
-    const { nativePrice: froggie_price, dailyVolume: froggie_volume } = await fetchTTdata(ttIDs[1]);
-    const { nativePrice: konda_price, dailyVolume: konda_volume } = await fetchTTdata(ttIDs[2]);
-    const { nativePrice: catsky_price, dailyVolume: catsky_volume } = await fetchTTdata(ttIDs[3]);
-    const { nativePrice: rccn_price, dailyVolume: rccn_volume } = await fetchTTdata(ttIDs[4]);
-    
+    const results = await Promise.all([
+      fetchTTdata(ttIDs[1]),
+      fetchTTdata(ttIDs[2]),
+      fetchTTdata(ttIDs[3]),
+      fetchTTdata(ttIDs[4]),
+      fetchTTtrendingData(),
+    ]);
+  
+    const { nativePrice: froggie_price, dailyVolume: froggie_volume } = results[0];
+    const { nativePrice: konda_price, dailyVolume: konda_volume } = results[1];
+    const { nativePrice: catsky_price, dailyVolume: catsky_volume } = results[2];
+    const { nativePrice: rccn_price, dailyVolume: rccn_volume } = results[3];
+    const trending_market_data = results[4];
+  
     const prices = {
       turtle: Number(0).toFixed(10),
       froggie: Number(froggie_price).toFixed(10),
@@ -41,27 +52,30 @@ export async function getServerSideProps() {
       rccn: Number(rccn_volume).toFixed(10),
     }
 
-    const market_data = { prices, volumes }
+    const dao_market_data = { prices, volumes }
 
     return {
       props: {
-        market_data
+        dao_market_data,
+        trending_market_data
       },
     };
-
   } catch (error) {
     console.error('Error:', error);
-    const market_data = [];
+    const dao_market_data = {};
+    const trending_market_data = {};
+
     return {
       props: {
-        market_data
+        dao_market_data,
+        trending_market_data
       },
     };
   }
 }
 
 
-export default function Page({ market_data }) {
+export default function Page({ dao_market_data, trending_market_data }) {
   const calculate_tokens_to_ada = (tokenPrice) => {
     if (tokenPrice <= 0) {
       return 0; // Invalid tokenPrice
@@ -85,10 +99,10 @@ export default function Page({ market_data }) {
   };
 
   const turtle_market = calculateMarketValues(0, 300000000, 0);
-  const froggie_market = calculateMarketValues(market_data.prices.froggie, 69000000000, market_data.volumes.froggie);
-  const konda_market = calculateMarketValues(market_data.prices.konda, 84322711100, market_data.volumes.konda);
-  const catsky_market = calculateMarketValues(market_data.prices.catsky, 1000000000000, market_data.volumes.catsky);
-  const rccn_market = calculateMarketValues(market_data.prices.rccn, 1000000000000, market_data.volumes.rccn);
+  const froggie_market = calculateMarketValues(dao_market_data.prices.froggie, 69000000000, dao_market_data.volumes.froggie);
+  const konda_market = calculateMarketValues(dao_market_data.prices.konda, 84322711100, dao_market_data.volumes.konda);
+  const catsky_market = calculateMarketValues(dao_market_data.prices.catsky, 1000000000000, dao_market_data.volumes.catsky);
+  const rccn_market = calculateMarketValues(dao_market_data.prices.rccn, 1000000000000, dao_market_data.volumes.rccn);
 
   const full_market_data =
   {
@@ -116,38 +130,54 @@ export default function Page({ market_data }) {
           container
           spacing={3}
         >
-        <div align='center' style={{ width: '100%' }}>
-          <Grid
-            xs={12}
-            sm={12}
-            lg={8}
-          >
-            <div align='center'>
-            <VersionBanner
-              sx={{ width: '75%' }}
-            /></div>
-          </Grid></div>
+
+          <div align='center' style={{ width: '100%' }}>
+            <Grid
+             xs={12}
+              sm={12}
+              lg={8}
+            >
+              <div align='center'>
+                <VersionBanner
+                  sx={{ width: '75%' }}
+                />
+              </div>
+            </Grid>
+          </div>
 
 
           <Grid
-            xs={12}
-            sm={4}
+            xs={10}
+            sm={10}
             lg={4}
           >
             <DaoTokensCarousel
-              sx={{ height: '100%' }} formatted_prices={market_data.prices}
+              sx={{ height: '100%' }} formatted_prices={dao_market_data.prices}
             />
           </Grid>
 
           <Grid
             xs={12}
-            sm={4}
+            sm={12}
             lg={8}
           >
-            <FrontpageWatchlist market_data={full_market_data}/>
+            <FrontpageWatchlist dao_market_data={full_market_data} trending_market_data={trending_market_data}/>
             
           </Grid>
 
+        </Grid>
+
+        <Grid
+          container
+          spacing={3}
+        >
+          <Grid
+            xs={12}
+            sm={4}
+            lg={4}
+          >
+            
+          </Grid>
         </Grid>
       </Container>
     </Box>

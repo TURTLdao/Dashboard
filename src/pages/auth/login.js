@@ -44,7 +44,7 @@ export default function Page() {
 
   const handleConnectWallet = useCallback(
     () => {
-      setUserWalletAddress(query);
+      setUserWalletAddress(searchQuery);
       auth.skip(); // this is from what we forked, we'll look into this deeper one day - for now stay on track
       router.push('/launchpad');
     },
