@@ -14,8 +14,14 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 function Team() {
   const feed = [
     {
-      name: 'Nathan Kenpai',
+      name: 'Froggie',
       jobtitle: 'Founder',
+      avatar: 'https://pbs.twimg.com/profile_images/1662083806109609985/9uocCE19_400x400.jpg',
+      twitter: 'https://twitter.com/LopezKanapi'
+    },
+    {
+      name: 'Nathan Kenpai',
+      jobtitle: 'Lead Developer',
       avatar: 'https://pbs.twimg.com/profile_images/1653692525218242560/5i3HzF1U_400x400.jpg',
       twitter: 'https://twitter.com/LopezKanapi'
     },
