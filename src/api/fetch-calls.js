@@ -1,4 +1,4 @@
-const TT_API_BUILD_ID = '52UwTQlBc7okJECTcJqeo';
+const TT_API_BUILD_ID = 'EryqHdlj-g9u3HWU-SbfI';
 const JPG_API_BUILD_ID = 'iO8nO5wAH2nojCllOm3xm'
 
 export async function fetchCoinData(coinName)
