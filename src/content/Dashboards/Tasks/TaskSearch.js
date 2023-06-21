@@ -319,6 +319,15 @@ function TaskSearch() {
                 color="secondary"
                 onClick={handleClick}
               />
+              <Chip
+                sx={{
+                  mr: 0.5
+                }}
+                size="small"
+                label="Gaming"
+                color="secondary"
+                onClick={handleClick}
+              />
             </Box>
             <Typography
               sx={{
