@@ -180,33 +180,6 @@ function TaskSearch() {
             <Button href="/aaid/froggie" size="small" variant="contained">
               View Project
             </Button>
-            <Divider
-              sx={{
-                my: 2
-              }}
-            />
-            <CardActions
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}
-            >
-              <Typography
-                display="flex"
-                alignItems="center"
-                variant="subtitle2"
-              >
-                <TodayTwoToneIcon
-                  sx={{
-                    mr: 1
-                  }}
-                />
-                {formatDistance(subDays(new Date(), 24), new Date(), {
-                  addSuffix: true
-                })}
-              </Typography>
-            </CardActions>
           </Card>
         </Grid>
 
