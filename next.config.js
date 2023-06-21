@@ -1,4 +1,15 @@
-module.exports = {
-  reactStrictMode: true,
-  staticPageGenerationTimeout: 100000, // Set a higher timeout value (in milliseconds)
+const withImages = require('next-images');
+
+const redirects = {
+  async redirects() {
+    return [
+      {
+        source: '/overview',
+        destination: '/overview',
+        permanent: true
+      }
+    ];
+  }
 };
+
+module.exports = withImages(redirects);

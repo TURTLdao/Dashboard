@@ -99,20 +99,12 @@ export async function fetchTTtrendingData()
       } else if (name === 'AGIX') {
         name = 'Singularity Net Token'
       }
+      // carry this on...
 
       results.push({
-        logo,
-        marketCap,
-        marketCapUSD,
-        name,
-        pairID,
-        rank,
-        tokenID,
-        totalLiquidity,
-        volume,
-        price,
-        priceUSD,
-        ticker
+        logo, marketCap, marketCapUSD, name, pairID,
+        rank, tokenID, totalLiquidity, volume, price,
+        priceUSD, ticker
       });
     }
 
@@ -193,31 +185,5 @@ export async function fetchJpgStoreData(showNew) {
   } catch (error) {
     console.log('Failed to fetch JPG data:', error);
     throw error; // Rethrow the error to handle it elsewhere if necessary
-  }
-}
-
-
-export async function blockfrost_CheckAddress(address)
-{
-  const apiKey = 'mainnetHeQmp2UUWJXYuE8TFt2KkmNlPPblhjyC';
-  try
-  {
-    const response = await fetch('https://cardano-mainnet.blockfrost.io/api/v0/addresses/' + address, {
-      headers: {
-        'Content-Type': 'application/json',
-        'project_id': apiKey
-      }
-    });
-
-    const amounts = data.amount;
-    const stake_address = data.stake_address;
-
-    return {
-      amounts, stake_address
-    }
-  }
-  catch (error)
-  {
-    console.log('Failed to fetch blockfrost_CheckAddress data for: ' + address + ' - ' + error.message);
   }
 }
