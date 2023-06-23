@@ -145,26 +145,10 @@ function Hero() {
             Whitepaper
           </Button>
           <Grid container spacing={3} mt={5}>
-            <Grid item md={4}>
-              <MuiAvatar>
-                <img
-                  src="https://uploads-ssl.webflow.com/635b615fa5453d42d64fd2aa/63a87504c7b144cc212164b4_TtLogo2.webp"
-                  alt="Material-UI"
-                />
-              </MuiAvatar>
-              <Typography variant="h4">
-                <Box sx={{ pb: 2 }}>
-                  <b>Powered by TapTools</b>
-                </Box>
-                <Typography component="span" variant="subtitle2">
-                  No BS or subscriptions, just open information for you the user.
-                </Typography>
-              </Typography>
-            </Grid>
 
             <Grid item md={4}>
               <NextJsAvatar>
-                <img style={{ height: '100%', width: '100%' }} src="https://dashboard-assets.dappradar.com/document/18492/jpgstore-dapp-marketplaces-cardano-logo-166x166_e0953ff920425eb5efa762fc5d9db83d.png" alt="NextJS" />
+                <img style={{ height: '80%', width: '80%' }} src="https://dashboard-assets.dappradar.com/document/18492/jpgstore-dapp-marketplaces-cardano-logo-166x166_e0953ff920425eb5efa762fc5d9db83d.png" alt="NextJS" />
               </NextJsAvatar>
               <Typography variant="h4">
                 <Box sx={{ pb: 2 }}>
@@ -178,9 +162,8 @@ function Hero() {
 
             <Grid item md={4}>
               <JsAvatar>
-                <img
+                <img style={{ height: '80%', width: '80%' }} 
                   src="https://seeklogo.com/images/C/cardano-ada-logo-4B6BADDB43-seeklogo.com.png"
-                  alt="Javascript"
                 />
               </JsAvatar>
               <Typography variant="h4">
@@ -192,6 +175,23 @@ function Hero() {
                 </Typography>
               </Typography>
             </Grid>
+
+            <Grid item md={4}>
+              <MuiAvatar>
+                <img style={{ height: '80%', width: '80%' }} 
+                  src="https://uploads-ssl.webflow.com/635b615fa5453d42d64fd2aa/63a87504c7b144cc212164b4_TtLogo2.webp"
+                />
+              </MuiAvatar>
+              <Typography variant="h4">
+                <Box sx={{ pb: 2 }}>
+                  <b>Powered by TapTools</b>
+                </Box>
+                <Typography component="span" variant="subtitle2">
+                  No BS or subscriptions, just open information for you the user.
+                </Typography>
+              </Typography>
+            </Grid>
+
           </Grid>
         </Grid>
       </Grid>

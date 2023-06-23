@@ -14,8 +14,8 @@ import NextLink from 'next/link';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 
 import HomeIcon from '@mui/icons-material/Home';
-import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
-import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -186,99 +186,66 @@ function SidebarMenu() {
             </List>
           </SubMenuWrapper>
         </List>
+
         <List
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              AAID
+              TurtleDAO
             </ListSubheader>
           }
         >
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
-                <NextLink href="/aaid/turtl" passHref>
+                <NextLink href="/aaid/" passHref>
                   <Button
                     className={
-                      currentRoute === '/aaid/turtl'
+                      currentRoute === '/aaid/'
                         ? 'active'
                         : ''
                     }
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
-                    startIcon={<AccountCircleTwoToneIcon />}
+                    startIcon={<AccountTreeIcon />}
                   >
-                    Turtle Token
+                    Supported Projects
                   </Button>
                 </NextLink>
               </ListItem>
+            </List>
+          </SubMenuWrapper>
+        </List>
+
+        <List
+          component="div"
+          subheader={
+            <ListSubheader component="div" disableSticky>
+              Around Cardano
+            </ListSubheader>
+          }
+        >
+          <SubMenuWrapper>
+            <List component="div">
               <ListItem component="div">
-                <NextLink href="/aaid/froggie" passHref>
+                <NextLink href="/around-cardano/trending-tokens" passHref>
                   <Button
                     className={
-                      currentRoute === '/aaid/froggie' ? 'active' : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<AccountCircleTwoToneIcon />}
-                  >
-                    Froggie Koin
-                  </Button>
-                </NextLink>
-              </ListItem>
-              <ListItem component="div">
-                <NextLink href="/aaid/konda" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/aaid/konda'
+                      currentRoute === '/around-cardano/trending-tokens'
                         ? 'active'
                         : ''
                     }
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
-                    startIcon={<AccountCircleTwoToneIcon />}
+                    startIcon={<TrendingUpIcon />}
                   >
-                    AdaKonda Coin
+                    Trending Tokens
                   </Button>
                 </NextLink>
               </ListItem>
-              <ListItem component="div">
-                <NextLink href="/aaid/catsky" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/aaid/catsky'
-                        ? 'active'
-                        : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<AccountCircleTwoToneIcon />}
-                  >
-                    Catsky Token
-                  </Button>
-                </NextLink>
-              </ListItem>
-              <ListItem component="div">
-                <NextLink href="/aaid/rccn" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/aaid/rccn'
-                        ? 'active'
-                        : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<AccountCircleTwoToneIcon />}
-                  >
-                    Racoons Club
-                  </Button>
-                </NextLink>
-              </ListItem>
+
             </List>
           </SubMenuWrapper>
         </List>

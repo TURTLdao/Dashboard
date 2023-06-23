@@ -18,11 +18,12 @@ import {
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 
 import TeamOverview from 'src/content/Dashboards/Tasks/TeamOverview';
-import TaskSearch from 'src/content/Dashboards/Tasks/TaskSearch';
+import AboutSection from 'src/content/Dashboards/about/about';
 import Watchlist from 'src/content/Dashboards/dao-watchlist';
+import TradingViewWidget from '../components/tv-ada-chart'
 
-import { fetchTTdata, fetchCoinData } from 'src/api/fetch-calls'
-
+import { fetchTTdata, fetchCardanoPrice } from 'src/api/fetch-calls'
+import Cards from 'src/content/Dashboards/about/news'
 
 export async function getServerSideProps() {
   const ttIDs = [
@@ -52,7 +53,7 @@ export async function getServerSideProps() {
       fetchTTdata(ttIDs[2]),
       fetchTTdata(ttIDs[3]),
       fetchTTdata(ttIDs[4]),
-      fetchCoinData('cardano'),
+      fetchCardanoPrice(),
     ]);
 
     const { nativePrice: froggie_price, dailyVolume: froggie_volume,
@@ -71,9 +72,6 @@ export async function getServerSideProps() {
       holders: rccn_holders, numTransactions: rccn_transactions,
       pricePercentChange: rccn_daily_percent, weekPercentChange: rccn_weekly_percent,
       monthPercentChange: rccn_monthly_percent, dilutedMarketCap: rccn_fdm } = results[3];
-    
-    const ada_usd_raw = results[4];
-    const ada_usd = ada_usd_raw.toLocaleString(undefined, { minimumFractionDigits: 5, maximumFractionDigits: 5 })
 
     const froggie_data = {
       price: Number(froggie_price).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
@@ -131,8 +129,10 @@ export async function getServerSideProps() {
       ada_compare: calculate_tokens_to_ada(rccn_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
     }
 
+    const { ada_usd: usd, ada_eur: eur, ada_jpy: jpy, ada_gbp: gbp, ada_cad: cad, ada_aud: aud, ada_brl: brl } = results[4];
+    const ada_fiat = { usd, eur, jpy, gbp, cad, aud, brl }
 
-    const full_data = { froggie_data, konda_data, catsky_data, rccn_data, ada_usd}
+    const full_data = { froggie_data, konda_data, catsky_data, rccn_data, ada_fiat}
 
     return {
       props: {
@@ -242,8 +242,9 @@ export default function Overview({ full_data }) {
   const [currentTab, setCurrentTab] = useState('analytics');
 
   const tabs = [
-    { value: 'analytics', label: 'Overview' },
-    { value: 'taskSearch', label: 'Project Search' }
+    { value: 'analytics',  label: 'Overview' },
+    { value: 'taskSearch', label: 'About TurtleDAO' },
+    { value: 'news',       label: 'TurtleDAO News' }
   ];
 
   const handleTabsChange = (_event, value) => {
@@ -253,7 +254,7 @@ export default function Overview({ full_data }) {
   return (
     <>
       <Head>
-        <title>Dashboard - TurtleDAO Platform</title>
+        <title>Overview - TurtleDAO Platform</title>
       </Head>
       <PageTitleWrapper>
         <PageHeader />
@@ -284,11 +285,7 @@ export default function Overview({ full_data }) {
             {currentTab === 'analytics' && (
               <>
                 <Grid item xs={12}>
-                  <Box p={4}>
-                    <TeamOverview />
-                  </Box>
-                </Grid>
-                <Grid item xs={12}>
+                  <TradingViewWidget/>
                   <Divider />
                   <Box p={4}>
                     <Watchlist data={full_data}/>
@@ -301,7 +298,15 @@ export default function Overview({ full_data }) {
             {currentTab === 'taskSearch' && (
               <Grid item xs={12}>
                 <Box p={4}>
-                  <TaskSearch />
+                  <AboutSection />
+                </Box>
+              </Grid>
+            )}
+
+            {currentTab === 'news' && (
+              <Grid item xs={12}>
+                <Box p={4}>
+                  <Cards />
                 </Box>
               </Grid>
             )}

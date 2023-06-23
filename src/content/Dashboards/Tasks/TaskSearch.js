@@ -21,29 +21,6 @@ function TaskSearch() {
 
   const handleClick = () => {};
 
-  const periods = [
-    {
-      value: 'popular',
-      text: 'Most popular'
-    },
-    {
-      value: 'recent',
-      text: 'Recent tasks'
-    },
-    {
-      value: 'updated',
-      text: 'Latest updated tasks'
-    },
-    {
-      value: 'oldest',
-      text: 'Oldest tasks first'
-    }
-  ];
-
-  const actionRef1 = useRef(null);
-  const [openPeriod, setOpenMenuPeriod] = useState(false);
-  const [period, setPeriod] = useState(periods[0].text);
-
   return (
     <>
     {/*

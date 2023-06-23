@@ -10,6 +10,8 @@ import Team from 'src/content/aaid/froggie/team';
 import PriceStats from 'src/content/aaid/price-stats';
 import TwitterFeed from 'src/content/aaid/froggie/twitter-feed';
 
+const CryptoJS = require("crypto-js");
+
 export async function getServerSideProps() {
   const token_id = '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.1075ae9bcffa581ce9bc3a67d1cfdb1471ca8b62dd56ba0d065275682a7e8258';
 
@@ -27,7 +29,7 @@ export async function getServerSideProps() {
   };
 
   try {
-    const { circulatingSupply, dailyVolume, dilutedMarketCap, holders,
+    const { dailyVolume, dilutedMarketCap, holders,
       monthPercentChange, weekPercentChange, pricePercentChange, nativePrice,
       numTransactions } = await fetchTTdata(token_id);
     

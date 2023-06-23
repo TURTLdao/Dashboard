@@ -21,82 +21,41 @@ import {
   MenuItem,
   Typography,
   useTheme,
-  CardHeader
+  CardHeader,
+  Button
 } from '@mui/material';
 
-import Label from 'src/components/Label';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-
-const getStatusLabel = (cryptoOrderStatus) => {
-  const map = {
-    failed: {
-      text: 'Failed',
-      color: 'error'
-    },
-    completed: {
-      text: 'Completed',
-      color: 'success'
-    },
-    pending: {
-      text: 'Pending',
-      color: 'warning'
-    }
-  };
-
-  const { text, color } = map[cryptoOrderStatus];
-
-  return <Label color={color}>{text}</Label>;
-};
-
 const applyFilters = (cryptoOrders, filters) => {
-  return cryptoOrders.filter((cryptoOrder) => {
-    let matches = true;
+  let sortedCryptoOrders = [...cryptoOrders];
 
-    if (filters.status && cryptoOrder.status !== filters.status) {
-      matches = false;
-    }
+  if (filters.status === 'p') {
+    sortedCryptoOrders.sort((a, b) => b.price - a.price);
+  }
 
-    return matches;
-  });
-};
-
-const applyPagination = (cryptoOrders, page, limit) => {
-  return cryptoOrders.slice(page * limit, page * limit + limit);
+  return sortedCryptoOrders;
 };
 
 function calculatePrice(ada_usd, number) {
   const result = ada_usd * number;
-  const formattedResult = result.toString().includes("e") ? "too small to calculate accurately" : result.toFixed(5);
+  const formattedResult = result.toString().includes('e') ? 'too small to calculate accurately' : result.toFixed(5);
   return `$ ${formattedResult}`;
 }
 
-
-const WatchlistTable = ({ cryptoOrders, data }) => {
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(5);
-  const [filters, setFilters] = useState({
-    status: null
-  });
-
+const WatchlistTable = ({ cryptoOrders }) => {
   const statusOptions = [
     {
       id: 'all',
-      name: 'All'
+      name: 'Default'
     },
     {
-      id: 'completed',
-      name: 'Completed'
+      id: 'p',
+      name: 'Price'
     },
-    {
-      id: 'pending',
-      name: 'Pending'
-    },
-    {
-      id: 'failed',
-      name: 'Failed'
-    }
   ];
+
+  const [filters, setFilters] = useState({
+    status: null
+  });
 
   const handleStatusChange = (e) => {
     let value = null;
@@ -111,25 +70,34 @@ const WatchlistTable = ({ cryptoOrders, data }) => {
     }));
   };
 
-  const handlePageChange = (_event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (event) => {
-    setLimit(parseInt(event.target.value));
-  };
-
-  const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
-  const paginatedCryptoOrders = applyPagination(
-    filteredCryptoOrders,
-    page,
-    limit
-  );
   const theme = useTheme();
+
+  const sortedCryptoOrders = applyFilters(cryptoOrders, filters);
 
   return (
     <Card>
       <CardHeader
+        action={
+          <div>
+            <Box width={150}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Sort By</InputLabel>
+                <Select
+                  value={filters.status || 'all'}
+                  onChange={handleStatusChange}
+                  label="Sort By"
+                  autoWidth
+                >
+                  {statusOptions.map((statusOption) => (
+                    <MenuItem key={statusOption.id} value={statusOption.id}>
+                      {statusOption.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </div>
+        }
         title="TurtleDAO Supported"
       />
       <Divider />
@@ -148,7 +116,7 @@ const WatchlistTable = ({ cryptoOrders, data }) => {
           </TableHead>
 
           <TableBody>
-            {paginatedCryptoOrders.map((cryptoOrder, id) => {
+            {sortedCryptoOrders.map((cryptoOrder, id) => {
               return (
                 <TableRow hover key={id}>
                   <TableCell>
@@ -159,11 +127,11 @@ const WatchlistTable = ({ cryptoOrders, data }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.id}
+                      {id + 1}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <img style={{ width: 50, height: 50}} src={cryptoOrder.logo}/>
+                    <img style={{ width: 50, height: 50 }} src={cryptoOrder.logo} alt={cryptoOrder.name} />
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -190,7 +158,7 @@ const WatchlistTable = ({ cryptoOrders, data }) => {
                       ₳ {cryptoOrder.price}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.price_usd.toString().includes("e") ? "too small to calculate accurately" : '$ ' + cryptoOrder.price_usd}
+                      {'$ ' + Number(cryptoOrder.price_usd).toFixed(10)}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -238,12 +206,10 @@ const WatchlistTable = ({ cryptoOrders, data }) => {
 
 WatchlistTable.propTypes = {
   cryptoOrders: PropTypes.array.isRequired,
-  data: PropTypes.object.isRequired
 };
 
 WatchlistTable.defaultProps = {
   cryptoOrders: [],
-  data: {}
 };
 
 export default WatchlistTable;

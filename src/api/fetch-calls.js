@@ -187,3 +187,28 @@ export async function fetchJpgStoreData(showNew) {
     throw error; // Rethrow the error to handle it elsewhere if necessary
   }
 }
+
+// Alternate way to fetch ADA price, CoinGecko can be overloaded sometimes
+export async function fetchCardanoPrice()
+{
+  try
+  {
+    const response = await fetch('https://pool.pm/total.json');
+    const data = await response.json();
+
+    const ada_usd = data.ADAUSD;
+    const ada_eur = data.ADAEUR;
+    const ada_jpy = data.ADAJPY;
+    const ada_gbp = data.ADAGBP;
+    const ada_cad = data.ADACAD;
+    const ada_aud = data.ADAAUD;
+    const ada_brl = data.ADABRL;
+
+    return { ada_usd, ada_eur, ada_jpy, ada_gbp, ada_cad, ada_aud, ada_brl };
+  }
+  catch (error)
+  {
+    console.log('Failed to fetch Minswap ADA USD data for: ' + error.message);
+  }
+}
+
