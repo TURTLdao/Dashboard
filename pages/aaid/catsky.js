@@ -11,7 +11,7 @@ import PriceStats from 'src/content/aaid/price-stats';
 import TwitterFeed from 'src/content/aaid/catsky/twitter-feed';
 
 export async function getServerSideProps() {
-  const token_id = '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.d3c99ba691189e9be4e524ee1453d8aa4436d504432ec9be264f8a037f7b6840';
+  const token_id = '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.76ab3fb1e92b7a58ee94b712d1c1bff0e24146e8e508aa0008443e1db1f2244e';
 
   const calculate_tokens_to_ada = (tokenPrice) => {
     if (tokenPrice <= 0) {
