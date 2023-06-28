@@ -111,7 +111,7 @@ function Logo() {
           }}
           overlap="circular"
           color="success"
-          badgeContent="1.5a"
+          badgeContent="1.6"
         >
           <LogoSignWrapper>
             <img style={{ height: '100%'}} src='https://github.com/TURTLdao/TURTL-images/blob/main/TURTL-coin.png?raw=true'/>

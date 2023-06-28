@@ -12,4 +12,18 @@ const redirects = {
   }
 };
 
-module.exports = withImages(redirects);
+const nextConfig = {
+  reactStrictMode: true,
+  webpack: function (config, options) {
+    config.experiments = {
+      asyncWebAssembly: true,
+      layers: true,
+    };
+    return config;
+  },
+};
+
+module.exports = withImages({
+  ...redirects,
+  ...nextConfig,
+});

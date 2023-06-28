@@ -4,8 +4,10 @@ import { Box, Typography, Card, Tooltip, Avatar,
 import { styled } from '@mui/material/styles';
 
 import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
-import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
-import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
+import { KoiosProvider } from "@meshsdk/core";
+import { useRewardAddress, useWallet, useWalletList, useWalletTx } from "@meshsdk/react";
+import { useEffect, useState } from 'react';
+import { Delegate } from 'src/components/buttons/stake-pool';
 
 const AvatarWrapper = styled(Card)(
   ({ theme }) => `
@@ -29,13 +31,43 @@ const CardCover = styled(Card)(
     }
 `);
 
-const ProfileCover = ({ user }) => {
+export async function do_delegation()
+{
+  try {
+    const rewardAddresses = await wallet.getRewardAddresses();
+    const poolId = 'pool1t0jheek3yftf0a9dgzgr2hc2wttwrcjyd5whdrek4ggcc5famre'
+
+    const tx = new Transaction({ initiator: wallet });
+    tx.delegateStake(rewardAddress, poolId);
+    
+    const unsignedTx = await tx.build();
+    const signedTx = await wallet.signTx(unsignedTx);
+    const txHash = await wallet.submitTx(signedTx);
+
+    return txHash;
+  } catch (error) {
+    console.log('Failed to delegate to pool: ' + error.message);
+  }
+}
+
+export const ProfileCover = ({ user }) => {
+  const { connecting, connected } = useWallet()
+  const blockchainProvider = new KoiosProvider("api");
+  const wallets = useWalletList();
+  const [hideMenuList, setHideMenuList] = useState(true);
+  const poolId = 'pool1t0jheek3yftf0a9dgzgr2hc2wttwrcjyd5whdrek4ggcc5famre'
+
+
+  function handlePoolDelegate() {
+
+  }
+
   return (
     <>
       <Box display="flex" mb={3}>
 
         <Tooltip arrow placement="top" title="Go back">
-          <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+          <IconButton href='/aaid/' color="primary" sx={{ p: 2, mr: 2 }}>
             <ArrowBackTwoToneIcon />
           </IconButton>
         </Tooltip>
@@ -79,9 +111,26 @@ const ProfileCover = ({ user }) => {
             <Button href={user.website} target='_blank'  size="small" sx={{ mx: 2 }} variant="outlined">
               View website
             </Button>
-            <Button href={user.buy_link} target='_blank' size="small" variant="outlined">
+            <Button href={user.buy_link} target='_blank' size="small" sx={{ mr: 2 }} variant="outlined">
               Buy Now
             </Button>
+            {
+            /*  connected ?
+              <Button
+                variant='outlined'
+                onClick={() => setHideMenuList(!hideMenuList)}
+              >
+                {
+                connected ? (
+                  <Delegate poolId={poolId} />
+                )
+                  : null
+                }
+              </Button>
+              :
+              null
+            */
+            }
           </Box>
         </Box>
       </Box>
@@ -91,7 +140,7 @@ const ProfileCover = ({ user }) => {
 
 ProfileCover.propTypes = {
   // @ts-ignore
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 export default ProfileCover;

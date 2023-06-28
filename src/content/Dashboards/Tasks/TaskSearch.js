@@ -23,26 +23,6 @@ function TaskSearch() {
 
   return (
     <>
-    {/*
-      <FormControl variant="outlined" fullWidth>
-        <OutlinedInputWrapper
-          type="text"
-          placeholder="Search terms here..."
-          endAdornment={
-            <InputAdornment position="end">
-              <Button variant="contained" size="small">
-                Search
-              </Button>
-            </InputAdornment>
-          }
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchTwoToneIcon />
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-        */}
       <Box
         py={3}
         display="flex"
@@ -154,7 +134,7 @@ function TaskSearch() {
              <i>Froggie is here for everyone. Froggie is the new wave. Join us in the pond.</i><br/>
              Froggies are life, Froggies are love and we want Froggies to stay.
             </Typography>
-            <Button href="/aaid/froggie" size="small" variant="contained">
+            <Button passHref href="/aaid/froggie" size="small" variant="contained">
               View Project
             </Button>
           </Card>
@@ -205,7 +185,7 @@ function TaskSearch() {
               Our mission is both simple and effective: we find an NFT or a token, munch on it and spit it back out to the community.
               This concept is called ”FEED the KONDA”.
             </Typography>
-            <Button href="/aaid/konda" size="small" variant="contained">
+            <Button passHref href="/aaid/konda" size="small" variant="contained">
               View Project
             </Button>
           </Card>
@@ -256,7 +236,7 @@ function TaskSearch() {
               Catsky Token is more than just a token; its a mission to make a substantial impact in the crypto world. With continuous development, Catsky offers unique NFT airdrops to its holders, fostering a community driven by creativity and innovation.
               Dive into the thrilling and engaging crypto journey that Catsky Token provides.
             </Typography>
-            <Button href="/aaid/catsky" size="small" variant="contained">
+            <Button passHref href="/aaid/catsky" size="small" variant="contained">
               View Project
             </Button>
           </Card>
@@ -315,7 +295,7 @@ function TaskSearch() {
               <i>The first 3D/VR Website in Cardano.</i><br/>
               Racoons Club are building an educational platform in multichain Cardano & Polygon
             </Typography>
-            <Button href="/aaid/rccn" size="small" variant="contained">
+            <Button passHref href="/aaid/rccn" size="small" variant="contained">
               View Project
             </Button>
           </Card>

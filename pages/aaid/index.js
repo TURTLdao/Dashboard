@@ -60,7 +60,7 @@ function AAIDindex() {
   return (
     <>
       <Head>
-        <title>TurtleDAO Supported Projects - TurtleDAO Platform</title>
+        <title>Supported Projects - TurtleDAO Platform</title>
       </Head>
       <PageTitleWrapper>
         <PageTitle

@@ -26,12 +26,14 @@ import { fetchTTdata, fetchCardanoPrice } from 'src/api/fetch-calls'
 import Cards from 'src/content/Dashboards/about/news'
 
 export async function getServerSideProps() {
+  const ada_id = '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1'
   const ttIDs = [
     '', // res for $TURTL
-    '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.1075ae9bcffa581ce9bc3a67d1cfdb1471ca8b62dd56ba0d065275682a7e8258', // $FROGGIE
-    '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.d3c99ba691189e9be4e524ee1453d8aa4436d504432ec9be264f8a037f7b6840', // $KONDA
-    '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.76ab3fb1e92b7a58ee94b712d1c1bff0e24146e8e508aa0008443e1db1f2244e', // $CATSKY
-    '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.778854dfbdabfd15860e20ade792f635cca51d27a45eae9083582889fc256938', // $RCCN
+    ada_id + '.1075ae9bcffa581ce9bc3a67d1cfdb1471ca8b62dd56ba0d065275682a7e8258', // $FROGGIE
+    ada_id + '.d3c99ba691189e9be4e524ee1453d8aa4436d504432ec9be264f8a037f7b6840', // $KONDA
+    ada_id + '.76ab3fb1e92b7a58ee94b712d1c1bff0e24146e8e508aa0008443e1db1f2244e', // $CATSKY
+    ada_id + '.778854dfbdabfd15860e20ade792f635cca51d27a45eae9083582889fc256938', // $RCCN
+    ada_id + '.ccd6ccf11c5eab6a9964bc9a080a506342a4bb037209e100f0be238da7495a9c', // $TORTOL
   ];
 
   const calculate_tokens_to_ada = (tokenPrice) => {
@@ -260,6 +262,22 @@ export default function Overview({ full_data }) {
         <PageHeader />
       </PageTitleWrapper>
       <Container maxWidth="lg">
+        <Card variant="outlined" sx={{mb: 4}}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="stretch"
+            spacing={0}
+          >
+            <Grid item xs={12}>
+              <div style={{ maxHeight: 500}}>
+                <TradingViewWidget/>
+              </div>
+            </Grid>
+          </Grid>
+        </Card>
+
         <TabsContainerWrapper>
           <Tabs
             onChange={handleTabsChange}
@@ -285,8 +303,6 @@ export default function Overview({ full_data }) {
             {currentTab === 'analytics' && (
               <>
                 <Grid item xs={12}>
-                  <TradingViewWidget/>
-                  <Divider />
                   <Box p={4}>
                     <Watchlist data={full_data}/>
                   </Box>

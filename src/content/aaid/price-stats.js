@@ -118,7 +118,7 @@ const PriceStats = ({ data }) => {
 
           <Box display="flex">
             <Box pr={8}>
-              <Tooltip title={'Fully Diluted Marketcap'}>
+              <Tooltip placement="top" title={'Fully Diluted Marketcap'}>
                 <Typography
                   gutterBottom
                   variant="caption"

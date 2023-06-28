@@ -1,4 +1,4 @@
-const TT_API_BUILD_ID = 'zrLPRfQdE7NTQCpuV5tGm';
+const TT_API_BUILD_ID = '__MMvwqXAhUEIfXsbR4WF';
 const JPG_API_BUILD_ID = 'iO8nO5wAH2nojCllOm3xm'
 
 export async function fetchCoinData(coinName)
@@ -85,19 +85,27 @@ export async function fetchTTtrendingData()
 
       if (name === 'SNEK') {
         ticker = 'SNEK';
-        name = 'Snek'
+        name = 'Snek';
       } else if (name === '0014df1047454e53') {
-        name = 'Genius Yield Token'
+        name = 'Genius Yield Token';
       } else if (name === 'AADA') {
-        name = 'Aada DAO Token'
+        name = 'Aada DAO Token';
       } else if (name === 'INDY') {
-        name = 'Indigo DAO Token'
+        name = 'Indigo DAO Token';
       } else if (name === 'DjedMicroUSD') {
-        name = 'Djed Micro USD'
+        name = 'Djed Micro USD';
       } else if (name === 'BANK') {
-        name = 'Bankercoin'
+        name = 'Bankercoin';
       } else if (name === 'AGIX') {
-        name = 'Singularity Net Token'
+        name = 'Singularity Net Token';
+      } else if (name === 'IAG') {
+        name = 'Iagon';
+      } else if (name === 'MIN') {
+        name = 'Minswap';
+      } else if (name === 'worldmobiletoken') {
+        name = 'World Mobile Token';
+      } else if (name === 'Cornucopias [via ChainPort.io]') {
+        name = 'Cornucopias';
       }
       // carry this on...
 
@@ -116,6 +124,28 @@ export async function fetchTTtrendingData()
   catch (error)
   {
     console.log('Failed to fetch TT data for trendingTTdata: ' + error.message);
+  }
+}
+
+// 263eb3e3c980c15305f393dc7a2f6289ba12732b6636efe46d6e2c16
+export async function fetchFloorPriceJpgStore(id)
+{
+  try
+  {
+    const response = await fetch('https://server.jpgstoreapis.com/collection/' + id + '/openCNFTStats');
+    const data = await response.json();
+    const floor_price = data.floor_price;
+    const ath_sale = data.highest_sale.price;
+    const holders = data.holders;
+    const minted = data.minted;
+    const logo = data.thumbnail;
+    const marketcap = data.marketcap;
+
+    return { floor_price, ath_sale, holders, minted, logo, marketcap }
+  }
+  catch (error)
+  {
+    console.log('Failed to fetch JPG data for: ' + id + ' - ' + error.message);
   }
 }
 
@@ -208,7 +238,42 @@ export async function fetchCardanoPrice()
   }
   catch (error)
   {
-    console.log('Failed to fetch Minswap ADA USD data for: ' + error.message);
+    console.log('Failed to Pool PM data: ' + error.message);
   }
 }
 
+
+export async function fetchWalletData(user_address)
+{
+  try
+  {
+    const response = await fetch('https://pool.pm/wallet/' + user_address);
+    const data = await response.json();
+
+    const tokensInfo = extractTokenInfo(data);
+
+    return tokensInfo
+  }
+  catch (error)
+  {
+    console.log('Failed to fetch TT data for trendingTTdata: ' + error.message);
+  }
+}
+
+function extractTokenInfo(response) {
+  const tokensInfo = [];
+  const tokens = response.tokens;
+
+  for (const token of tokens) {
+    const tokenInfo = {
+      name: token.name,
+      ticker: token.metadata.ticker,
+      description: token.metadata.description,
+      image: token.metadata.image,
+      url: token.metadata.url || ''
+    };
+    tokensInfo.push(tokenInfo);
+  }
+
+  return tokensInfo;
+}

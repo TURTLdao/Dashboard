@@ -79,7 +79,7 @@ function AAIDindex({trending_market_data}) {
   return (
     <>
       <Head>
-        <title>Trending Tokens - TurtleDAO Platform</title>
+        <title>Cards - Components</title>
       </Head>
       <PageTitleWrapper>
         <PageTitle
