@@ -51,29 +51,34 @@ export async function getServerSideProps() {
 
   try {
     const results = await Promise.all([
+      fetchCardanoPrice(),
       fetchTTdata(ttIDs[1]),
       fetchTTdata(ttIDs[2]),
       fetchTTdata(ttIDs[3]),
       fetchTTdata(ttIDs[4]),
-      fetchCardanoPrice(),
+      fetchTTdata(ttIDs[5]),
     ]);
 
     const { nativePrice: froggie_price, dailyVolume: froggie_volume,
       holders: froggie_holders, numTransactions: froggie_transactions,
       pricePercentChange: froggie_daily_percent, weekPercentChange: froggie_weekly_percent,
-      monthPercentChange: froggie_monthly_percent, dilutedMarketCap: froggie_fdm } = results[0];
+      monthPercentChange: froggie_monthly_percent, dilutedMarketCap: froggie_fdm } = results[1];
     const { nativePrice: konda_price, dailyVolume: konda_volume,
       holders: konda_holders, numTransactions: konda_transactions,
       pricePercentChange: konda_daily_percent, weekPercentChange: konda_weekly_percent,
-      monthPercentChange: konda_monthly_percent, dilutedMarketCap: konda_fdm } = results[1];
+      monthPercentChange: konda_monthly_percent, dilutedMarketCap: konda_fdm } = results[2];
     const { nativePrice: catsky_price, dailyVolume: catsky_volume,
       holders: catsky_holders, numTransactions: catsky_transactions,
       pricePercentChange: catsky_daily_percent, weekPercentChange: catsky_weekly_percent,
-      monthPercentChange: catsky_monthly_percent, dilutedMarketCap: catsky_fdm } = results[2];
+      monthPercentChange: catsky_monthly_percent, dilutedMarketCap: catsky_fdm } = results[3];
     const { nativePrice: rccn_price, dailyVolume: rccn_volume,
       holders: rccn_holders, numTransactions: rccn_transactions,
       pricePercentChange: rccn_daily_percent, weekPercentChange: rccn_weekly_percent,
-      monthPercentChange: rccn_monthly_percent, dilutedMarketCap: rccn_fdm } = results[3];
+      monthPercentChange: rccn_monthly_percent, dilutedMarketCap: rccn_fdm } = results[4];
+    const { nativePrice: tortol_price, dailyVolume: tortol_volume,
+      holders: tortol_holders, numTransactions: tortol_transactions,
+      pricePercentChange: tortol_daily_percent, weekPercentChange: tortol_weekly_percent,
+      monthPercentChange: tortol_monthly_percent, dilutedMarketCap: tortol_fdm } = results[5];
 
     const froggie_data = {
       price: Number(froggie_price).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
@@ -88,7 +93,6 @@ export async function getServerSideProps() {
       },
       ada_compare: calculate_tokens_to_ada(froggie_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
     }
-
     const konda_data = {
       price: Number(konda_price).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
       daily_volume: Number(konda_volume).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
@@ -102,7 +106,6 @@ export async function getServerSideProps() {
       },
       ada_compare: calculate_tokens_to_ada(konda_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
     }
-
     const catsky_data = {
       price: Number(catsky_price).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
       daily_volume: Number(catsky_volume).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
@@ -116,7 +119,6 @@ export async function getServerSideProps() {
       },
       ada_compare: calculate_tokens_to_ada(catsky_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
     }
-
     const rccn_data = {
       price: Number(rccn_price).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
       daily_volume: Number(rccn_volume).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
@@ -130,11 +132,24 @@ export async function getServerSideProps() {
       },
       ada_compare: calculate_tokens_to_ada(rccn_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
     }
+    const tortol_data = {
+      price: Number(tortol_price).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
+      daily_volume: Number(tortol_volume).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      holders: Number(tortol_holders).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      transactions: Number(tortol_transactions).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      fdm: Number(tortol_fdm).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      percent_change: {
+        daily: tortol_daily_percent,
+        weekly: tortol_weekly_percent,
+        monthly: tortol_monthly_percent,
+      },
+      ada_compare: calculate_tokens_to_ada(tortol_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+    }
 
-    const { ada_usd: usd, ada_eur: eur, ada_jpy: jpy, ada_gbp: gbp, ada_cad: cad, ada_aud: aud, ada_brl: brl } = results[4];
+    const { ada_usd: usd, ada_eur: eur, ada_jpy: jpy, ada_gbp: gbp, ada_cad: cad, ada_aud: aud, ada_brl: brl } = results[0];
     const ada_fiat = { usd, eur, jpy, gbp, cad, aud, brl }
 
-    const full_data = { froggie_data, konda_data, catsky_data, rccn_data, ada_fiat}
+    const full_data = { froggie_data, konda_data, catsky_data, rccn_data, tortol_data, ada_fiat}
 
     return {
       props: {

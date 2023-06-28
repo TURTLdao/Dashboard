@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
-import { Button, Card, Grid, ListItemIcon, FormControl, CardActions, Typography,
-  Divider, OutlinedInput, Chip, InputAdornment, styled, useTheme, Avatar, CardHeader
+import { Button, Card, Grid, Box, FormControl, Typography, InputLabel, Select,
+  Divider, useTheme, CardHeader, MenuItem
 } from '@mui/material';
-import Link from 'src/components/Link';
+
 import PropTypes from 'prop-types';
 
 import Accordion from '@mui/material/Accordion';
@@ -30,8 +30,53 @@ function AssetView({ data }) {
     '9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921', // Catsky Token  $CATSKY
     'a3e9d397a62992efd2bb54c954b59044948f11f4e14b28add5ebd847', // Raccons Club  $RCCN
     '501dd5d2fbab6af0a26b1421076ff3afc4d5a34d6b3f9694571116ea', // AdaKonda Coin $KONDA
+    '52162581184a457fad70470161179c5766f00237d4b67e0f1df1b4e6', // Tortol $TRTL
     '',
   ]
+  
+  const [selectedFiat, setSelectedFiat] = useState('USD');
+
+  const fiat_options = [
+    { id: 'USD', price: '$ USD' },
+    { id: 'GBP', price: '£ GBP' },
+    { id: 'EUR', price: '€ EUR' },
+  ];
+
+  function calculateTotalValue(fiatCurrency) {
+    let totalValue = 0;
+  
+    assets.forEach((asset) => {
+      const marketData = getMarketData(asset.assetName);
+      if (marketData) {
+        let price;
+        if (fiatCurrency === 'ADA') {
+          price = marketData.price * asset.quantity;
+        } else if (fiatCurrency === 'GBP') {
+          price = marketData.price * asset.quantity * data.fiat[1];
+        } else if (fiatCurrency === 'EUR') {
+          price = marketData.price * asset.quantity * data.fiat[2];
+        } else {
+          price = marketData.price * asset.quantity * data.fiat[0];
+        }
+        totalValue += price;
+      }
+    });
+  
+    return totalValue;
+  }
+  
+  function getMarketData(assetName) {
+    const marketData = {
+      FROGGIE: data.froggie_data,
+      CATSKY: data.catsky_data,
+      KONDA: data.konda_data,
+      RCCN: data.rccn_data,
+      TRTL: data.tortol_data,
+    };
+  
+    return marketData[assetName];
+  }
+  
 
   console.log(data)
 
@@ -76,11 +121,37 @@ function AssetView({ data }) {
                   background: `${theme.colors.alpha.black[5]}`
                 }}
               >
-              <CardHeader title='Supported'/>
+              <CardHeader
+                action={
+                  <div>
+                    <Box width={150}>
+                      <FormControl fullWidth variant="outlined">
+                        <InputLabel>Sort By</InputLabel>
+                          <Select
+                            label="Fiat View"
+                            autoWidth
+                            value={selectedFiat}
+                            onChange={(event) => setSelectedFiat(event.target.value)}
+                          >
+                            {
+                              fiat_options.map((fiat_option) => (
+                                <MenuItem key={fiat_option.id} value={fiat_option.id}>
+                                  {fiat_option.price}
+                                </MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                    </Box>
+                  </div>
+                }
+                title="Supported"
+              />
+
               {
                 assets && (
                 <>
-                  {/* Accordions for TTSTurtle assets */}
+                  {/* Accordions for Token assets */}
                   <Accordion>
 
                   <AccordionSummary
@@ -94,125 +165,173 @@ function AssetView({ data }) {
                   </AccordionSummary>
 
                   <AccordionDetails>
-                    <ul>
-                      {assets
-                      .filter(asset => supported_policies.includes(asset.policyId))
-                      .sort((a, b) => {
-                        if (a.assetName === 'FROGGIE') return -1; // Move 'FROGGIE' to the front
-                        if (b.assetName === 'FROGGIE') return 1; // Move 'FROGGIE' to the front
-                        return 0;
-                      })
-                      .map((asset, i) => {
-                        if (supported_policies.includes(asset.policyId)) {
-                          const match = !asset.assetName.match(/(\D+)(\d+$)/);
-                          if (match) {
-                            let market_data = { price: 0, website: '', buy_link: '', aaid: '', }
+                    <Typography align='center' sx={{ my: 2 }} variant="h4">
+                      Cardano Value: ₳ {(calculateTotalValue('ADA')).toFixed(5)} {' / '}
 
-                            if (asset.assetName === 'FROGGIE') {
-                              market_data.price = data.froggie_data.price
-                              market_data.website = data.froggie_data.website
-                              market_data.buy_link = data.froggie_data.buy_link
-                              market_data.aaid = data.froggie_data.aaid
-                            }
+                      {selectedFiat === 'GBP' && (
+                        <b>Fiat Value: £ {calculateTotalValue('GBP').toFixed(2)}</b>
+                      )}
+                      {selectedFiat === 'EUR' && (
+                        <b>Fiat Value: € {calculateTotalValue('EUR').toFixed(2)}</b>
+                      )}
+                      {selectedFiat === 'USD' && (
+                        <b>Fiat Value: $ {calculateTotalValue('USD').toFixed(2)}</b>
+                      )}
+                    </Typography>
+                    <Divider/>
 
-                            if (asset.assetName === 'CATSKY') {
-                              market_data.price = data.catsky_data.price
-                              market_data.website = data.catsky_data.website
-                              market_data.buy_link = data.catsky_data.buy_link
-                              market_data.aaid = data.catsky_data.aaid
-                            }
+                    <Grid container spacing={2}>
+                    {
+                    assets
+                    .filter(asset => supported_policies.includes(asset.policyId))
+                    .sort((a, b) => {
+                      if (a.assetName === 'FROGGIE') return -1; // Move 'FROGGIE' to the front
+                      if (b.assetName === 'FROGGIE') return 1; // Move 'FROGGIE' to the front
+                      return 0;
+                    })
+                    .map((asset, i) => {
+                      const match = !asset.assetName.match(/(\D+)(\d+$)/);
+                      if (match && supported_policies.includes(asset.policyId)) {
+      
+                        const market_data = {
+                          FROGGIE: {
+                            price: data.froggie_data.price,
+                            website: data.froggie_data.website,
+                            buy_link: data.froggie_data.buy_link,
+                            aaid: data.froggie_data.aaid,
+                          },
+                          CATSKY: {
+                            price: data.catsky_data.price,
+                            website: data.catsky_data.website,
+                            buy_link: data.catsky_data.buy_link,
+                            aaid: data.catsky_data.aaid,
+                          },
+                          KONDA: {
+                            price: data.konda_data.price,
+                            website: data.konda_data.website,
+                            buy_link: data.konda_data.buy_link,
+                            aaid: data.konda_data.aaid,
+                          },
+                          RCCN: {
+                            price: data.rccn_data.price,
+                            website: data.rccn_data.website,
+                            buy_link: data.rccn_data.buy_link,
+                            aaid: data.rccn_data.aaid,
+                          },
+                          TRTL: {
+                            price: data.tortol_data.price,
+                            website: data.tortol_data.website,
+                            buy_link: data.tortol_data.buy_link,
+                            aaid: data.tortol_data.aaid,
+                          },
+                        };
 
-                            if (asset.assetName === 'KONDA') {
-                              market_data.price = data.konda_data.price
-                              market_data.website = data.konda_data.website
-                              market_data.buy_link = data.konda_data.buy_link
-                              market_data.aaid = data.konda_data.aaid
-                            }
-
-                            if (asset.assetName === 'RCCN') {
-                              market_data.price = data.rccn_data.price
-                              market_data.website = data.rccn_data.website
-                              market_data.buy_link = data.rccn_data.buy_link
-                              market_data.aaid = data.rccn_data.aaid
-                            }
-
-                            return (
-                              <div align='center'>
-                              <Card sx={{ minHeight: 120, maxWidth: '75%', my: 2}} 
-                                variant="outlined"
-                              >
-                                <Typography align='center' variant='h4' sx={{mt: 2}}>
-                                  ${asset.assetName}
-                                </Typography>
-
-                                <Divider sx={{ my: 2 }}/>
-                              
-                                <Typography sx={{mx: 2}}>
-                                  <b>Wallet Amount: </b>{Number(asset.quantity).toLocaleString()}
-                                </Typography>
-
-                                <Divider sx={{ my: 2 }}/>
-                              
-                                {
-                                  market_data ? 
-                                  <>
-                                    <Typography variant='h4' sx={{mx: 2}}>
-                                      Asset Value
-                                    </Typography>
-                                    <Typography sx={{mx: 2}}>
-                                    <b>ADA: </b>₳ {Number(market_data.price * asset.quantity).toFixed(5)}
-                                    </Typography>
-                                    <Typography sx={{mx: 2}}>
-                                    <b>GBP: </b>£{(market_data.price * asset.quantity * data.fiat[1]).toFixed(2)}
-                                    </Typography>
-                                    <Typography sx={{mx: 2}}>
-                                    <b>EUR: </b>€{(market_data.price * asset.quantity * data.fiat[2]).toFixed(2)}
-                                    </Typography>
-                                    <Typography sx={{mx: 2, mb: 2}}>
-                                    <b>USD: </b>${(market_data.price * asset.quantity * data.fiat[0]).toFixed(2)}
-                                    </Typography>
-
-                                    <Divider sx={{ my: 2 }}/>
-
-                                    <div style={{marginBottom: 10}}>
-                                    {
-                                      market_data.website ?
-                                      <Button variant='outline' href={market_data.website} target='_blank'>
-                                        Website
-                                      </Button> : null
-                                    }
-                                    {
-                                      market_data.buy_link ?
-                                      <Button variant='outline' href={market_data.buy_link} target='_blank'>
-                                        Buy Now
-                                      </Button> : null
-                                    }
-                                    </div>
-                                    {
-                                      market_data.aaid ?
-                                      <Button sx={{ mb: 2 }} variant='outlined' href={market_data.aaid} passHref
-                                        endIcon={<CheckIcon />}
-                                      >
-                                        DAO Supported
-                                      </Button> : null
-                                    }
-
-
-                                  </>
-                                  : null
-                                }
-                              </Card>
-                              </div>
-                            );
-                          }
+                        if (!market_data.hasOwnProperty(asset.assetName)) {
+                          return null;
                         }
+
+                        const marketData = market_data[asset.assetName];
+
+                        return (
+                          <Grid item xs={12} sm={6} key={i}>
+                          <Card sx={{ minHeight: 120, my: 2 }} variant="outlined">
+                            <Typography align="center" variant="h4" sx={{ mt: 2 }}>
+                              ${asset.assetName}
+                            </Typography>
+
+                            <Divider sx={{ my: 2 }} />
+
+                            <Typography align='center' sx={{ mx: 2 }}>
+                              <b>Hodling</b>
+                              
+                            </Typography>
+                            <Typography sx={{ mx: 2 }}>
+                              <b>${asset.assetName + ': '}</b> {Number(asset.quantity).toLocaleString()}
+                            </Typography>
+
+                            <Divider sx={{ my: 2 }} />
+                            
+                            {
+                              marketData ? (
+                                <>
+                                  <Typography align='center'  variant="h4" sx={{ mx: 2 }}>
+                                    Asset Value
+                                  </Typography>
+
+                                  <Typography sx={{ mx: 2 }}>
+                                    <b>ADA: </b>₳ {(marketData.price * asset.quantity).toFixed(5)}
+                                  </Typography>
+                                  
+                                  {
+                                    selectedFiat === 'GBP' && (
+                                      <Typography sx={{ mx: 2 }}>
+                                        <b>GBP: </b>£{(marketData.price * asset.quantity * data.fiat[1]).toFixed(2)}
+                                      </Typography>
+                                    )
+                                  }
+                                  {
+                                    selectedFiat === 'EUR' && (
+                                      <Typography sx={{ mx: 2 }}>
+                                        <b>EUR: </b>€{(marketData.price * asset.quantity * data.fiat[2]).toFixed(2)}
+                                      </Typography>
+                                    )
+                                  }
+                                  {
+                                    selectedFiat === 'USD' && (
+                                      <Typography sx={{ mx: 2 }}>
+                                        <b>USD: </b>${(marketData.price * asset.quantity * data.fiat[0]).toFixed(2)}
+                                      </Typography>
+                                    )
+                                  }
+
+                                  <Divider sx={{ my: 2 }} />
+
+                                  <div align='center' style={{ marginBottom: 10 }}>
+                                    {
+                                      marketData.website ? (
+                                        <Button variant="outline" href={marketData.website} target="_blank">
+                                          Website
+                                        </Button>
+                                      ) : null
+                                    }
+
+                                    {
+                                      marketData.buy_link ? (
+                                        <Button variant="outline" href={marketData.buy_link} target="_blank">
+                                          Buy Now
+                                        </Button>
+                                      ) : null
+                                    }
+                                  </div>
+
+                                  <div align='center'>
+                                    {
+                                      marketData.aaid ? (
+                                        <Button
+                                          sx={{ mb: 2, width: '80%' }}
+                                          variant="outlined"
+                                          href={marketData.aaid}
+                                          passHref
+                                          endIcon={<CheckIcon />}
+                                        >
+                                          DAO Supported
+                                        </Button>
+                                      ) : null
+                                    }
+                                  </div>
+                                </>
+                              ) : null
+                            }
+                          </Card>
+                          </Grid>
+                        );
+                      }
+
                       return null;
                     })}
 
                     <Divider sx={{ my: 2 }} />
-
-
-                    </ul>
+                    </Grid>
                   </AccordionDetails>
                 </Accordion>
 
@@ -257,25 +376,51 @@ function AssetView({ data }) {
                       <Typography variant='h4' align='center'>
                         Floor Price
                       </Typography>
-
+                      
                       <Typography variant='body2' align='center'>
                         ₳ {data.platypus_data.floor_price} {' / '}
-                        £ {Number(data.platypus_data.gbp_price).toFixed(2)} {' / '}
-                        € {Number(data.platypus_data.eur_price).toFixed(2)} {' / '}
-                        $ {Number(data.platypus_data.usd_price).toFixed(2)}
+                        {
+                          selectedFiat === 'GBP' && (
+                            <>£ {Number(data.platypus_data.gbp_price).toFixed(2)}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'EUR' && (
+                            <>€ {Number(data.platypus_data.eur_price).toFixed(2)}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'USD' && (
+                            <>$ {Number(data.platypus_data.usd_price).toFixed(2)}</>
+                          )
+                        }
                       </Typography>
-
+                      
                       <Typography variant='h4' align='center' sx={{ mt: 2}}>
                         Wallet Value
                       </Typography>
-
+                      
                       <Typography variant='body2' align='center'>
                         ₳ {data.platypus_data.floor_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length} {' / '}
-                        £ {Number(data.platypus_data.gbp_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}
-                        € {Number(data.platypus_data.eur_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}
-                        $ {Number(data.platypus_data.usd_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)}
+                        {
+                          selectedFiat === 'GBP' && (
+                            <>£ {Number(data.platypus_data.gbp_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'EUR' && (
+                            <>€ {Number(data.platypus_data.eur_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'USD' && (
+                            <>$ {Number(data.platypus_data.usd_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)}</>
+                          )
+                        }
                       </Typography>
+
                       {}
+
                       <Divider sx={{ my: 2 }} />
 
                       <div align='center'>
@@ -343,24 +488,49 @@ function AssetView({ data }) {
                       <Typography variant='h4' align='center'>
                         Floor Price
                       </Typography>
-
+                      
                       <Typography variant='body2' align='center'>
                         ₳ {data.adahandle_data.floor_price} {' / '}
-                        £ {Number(data.adahandle_data.gbp_price).toFixed(2)} {' / '}
-                        € {Number(data.adahandle_data.eur_price).toFixed(2)} {' / '}
-                        $ {Number(data.adahandle_data.usd_price).toFixed(2)}
+                        {
+                          selectedFiat === 'GBP' && (
+                            <>£ {Number(data.adahandle_data.gbp_price).toFixed(2)}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'EUR' && (
+                            <>€ {Number(data.adahandle_data.eur_price).toFixed(2)}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'USD' && (
+                            <>$ {Number(data.adahandle_data.usd_price).toFixed(2)}</>
+                          )
+                        }
                       </Typography>
-
+                      
                       <Typography variant='h4' align='center' sx={{ mt: 2}}>
                         Wallet Value
                       </Typography>
-
+                      
                       <Typography variant='body2' align='center'>
-                        ₳ {data.adahandle_data.floor_price * assets.filter(asset => asset.policyId.includes('f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a')).length} {' / '}
-                        £ {Number(data.adahandle_data.gbp_price * assets.filter(asset => asset.policyId.includes('f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a')).length).toFixed(2)} {' / '}
-                        € {Number(data.adahandle_data.eur_price * assets.filter(asset => asset.policyId.includes('f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a')).length).toFixed(2)} {' / '}
-                        $ {Number(data.adahandle_data.usd_price * assets.filter(asset => asset.policyId.includes('f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a')).length).toFixed(2)}
+                        ₳ {data.adahandle_data.floor_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length} {' / '}
+                        {
+                          selectedFiat === 'GBP' && (
+                            <>£ {Number(data.adahandle_data.gbp_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'EUR' && (
+                            <>€ {Number(data.adahandle_data.eur_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'USD' && (
+                            <>$ {Number(data.adahandle_data.usd_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)}</>
+                          )
+                        }
                       </Typography>
+
                       {}
                       <Divider sx={{ my: 2 }} />
 
@@ -417,24 +587,49 @@ function AssetView({ data }) {
                       <Typography variant='h4' align='center'>
                         Floor Price
                       </Typography>
-
+                      
                       <Typography variant='body2' align='center'>
                         ₳ {data.ttsturtle_data.floor_price} {' / '}
-                        £ {Number(data.ttsturtle_data.gbp_price).toFixed(2)} {' / '}
-                        € {Number(data.ttsturtle_data.eur_price).toFixed(2)} {' / '}
-                        $ {Number(data.ttsturtle_data.usd_price).toFixed(2)}
+                        {
+                          selectedFiat === 'GBP' && (
+                            <>£ {Number(data.ttsturtle_data.gbp_price).toFixed(2)}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'EUR' && (
+                            <>€ {Number(data.ttsturtle_data.eur_price).toFixed(2)}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'USD' && (
+                            <>$ {Number(data.ttsturtle_data.usd_price).toFixed(2)}</>
+                          )
+                        }
                       </Typography>
-
+                      
                       <Typography variant='h4' align='center' sx={{ mt: 2}}>
                         Wallet Value
                       </Typography>
-
+                      
                       <Typography variant='body2' align='center'>
-                        ₳ {data.ttsturtle_data.floor_price * assets.filter(asset => asset.assetName.includes('TTSTurtle')).length} {' / '}
-                        £ {Number(data.ttsturtle_data.gbp_price * assets.filter(asset => asset.assetName.includes('TTSTurtle')).length).toFixed(2)} {' / '}
-                        € {Number(data.ttsturtle_data.eur_price * assets.filter(asset => asset.assetName.includes('TTSTurtle')).length).toFixed(2)} {' / '}
-                        $ {Number(data.ttsturtle_data.usd_price * assets.filter(asset => asset.assetName.includes('TTSTurtle')).length).toFixed(2)}
+                        ₳ {data.ttsturtle_data.floor_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length} {' / '}
+                        {
+                          selectedFiat === 'GBP' && (
+                            <>£ {Number(data.ttsturtle_data.gbp_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'EUR' && (
+                            <>€ {Number(data.ttsturtle_data.eur_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'USD' && (
+                            <>$ {Number(data.ttsturtle_data.usd_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)}</>
+                          )
+                        }
                       </Typography>
+
                       {}
                       <Divider sx={{ my: 2 }} />
 
@@ -492,24 +687,50 @@ function AssetView({ data }) {
                       <Typography variant='h4' align='center'>
                         Floor Price
                       </Typography>
-
+                      
                       <Typography variant='body2' align='center'>
                         ₳ {data.racoonsclub_data.floor_price} {' / '}
-                        £ {Number(data.racoonsclub_data.gbp_price).toFixed(2)} {' / '}
-                        € {Number(data.racoonsclub_data.eur_price).toFixed(2)} {' / '}
-                        $ {Number(data.racoonsclub_data.usd_price).toFixed(2)}
+                        {
+                          selectedFiat === 'GBP' && (
+                            <>£ {Number(data.racoonsclub_data.gbp_price).toFixed(2)}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'EUR' && (
+                            <>€ {Number(data.racoonsclub_data.eur_price).toFixed(2)}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'USD' && (
+                            <>$ {Number(data.racoonsclub_data.usd_price).toFixed(2)}</>
+                          )
+                        }
                       </Typography>
-
+                      
                       <Typography variant='h4' align='center' sx={{ mt: 2}}>
                         Wallet Value
                       </Typography>
-
+                      
                       <Typography variant='body2' align='center'>
-                        ₳ {data.racoonsclub_data.floor_price * assets.filter(asset => asset.assetName.includes('RacoonsNew')).length} {' / '}
-                        £ {Number(data.racoonsclub_data.gbp_price * assets.filter(asset => asset.assetName.includes('RacoonsNew')).length).toFixed(2)} {' / '}
-                        € {Number(data.racoonsclub_data.eur_price * assets.filter(asset => asset.assetName.includes('RacoonsNew')).length).toFixed(2)} {' / '}
-                        $ {Number(data.racoonsclub_data.usd_price * assets.filter(asset => asset.assetName.includes('RacoonsNew')).length).toFixed(2)}
+                        ₳ {data.racoonsclub_data.floor_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length} {' / '}
+                        {
+                          selectedFiat === 'GBP' && (
+                            <>£ {Number(data.racoonsclub_data.gbp_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'EUR' && (
+                            <>€ {Number(data.racoonsclub_data.eur_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)} {' / '}</>
+                          )
+                        }
+                        {
+                          selectedFiat === 'USD' && (
+                            <>$ {Number(data.racoonsclub_data.usd_price * assets.filter(asset => asset.policyId.includes(platy_policy)).length).toFixed(2)}</>
+                          )
+                        }
                       </Typography>
+
+                      {}
 
                       <Divider sx={{ my: 2 }} />
 

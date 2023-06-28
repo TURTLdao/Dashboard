@@ -187,7 +187,7 @@ function Hero() {
                   <b>Powered by TapTools</b>
                 </Box>
                 <Typography component="span" variant="subtitle2">
-                  No BS or subscriptions, just open information for you the user.
+                  Don't worry if you don't own a Tappy NFT... or 5. You can still view some information here.
                 </Typography>
               </Typography>
             </Grid>

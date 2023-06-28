@@ -125,7 +125,7 @@ function Cards() {
                         align='center'
                         sx={{ mt: 2 }}
                       >
-                        v1.5a
+                        v1.6
                       </Typography>
                   </CardActions>
                 </Card>

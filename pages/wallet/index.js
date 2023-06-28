@@ -63,6 +63,7 @@ export async function getServerSideProps() {
       fetchTTdata(ttIDs[2]),
       fetchTTdata(ttIDs[3]),
       fetchTTdata(ttIDs[4]),
+      fetchTTdata(ttIDs[5]),
     ]);
 
     const { ada_usd: usd, ada_eur: eur, ada_gbp: gbp } = results[0];
@@ -76,18 +77,22 @@ export async function getServerSideProps() {
       holders: froggie_holders, numTransactions: froggie_transactions,
       pricePercentChange: froggie_daily_percent, weekPercentChange: froggie_weekly_percent,
       monthPercentChange: froggie_monthly_percent, dilutedMarketCap: froggie_fdm } = results[5];
-      const { nativePrice: konda_price, dailyVolume: konda_volume,
-        holders: konda_holders, numTransactions: konda_transactions,
-        pricePercentChange: konda_daily_percent, weekPercentChange: konda_weekly_percent,
-        monthPercentChange: konda_monthly_percent, dilutedMarketCap: konda_fdm } = results[6];
-      const { nativePrice: catsky_price, dailyVolume: catsky_volume,
-        holders: catsky_holders, numTransactions: catsky_transactions,
-        pricePercentChange: catsky_daily_percent, weekPercentChange: catsky_weekly_percent,
-        monthPercentChange: catsky_monthly_percent, dilutedMarketCap: catsky_fdm } = results[7];
-      const { nativePrice: rccn_price, dailyVolume: rccn_volume,
-        holders: rccn_holders, numTransactions: rccn_transactions,
-        pricePercentChange: rccn_daily_percent, weekPercentChange: rccn_weekly_percent,
-        monthPercentChange: rccn_monthly_percent, dilutedMarketCap: rccn_fdm } = results[8];
+    const { nativePrice: konda_price, dailyVolume: konda_volume,
+      holders: konda_holders, numTransactions: konda_transactions,
+      pricePercentChange: konda_daily_percent, weekPercentChange: konda_weekly_percent,
+      monthPercentChange: konda_monthly_percent, dilutedMarketCap: konda_fdm } = results[6];
+    const { nativePrice: catsky_price, dailyVolume: catsky_volume,
+      holders: catsky_holders, numTransactions: catsky_transactions,
+      pricePercentChange: catsky_daily_percent, weekPercentChange: catsky_weekly_percent,
+      monthPercentChange: catsky_monthly_percent, dilutedMarketCap: catsky_fdm } = results[7];
+    const { nativePrice: rccn_price, dailyVolume: rccn_volume,
+      holders: rccn_holders, numTransactions: rccn_transactions,
+      pricePercentChange: rccn_daily_percent, weekPercentChange: rccn_weekly_percent,
+      monthPercentChange: rccn_monthly_percent, dilutedMarketCap: rccn_fdm } = results[8];
+    const { nativePrice: tortol_price, dailyVolume: tortol_volume,
+      holders: tortol_holders, numTransactions: tortol_transactions,
+      pricePercentChange: tortol_daily_percent, weekPercentChange: tortol_weekly_percent,
+      monthPercentChange: tortol_monthly_percent, dilutedMarketCap: tortol_fdm } = results[8];
 
     const ttsturtle_data = {
       floor_price: parseInt(TTSTurtle_FP) / 1000000,
@@ -182,11 +187,27 @@ export async function getServerSideProps() {
       buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=a3e9d397a62992efd2bb54c954b59044948f11f4e14b28add5ebd847&tokenNameB=5243434e',
       aaid: '/aaid/rccn',
     }
+    const tortol_data = {
+      price: Number(tortol_price).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
+      daily_volume: Number(tortol_volume).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      holders: Number(tortol_holders).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      transactions: Number(tortol_transactions).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      fdm: Number(tortol_fdm).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      percent_change: {
+        daily: tortol_daily_percent,
+        weekly: tortol_weekly_percent,
+        monthly: tortol_monthly_percent,
+      },
+      ada_compare: calculate_tokens_to_ada(tortol_price).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      website: 'https://www.theturtlesyndicate.xyz/',
+      buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=52162581184a457fad70470161179c5766f00237d4b67e0f1df1b4e6&tokenNameB=5452544c',
+      aaid: '/aaid/tortol',
+    }
 
     const fiat = [usd, gbp, eur]
 
     const full_data = { ttsturtle_data, racoonsclub_data, platypus_data, adahandle_data,
-      froggie_data, konda_data, catsky_data, rccn_data,
+      froggie_data, konda_data, catsky_data, rccn_data, tortol_data,
       fiat }
 
     return {

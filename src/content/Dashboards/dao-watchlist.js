@@ -86,6 +86,22 @@ const Watchlist = ({ data }) => {
       discord: '',
       buy_link: '',
     },
+    {
+      id: 5,
+      name: 'Tortol',
+      ticker: '$TORTOL',
+      logo: 'https://www.taptools.io/_next/image?url=https%3A%2F%2Ftaptools-public.s3.amazonaws.com%2Ftoken-logos%2F52162581184a457fad70470161179c5766f00237d4b67e0f1df1b4e65452544c.png&w=64&q=75',
+      price: data.tortol_data.price,
+      price_usd: (data.ada_fiat.usd * data.tortol_data.price),
+      volume: data.tortol_data.daily_volume,
+      volume_usd: (data.ada_fiat.usd * data.tortol_data.daily_volume),
+      marketcap: data.tortol_data.fdm,
+      marketcap_usd: (data.ada_fiat.usd * data.tortol_data.fdm),
+      ada_compare: data.tortol_data.ada_compare,
+      twitter: '',
+      discord: '',
+      buy_link: '',
+    },
   ];
 
   return (

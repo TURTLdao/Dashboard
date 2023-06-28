@@ -429,7 +429,7 @@ function SidebarMenu() {
                     </Button>
                   </ListItem>
                   <ListItem component="div">
-                    <Tooltip title='Unique Policy IDs within your wallet'>
+                    <Tooltip placement="top" title='Unique Policy IDs within your wallet'>
                     <Button
                       className={
                         currentRoute === '/aaid/'

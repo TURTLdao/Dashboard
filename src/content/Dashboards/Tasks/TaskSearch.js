@@ -300,6 +300,66 @@ function TaskSearch() {
             </Button>
           </Card>
         </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Card
+            variant="outlined"
+            sx={{
+              p: 3,
+              background: `${theme.colors.alpha.black[5]}`
+            }}
+          >
+            <Link href="#" variant="h3" color="text.primary">
+              Tortol
+            </Link>
+            <Box
+              sx={{
+                py: 2
+              }}
+            >
+              <Chip
+                sx={{
+                  mr: 0.5
+                }}
+                size="small"
+                label="Meme"
+                color="secondary"
+                onClick={handleClick}
+              />
+              <Chip
+                sx={{
+                  mr: 0.5
+                }}
+                size="small"
+                label="Token"
+                color="secondary"
+                onClick={handleClick}
+              />
+              <Chip
+                sx={{
+                  mr: 0.5
+                }}
+                size="small"
+                label="NFT"
+                color="secondary"
+                onClick={handleClick}
+              />
+            </Box>
+            <Typography
+              sx={{
+                pb: 2
+              }}
+              color="text.secondary"
+            >
+             The Turtle Syndicate - an exciting new NFT project that brings the magic of the Turtle verse to life in the world of Cardano.
+             $TORTOL is the native asset for this NFT project.
+            </Typography>
+            <Button passHref href="/aaid/tortol" size="small" variant="contained">
+              View Project
+            </Button>
+          </Card>
+        </Grid>
+
       </Grid>
     </>
   );

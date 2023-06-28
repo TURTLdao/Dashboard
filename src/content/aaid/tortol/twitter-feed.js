@@ -13,7 +13,6 @@ import {
   styled
 } from '@mui/material';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
-import PropTypes from 'prop-types';
 
 const ListWrapper = styled(List)(
   () => `
@@ -24,7 +23,7 @@ const ListWrapper = styled(List)(
 `
 );
 
-function TwitterFeed(data) {
+function TwitterFeed() {
   const theme = useTheme();
 
   return (
@@ -33,7 +32,7 @@ function TwitterFeed(data) {
       <Divider />
       <TwitterTimelineEmbed
         sourceType="profile"
-        screenName={data}
+        screenName={'TortolToken'}
         theme='dark'
         options={{
           height: 500,
@@ -42,9 +41,5 @@ function TwitterFeed(data) {
     </Card>
   );
 }
-
-TwitterFeed.propTypes = {
-  data: PropTypes.object.isRequired
-};
 
 export default TwitterFeed;
