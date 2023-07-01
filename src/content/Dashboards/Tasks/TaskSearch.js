@@ -60,7 +60,7 @@ function TaskSearch() {
           <Typography variant="subtitle2">
             Showing{' '}
             <Text color="black">
-              <b>{known_addresses_count} Addresses</b>
+              <b>{known_addresses_count} Known Addresses</b>
             </Text>
           </Typography>
         </Box>
@@ -132,28 +132,8 @@ function TaskSearch() {
               })}
             </TableBody>
           </Table>
-      </TableContainer>
-        
+        </TableContainer>
       </Grid>
-      <Box
-        sx={{
-          pt: 4
-        }}
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Pagination
-          showFirstButton
-          showLastButton
-          count={15}
-          defaultPage={6}
-          siblingCount={0}
-          size="large"
-          shape="rounded"
-          color="primary"
-        />
-      </Box>
     </>
   );
 }
