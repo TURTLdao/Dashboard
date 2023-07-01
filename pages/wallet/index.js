@@ -27,6 +27,8 @@ export async function getServerSideProps() {
     '3929accff4dcfe4e0b2e24798e97d9a7d99d20f011c3b3668965d2da', // Racoons Club
     '787a6798527b21ad0e0f62c021b4ce036513a2d3342b5cb519d2ca19', // Platypus Cyberpunks
     'f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a', // $adahandle
+    '3b0b923ec2cb5541ffb46b5a4c659c6edee0af60b32ec6061d9ea1eb', // Syndicate Shell Pass
+    'b77791d20054db4fa9726a58854b8c02550277c8683286ec5a353b89', // CatNip
   ];
 
   const ada_id = '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1'
@@ -64,6 +66,8 @@ export async function getServerSideProps() {
       fetchTTdata(ttIDs[3]),
       fetchTTdata(ttIDs[4]),
       fetchTTdata(ttIDs[5]),
+      fetchFloorPriceJpgStore(jpgIDs[4]),
+      fetchFloorPriceJpgStore(jpgIDs[5]),
     ]);
 
     const { ada_usd: usd, ada_eur: eur, ada_gbp: gbp } = results[0];
@@ -94,6 +98,9 @@ export async function getServerSideProps() {
       pricePercentChange: tortol_daily_percent, weekPercentChange: tortol_weekly_percent,
       monthPercentChange: tortol_monthly_percent, dilutedMarketCap: tortol_fdm } = results[8];
 
+    const { floor_price: SyndicateShellPass_FP } = results[9];
+    const { floor_price: CatNip_FP } = results[10];
+
     const ttsturtle_data = {
       floor_price: parseInt(TTSTurtle_FP) / 1000000,
       usd_price: usd * parseInt(TTSTurtle_FP) / 1000000,
@@ -121,6 +128,20 @@ export async function getServerSideProps() {
       eur_price: eur * parseInt(Adahandle_FP) / 1000000,
       gbp_price: gbp * parseInt(Adahandle_FP) / 1000000,
       logo: 'https://res.cloudinary.com/dkjdnfj7u/image/upload/c_limit,w_176/q_auto:best/v1678458230/collections/hero_image/adahandle?_a=ATCqVAA0.webp',
+    }
+    const sspass_data = {
+      floor_price: parseInt(SyndicateShellPass_FP) / 1000000,
+      usd_price: usd * parseInt(SyndicateShellPass_FP) / 1000000,
+      eur_price: eur * parseInt(SyndicateShellPass_FP) / 1000000,
+      gbp_price: gbp * parseInt(SyndicateShellPass_FP) / 1000000,
+      logo: 'https://res.cloudinary.com/dkjdnfj7u/image/upload/c_limit,w_176/q_auto:best/v1678457880/collections/hero_image/d751ec61-9153-4c5b-93f8-c828019c550a?_a=ATCqVAA0.webp',
+    }
+    const catnip_data = {
+      floor_price: parseInt(CatNip_FP) / 1000000,
+      usd_price: usd * parseInt(CatNip_FP) / 1000000,
+      eur_price: eur * parseInt(CatNip_FP) / 1000000,
+      gbp_price: gbp * parseInt(CatNip_FP) / 1000000,
+      logo: 'https://pbs.twimg.com/profile_images/1664260164050993152/p9KwKZ1U_400x400.jpg',
     }
 
     const froggie_data = {
@@ -206,7 +227,9 @@ export async function getServerSideProps() {
 
     const fiat = [usd, gbp, eur]
 
-    const full_data = { ttsturtle_data, racoonsclub_data, platypus_data, adahandle_data,
+    const full_data = { ttsturtle_data, racoonsclub_data, platypus_data, adahandle_data, sspass_data,
+      catnip_data,
+
       froggie_data, konda_data, catsky_data, rccn_data, tortol_data,
       fiat }
 

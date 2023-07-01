@@ -28,7 +28,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import TaskSearch from 'src/content/Dashboards/Tasks/TaskSearch'
+import ListedProjects from 'src/content/aaid/listed-projects'
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -79,7 +79,7 @@ function AAIDindex() {
           <Grid item xs={12}>
             <Card>
               <CardContent>
-                <TaskSearch/>
+                <ListedProjects/>
               </CardContent>
             </Card>
           </Grid>

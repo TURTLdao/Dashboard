@@ -1,4 +1,4 @@
-const TT_API_BUILD_ID = 'vDkpDDkuXbyaWCN5v46p9';
+const TT_API_BUILD_ID = 'WCc76NmEarv-ltbguZijC';
 const JPG_API_BUILD_ID = 'iO8nO5wAH2nojCllOm3xm'
 
 export async function fetchCoinData(coinName)
@@ -276,4 +276,199 @@ function extractTokenInfo(response) {
   }
 
   return tokensInfo;
+}
+
+export async function fetchAdaStatHolders(policyId) {
+
+  try {
+    const response = await fetch(`https://adastat.net/api/rest/v1/tokens/${policyId}.json?rows=holders&dir=desc&limit=24&currency=usd`);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function fetchAdaStatTransactions(address) {
+
+  try {
+    const searchUrl = `https://adastat.net/api/rest/v1/search.json?query=${address}&currency=usd`;
+    const searchResponse = await fetch(searchUrl);
+    const searchData = await searchResponse.json();
+    const hash = searchData.accounts[0].hash;
+
+    // Fetch the details using the hash
+    const detailsUrl = `https://adastat.net/api/rest/v1/accounts/${hash}.json?rows=history&dir=desc&limit=24&currency=usd`;
+    const detailsResponse = await fetch(detailsUrl);
+    const detailsData = await detailsResponse.json();
+    const rows = detailsData.rows;
+    console.log(detailsData)
+    
+    return rows
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function fetchAddressDetails(address) {
+  try {
+    // first search for the address like this:
+    // https://adastat.net/api/rest/v1/search.json?query=addr1qywhrwe3vufpf66n7w9ld42ths6j6j53swv9agpt3pd0u409hz67cj83lhuhgvvtu97jd3fyswqu80g0s3uuawen7kmqv4w2sg&currency=usd
+    // then grab data = response.json(), hash = data.accounts.hash
+    // with that hash, then search for the details with the hash:
+    // https://adastat.net/accounts/e5b8b5ec48f1fdf974318be17d26c5248381c3bd0f8479cebb33f5b6
+    // Search for the address
+    const searchUrl = `https://adastat.net/api/rest/v1/search.json?query=${address}&currency=usd`;
+    const searchResponse = await fetch(searchUrl);
+    const searchData = await searchResponse.json();
+    const hash = searchData.accounts[0].hash;
+
+    // Fetch the details using the hash
+    const detailsUrl = `https://adastat.net/api/rest/v1/accounts/${hash}.json?rows=history&dir=desc&limit=24&currency=usd`;
+    const detailsResponse = await fetch(detailsUrl);
+    const detailsData = await detailsResponse.json();
+    console.log(detailsData)
+
+    // Extract the desired data
+    const {
+      first_tx_time,
+      first_tx_hash,
+      last_tx_time,
+      last_tx_hash,
+      balance,
+      reward_balance,
+      total_reward_amount,
+      active_stake,
+      snapshot_stake,
+      tx,
+      token,
+      catalyst_id,
+      address: addressCount,
+      registered_stake_key,
+      stake_history,
+      delegation_history,
+      key_history,
+      pool_hash,
+      pool_bech32,
+      pool_name,
+      pool_ticker,
+      active_pool_hash,
+      active_pool_bech32,
+      active_pool_name,
+      active_pool_ticker,
+      snapshot_pool_hash,
+      snapshot_pool_bech32,
+      snapshot_pool_name,
+      snapshot_pool_ticker,
+      first_reward_epoch,
+      last_reward_epoch,
+      total_member,
+      total_leader,
+      total_refund,
+      total_treasury,
+      total_reserves,
+      total_refund_amount,
+      pool_reward_address,
+      pool_owner
+    } = detailsData.data;
+
+    /*
+        "first_tx_hash": "428a0394c7a257a5acded66dd47d6cb0909c8c4c5955afd9f1d18ecae28928c1",
+        "first_tx_time": 1683831236,
+        "last_tx_hash": "c5cee2fbc79a0c8667e388344655299457f3fd55c9a1dde4ec6c2ec6b314310e",
+        "last_tx_time": 1687988507,
+        "hash": "e5b8b5ec48f1fdf974318be17d26c5248381c3bd0f8479cebb33f5b6",
+        "bech32": "stake1u8jm3d0vfrclm7t5xx97zlfxc5jg8qwrh58cg7wwhveltdsfeajcd",
+        "balance": "107030803",
+        "reward_balance": "0",
+        "total_reward_amount": "0",
+        "active_stake": "84071842",
+        "snapshot_stake": "107030803",
+        "tx": 63,
+        "token": 16,
+        "catalyst_id": null,
+        "address": 32,
+        "registered_stake_key": true,
+        "stake_history": true,
+        "delegation_history": true,
+        "key_history": true,
+        "pool_hash": "5be57ce6d1225697f4ad4090355f0a72d6e1e2446d1d768f36aa118c",
+        "pool_bech32": "pool1t0jheek3yftf0a9dgzgr2hc2wttwrcjyd5whdrek4ggcc5famre",
+        "pool_name": "The Pond",
+        "pool_ticker": "POND",
+        "active_pool_hash": "b3f9883d3de29971c43e05fdb985281ffee737be0e5669094810ba6b",
+        "active_pool_bech32": "pool1k0ucs0fau2vhr3p7qh7mnpfgrllwwda7petxjz2gzzaxkyp8f88",
+        "active_pool_name": "Poly 0PCT Pool",
+        "active_pool_ticker": "POLY",
+        "snapshot_pool_hash": "5be57ce6d1225697f4ad4090355f0a72d6e1e2446d1d768f36aa118c",
+        "snapshot_pool_bech32": "pool1t0jheek3yftf0a9dgzgr2hc2wttwrcjyd5whdrek4ggcc5famre",
+        "snapshot_pool_name": "The Pond",
+        "snapshot_pool_ticker": "POND",
+        "first_reward_epoch": null,
+        "last_reward_epoch": null,
+        "total_member": 0,
+        "total_leader": 0,
+        "total_refund": 0,
+        "total_treasury": 0,
+        "total_reserves": 0,
+        "total_refund_amount": null,
+        "pool_reward_address": {
+            "rows": []
+        },
+        "pool_owner": {
+            "rows": []
+        }
+    */
+    // Return the extracted data
+    return {
+      first_tx_time,
+      first_tx_hash,
+      last_tx_time,
+      last_tx_hash,
+      balance,
+      reward_balance,
+      total_reward_amount,
+      active_stake,
+      snapshot_stake,
+      tx,
+      token,
+      catalyst_id,
+      addressCount,
+      registered_stake_key,
+      stake_history,
+      delegation_history,
+      key_history,
+      pool_hash,
+      pool_bech32,
+      pool_name,
+      pool_ticker,
+      active_pool_hash,
+      active_pool_bech32,
+      active_pool_name,
+      active_pool_ticker,
+      snapshot_pool_hash,
+      snapshot_pool_bech32,
+      snapshot_pool_name,
+      snapshot_pool_ticker,
+      first_reward_epoch,
+      last_reward_epoch,
+      total_member,
+      total_leader,
+      total_refund,
+      total_treasury,
+      total_reserves,
+      total_refund_amount,
+      pool_reward_address,
+      pool_owner
+    };
+
+  } catch (error) {
+    console.error(error);
+  }
 }

@@ -19,6 +19,7 @@ import BlurOnIcon from '@mui/icons-material/BlurOn';
 import BlurCircularIcon from '@mui/icons-material/BlurCircular';
 import CableIcon from '@mui/icons-material/Cable';
 import WalletIcon from '@mui/icons-material/Wallet';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 import { useEffect, useState } from 'react';
 import { useWallet, useWalletList, useLovelace, useAssets } from '@meshsdk/react'
@@ -349,6 +350,23 @@ function SidebarMenu() {
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
+                <NextLink href="/around-cardano/search-wallet" passHref>
+                  <Button
+                    className={
+                      currentRoute === '/around-cardano/search-wallet' || currentRoute === '/[address]'
+                        ? 'active'
+                        : ''
+                    }                    
+                    disableRipple
+                    component="a"
+                    onClick={closeSidebar}
+                    startIcon={<RemoveRedEyeIcon />}
+                  >
+                    Address Explorer
+                  </Button>
+                </NextLink>
+              </ListItem>
+              <ListItem component="div">
                 <NextLink href="/around-cardano/trending-tokens" passHref>
                   <Button
                     className={
@@ -429,7 +447,7 @@ function SidebarMenu() {
                     </Button>
                   </ListItem>
                   <ListItem component="div">
-                    <Tooltip placement="top" title='Unique Policy IDs within your wallet'>
+                    <Tooltip placement="right" title='Unique Policy IDs within your wallet'>
                     <Button
                       className={
                         currentRoute === '/aaid/'
