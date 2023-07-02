@@ -202,7 +202,7 @@ const AssetsView = ({ asset_rows }) => {
           <Grid container spacing={2}>
           {
           Object.entries(asset_rows)
-          .filter(([key, value]) => !blacklist.includes(value.policy) && value.quantity === 1)
+          .filter(([key, value]) => (blacklist.includes(value.policy) && value.quantity === 1))
           .map(([key, value], index) => {
             const imageUrl = value.metadata.image.startsWith('ipfs://')
               ? convertIPFSUrlToHttpUrl(value.metadata.image)
