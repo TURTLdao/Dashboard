@@ -16,14 +16,15 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ShoppingBagTwoToneIcon from '@mui/icons-material/ShoppingBagTwoTone';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PaidIcon from '@mui/icons-material/Paid';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import BlurOnIcon from '@mui/icons-material/BlurOn';
 
 const AvatarPrimary = styled(Avatar)(
   ({ theme }) => `
       background: ${theme.colors.primary.lighter};
       color: ${theme.colors.primary.main};
-      width: ${theme.spacing(7)};
-      height: ${theme.spacing(7)};
+      width: ${theme.spacing(4)};
+      height: ${theme.spacing(4)};
 `
 );
 
@@ -32,12 +33,12 @@ const AddressStats = ({ data }) => {
 
   return (
     <Card>
-      <CardHeader title="Token Information" />
+      <CardHeader title="Wallet Information" />
       <Divider />
 
       <Box px={2} py={2} display="flex" alignItems="flex-start">
         <AvatarPrimary>
-          <AccountBalanceIcon />
+          <AttachMoneyIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
 
@@ -62,7 +63,7 @@ const AddressStats = ({ data }) => {
 
       <Box px={2} py={2} display="flex" alignItems="flex-start">
         <AvatarPrimary>
-          <PeopleIcon />
+          <ReceiptLongIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
 
@@ -87,7 +88,7 @@ const AddressStats = ({ data }) => {
 
       <Box px={2} py={2} display="flex" alignItems="flex-start">
         <AvatarPrimary>
-          <PaidIcon />
+          <BlurOnIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
 
@@ -112,7 +113,7 @@ const AddressStats = ({ data }) => {
 
       <Box px={2} py={2} display="flex" alignItems="flex-start">
         <AvatarPrimary>
-          <AttachMoneyIcon />
+          <AccountBalanceIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
 
@@ -128,7 +129,7 @@ const AddressStats = ({ data }) => {
               <Typography variant="h4">
                 {data.pool_name}
               </Typography>
-              <Typography variant="sub">
+              <Typography variant="subtitle2">
                 {data.pool_ticker}
               </Typography>
             </Box>

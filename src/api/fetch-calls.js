@@ -306,10 +306,14 @@ export async function fetchAdaStatTransactions(address) {
     const detailsUrl = `https://adastat.net/api/rest/v1/accounts/${hash}.json?rows=history&dir=desc&limit=24&currency=usd`;
     const detailsResponse = await fetch(detailsUrl);
     const detailsData = await detailsResponse.json();
-    const rows = detailsData.rows;
-    console.log(detailsData)
-    
-    return rows
+    const history_rows = detailsData.rows;
+
+    const detailsUrl2 = `https://adastat.net/api/rest/v1/accounts/${hash}.json?rows=tokens&dir=desc&limit=24&currency=usd`;
+    const detailsResponse2 = await fetch(detailsUrl2);
+    const detailsData2 = await detailsResponse2.json();
+    const assets_rows = detailsData2.rows;
+
+    return { history_rows, assets_rows }
   } catch (error) {
     console.error(error);
     return null;
@@ -333,7 +337,6 @@ export async function fetchAddressDetails(address) {
     const detailsUrl = `https://adastat.net/api/rest/v1/accounts/${hash}.json?rows=history&dir=desc&limit=24&currency=usd`;
     const detailsResponse = await fetch(detailsUrl);
     const detailsData = await detailsResponse.json();
-    console.log(detailsData)
 
     // Extract the desired data
     const {
@@ -471,4 +474,17 @@ export async function fetchAddressDetails(address) {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function fetchPoolPmAddressData(address) {
+  // Fetch the details using the hash
+  const detailsUrl = `https://pool.pm/wallet/${address}`;
+  const detailsResponse = await fetch(detailsUrl);
+  const full = await detailsResponse.json();
+
+  const {
+    lovelaces, tokens
+  } = full
+
+  return full;
 }

@@ -107,7 +107,7 @@ function HoldersTable({ rows, supply, token_price, fiat }) {
               {
                 rows.map(row => (
                   <TableRow key={row.account_hash}>
-                    <TableCell><a href={'https://cexplorer.io/address/' + row.address} target='_blank'>{`${row.address.slice(0, 20)}...${row.address.slice(-20)}`}</a></TableCell>
+                    <TableCell><a href={'https://www.turtle-dao.com/' + row.address} target='_blank'>{`${row.address.slice(0, 20)}...${row.address.slice(-20)}`}</a></TableCell>
                     <TableCell>{Number(row.quantity).toLocaleString()}</TableCell>
                     <TableCell>{calculatePercentage(row.quantity)}%</TableCell>
                     <TableCell>₳ {Number(token_price * row.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>

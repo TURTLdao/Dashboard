@@ -14,7 +14,7 @@ const OutlinedInputWrapper = styled(OutlinedInput)(
 `
 );
 
-function TaskSearch() {
+function SearchWalletView() {
   
   const known_addresses = {
     turtledao: 'addr1qywhrwe3vufpf66n7w9ld42ths6j6j53swv9agpt3pd0u409hz67cj83lhuhgvvtu97jd3fyswqu80g0s3uuawen7kmqv4w2sg',
@@ -51,22 +51,23 @@ function TaskSearch() {
         }
       />
     </FormControl>
-      <Box
-        py={3}
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ my: 2, mx: 2}}
-      >
-        <Box>
-          <Typography variant="subtitle2">
-            Showing{' '}
+    <Box
+      py={3}
+      display="flex"
+      alignItems="center"
+      justifyContent="space-between"
+      sx={{ my: 2, mx: 2}}
+    >
+      <Box>
+        <Typography variant="subtitle2">
+          Showing{' '}
             <Text color="black">
               <b>{known_addresses_count} Known Addresses</b>
             </Text>
           </Typography>
         </Box>
       </Box>
+
       <Grid container spacing={3} >
       <TableContainer 
         sx={{ my: 2, mx: 2}}>
@@ -136,30 +137,10 @@ function TaskSearch() {
               })}
             </TableBody>
           </Table>
-      </TableContainer>
-        
+        </TableContainer>
       </Grid>
-      <Box
-        sx={{
-          pt: 4
-        }}
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Pagination
-          showFirstButton
-          showLastButton
-          count={15}
-          defaultPage={6}
-          siblingCount={0}
-          size="large"
-          shape="rounded"
-          color="primary"
-        />
-      </Box>
     </>
   );
 }
 
-export default TaskSearch;
+export default SearchWalletView;

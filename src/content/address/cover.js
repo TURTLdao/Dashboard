@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Box, Typography, Card, Tooltip, Avatar, CardMedia, Button,
-  IconButton, styled
+  IconButton, styled, Grid
 } from '@mui/material';
 import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
 
@@ -10,13 +10,13 @@ const AvatarWrapper = styled(Card)(
     overflow: visible;
     display: inline-block;
     margin-top: -${theme.spacing(9)};
-    margin-left: ${theme.spacing(2)};
     .MuiAvatar-root {
-      width: ${theme.spacing(16)};
-      height: ${theme.spacing(16)};
+      width: ${theme.spacing(22)};
+      height: ${theme.spacing(22)};
     }
 `
 );
+
 
 const CardCover = styled(Card)(
   ({ theme }) => `
@@ -27,13 +27,17 @@ const CardCover = styled(Card)(
 `);
 
 
-export const AddressCover = ({ data, known_addresses, custom_strings, links }) => {
+export const AddressCover = ({ data, known_addresses, custom_strings, links, poolpm_addr_data  }) => {
   
   const is_a_match = Object.values(known_addresses).includes(data.address);
   const custom_string_key = Object.keys(known_addresses).find((key) => known_addresses[key] === data.address);
 
   const additional_info = is_a_match ? custom_strings[custom_string_key] : '';
   const links_info = is_a_match ? links[custom_string_key] : null;
+
+  const calculatePercentage = (quantity, supply) => {
+    return ((quantity / supply) * 100).toFixed(2); // Calculate percentage and round to 2 decimal places
+  };
 
   return (
     <>
@@ -57,39 +61,32 @@ export const AddressCover = ({ data, known_addresses, custom_strings, links }) =
       </Box>
 
       <CardCover>
-        {
-        is_a_match ?
+        { is_a_match ?
           <CardMedia image={'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/dao-bg.svg'} />
           :
           <CardMedia image={'https://raw.githubusercontent.com/TURTLdao/TURTL-images/main/basic-bg.svg'} />
         }
-        
       </CardCover>
 
-      <AvatarWrapper>
-        <Avatar variant="rounded"
-          src={`https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=${data.address}?randomizeIds=true`}
-        />
-      </AvatarWrapper>
+      <div align='center'>
+        <AvatarWrapper>
+          <Avatar variant="rounded"
+            src={`https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=${data.address}?randomizeIds=true`}
+          />
+        </AvatarWrapper>
+      </div>
 
       {
         links_info ? 
-        <Box py={2} pl={2} mb={3}>
-          <Box
-            display={{ xs: 'block', md: 'flex' }}
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box>
-              <Button href={links_info && links_info[0]} target='_blank'  size="small" variant="contained">
+        <div align='center' style={{ marginTop: 10}}>
+          
+          <Button href={links_info && links_info[0]} target='_blank' sx={{ mr: 1 }}  size="small" variant="contained">
                 Twitter
               </Button>
-              <Button href={links_info && links_info[1]} target='_blank'  size="small" sx={{ mx: 2 }} variant="outlined">
+              <Button href={links_info && links_info[1]} target='_blank'  size="small" sx={{ ml: 1 }} variant="outlined">
                 Website
               </Button>
-            </Box>
-          </Box>
-        </Box>
+        </div>
         :
         null
       }
@@ -103,7 +100,8 @@ AddressCover.propTypes = {
   data: PropTypes.object.isRequired,
   known_addresses: PropTypes.object.isRequired,
   custom_strings: PropTypes.object.isRequired,
-  links: PropTypes.array.isRequired
+  links: PropTypes.array.isRequired,
+  poolpm_addr_data : PropTypes.object.isRequired
 };
 
 export default AddressCover;

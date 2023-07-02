@@ -169,7 +169,7 @@ const SubMenuWrapper = styled(Box)(
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open, wallets } = props;
-  const [selectedWallet, setSelectedWallet] = useState({})
+  const [selectedWallet, setSelectedWallet] = useState(selectedValue)
   
   const { connect, disconnect, connected } = useWallet()
   

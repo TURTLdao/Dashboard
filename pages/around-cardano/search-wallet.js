@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 
-import TaskSearch from 'src/content/Dashboards/Tasks/TaskSearch';
+import SearchWalletView from 'src/content/address/search-wallet';
 
 
 function DashboardTasks() {
@@ -36,7 +36,7 @@ function DashboardTasks() {
         <Card variant="outlined">
           <Grid item xs={12}>
             <Box p={4}>
-              <TaskSearch />
+              <SearchWalletView />
             </Box>
           </Grid>
         </Card>

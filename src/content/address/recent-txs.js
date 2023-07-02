@@ -138,12 +138,12 @@ const RecentTransactionsTable = ({ tx_rows }) => {
                   Amount
                 </TableCell>
                 <Tooltip title='Unique Assets Transacted' placement='top'>
-                <TableCell align='center'>
-                  UAT
-                </TableCell>
+                  <TableCell align='center'>
+                    UAT
+                  </TableCell>
                 </Tooltip>
-                <TableCell align='center' >
-                  Assets Sent
+                <TableCell align='center'>
+                  Assets Transacted
                 </TableCell>
                 <TableCell align='center'>
                   Transaction Hash
@@ -176,15 +176,15 @@ const RecentTransactionsTable = ({ tx_rows }) => {
                     {value.epoch_no}
                   </TableCell>
                   <TableCell align='center'>
-                    {(value.amount / 1000000).toLocaleString(undefined, { minimumFractionDigits: 6, maximumFractionDigits: 6 })}
+                   ₳ {(value.amount / 1000000).toLocaleString(undefined, { minimumFractionDigits: 6, maximumFractionDigits: 6 })}
                   </TableCell>
                   <TableCell align='center'>
                     {value.token}
                   </TableCell>
-                  <TableCell align='center' sx={{ maxWidth: 300}}>
-                      {
-                      Object.values(value.tokens.rows).map((asset, index) => (
-                        <Tooltip title={'Policy ID: ' + asset.policy}>
+                  <TableCell align='center' >
+                    {
+                    Object.values(value.tokens.rows).map((asset, index) => (
+                      <Tooltip title={'Policy ID: ' + asset.policy}>
                         <Chip
                           sx={{
                             mr: 0.5
@@ -193,17 +193,18 @@ const RecentTransactionsTable = ({ tx_rows }) => {
                           label={Number(asset.quantity).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }) + ' ' + asset.asset_name}
                           color="secondary"
                         />
-                        </Tooltip>
-                      ))
-                      }
+                      </Tooltip>))
+                    }
                   </TableCell>
                   <TableCell align='center'>
                     <Button href={'https://cardanoscan.io/transaction/' + value.tx_hash} target='_blank'>
-                    {`${value.tx_hash.substring(0, 10)}...${value.tx_hash.substring(value.tx_hash.length - 10)}`}
+                      {`${value.tx_hash.substring(0, 10)}...${value.tx_hash.substring(value.tx_hash.length - 10)}`}
                     </Button>
                   </TableCell>
                   <TableCell align='center'>
-                  {value.block_no}
+                    <Button href={'https://cardanoscan.io/block/' + value.block_no} target='_blank'>
+                      {value.block_no}
+                    </Button>
                   </TableCell>
                   </TableRow>
                 );

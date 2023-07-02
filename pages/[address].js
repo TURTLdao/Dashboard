@@ -10,6 +10,8 @@ import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import AddressCover from 'src/content/address/cover'
 import AddressStats from 'src/content/address/stats'
 import RecentTransactionsTable from 'src/content/address/recent-txs'
+import TokensTable from 'src/content/address/tokens'
+import AssetsView from 'src/content/address/assets'
 
 import {
   Container,
@@ -20,7 +22,7 @@ import {
   Divider, Typography 
 } from '@mui/material';
 import Footer from 'src/components/Footer';
-import { fetchAddressDetails, fetchAdaStatTransactions } from 'src/api/fetch-calls'
+import { fetchAddressDetails, fetchAdaStatTransactions, fetchPoolPmAddressData } from 'src/api/fetch-calls'
 
 export async function getServerSideProps(context) {
   const { address } = context.query;
@@ -48,17 +50,18 @@ export async function getServerSideProps(context) {
     last_tx_time, last_tx_hash, address
   }
 
-  const tx_rows = await fetchAdaStatTransactions(address);
+  const {history_rows: tx_rows, assets_rows} = await fetchAdaStatTransactions(address);
+  const poolpm_addr_data = await fetchPoolPmAddressData(address);
 
   return {
     props: {
-      data, tx_rows
+      data, tx_rows, assets_rows, poolpm_addr_data
     },
   };
 }
 
 
-function AddressSearchedView({ data, tx_rows }) {
+function AddressSearchedView({ data, tx_rows, assets_rows, poolpm_addr_data }) {
   
 
   const [expanded, setExpanded] = useState(false);
@@ -70,16 +73,19 @@ function AddressSearchedView({ data, tx_rows }) {
   const known_addresses = {
     turtledao: 'addr1qywhrwe3vufpf66n7w9ld42ths6j6j53swv9agpt3pd0u409hz67cj83lhuhgvvtu97jd3fyswqu80g0s3uuawen7kmqv4w2sg',
     froggie: 'addr1q99eal8y8nw65yxhnn2vj2dyrq7rgh8juq5ld2freccd47shluyj4ps4xddymym86xlfe2sndcymk76gv88uccaq0rrqkyuump',
+    minswap: 'addr1zxn9efv2f6w82hagxqtn62ju4m293tqvw0uhmdl64ch8uw6j2c79gy9l76sdg0xwhd7r0c0kna0tycz4y5s6mlenh8pq6s3z70',
   }
 
   const custom_strings = {
     turtledao: 'This wallet belongs to the TurtleDAO Platform',
     froggie: 'This wallet belongs to the master Froggie',
+    minswap: 'This wallet belongs to Minswap Dex'
   };
 
   const links = {
     turtledao: ['https://twitter.com/_turtledao', 'https://turtledao.vercel.app/'],
-    froggie: ['https://twitter.com/froggio_', 'https://froggies.vercel.app/']
+    froggie: ['https://twitter.com/froggio_', 'https://froggies.vercel.app/'],
+    minswap: ['https://twitter.com/MinswapDEX', 'https://minswap.org/']
   }
 
   return (
@@ -107,14 +113,22 @@ function AddressSearchedView({ data, tx_rows }) {
               known_addresses={known_addresses}
               custom_strings={custom_strings}
               links={links}
+              poolpm_addr_data={poolpm_addr_data}
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <AddressStats data={data}/>
+            <AddressStats data={data} poolpm_addr_data={poolpm_addr_data}/>
           </Grid>
-          <Grid item xs={12} md={10}>
+          <Grid item xs={12} md={8}>
             <RecentTransactionsTable tx_rows={tx_rows} />
           </Grid>
+          <Grid item xs={12} md={4}>
+            <TokensTable poolpm_addr_data={poolpm_addr_data} />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <AssetsView asset_rows={poolpm_addr_data.tokens} />
+          </Grid>
+          
 
 
         </Grid>
