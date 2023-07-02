@@ -158,10 +158,10 @@ const AssetsView = ({ asset_rows }) => {
           Object.entries(asset_rows)
           .filter(([key, value]) => !blacklist.includes(value.policy) && value.quantity === 1)
           .map(([key, value], index) => {
-            const imageUrl = value.metadata.image.startsWith('ipfs://')
-              ? convertIPFSUrlToHttpUrl(value.metadata.image)
+            const imageUrl = value.metadata?.image.startsWith('ipfs://')
+              ? convertIPFSUrlToHttpUrl(value.metadata?.image)
               : value.image;
-            const nft_image = value.metadata.image.startsWith('ipfs://')
+            const nft_image = value.metadata?.image.startsWith('ipfs://')
 
             return (
               <Grid item xs={12} sm={2} key={key}>
@@ -204,10 +204,10 @@ const AssetsView = ({ asset_rows }) => {
           Object.entries(asset_rows)
           .filter(([key, value]) => (blacklist.includes(value.policy) && value.quantity === 1))
           .map(([key, value], index) => {
-            const imageUrl = value.metadata.image.startsWith('ipfs://')
-              ? convertIPFSUrlToHttpUrl(value.metadata.image)
+            const imageUrl = value.metadata?.image.startsWith('ipfs://')
+              ? convertIPFSUrlToHttpUrl(value.metadata?.image)
               : value.image;
-            const nft_image = value.metadata.image.startsWith('ipfs://');
+            const nft_image = value.metadata?.image.startsWith('ipfs://');
 
             return (
               <Grid item xs={12} sm={2} key={key}>

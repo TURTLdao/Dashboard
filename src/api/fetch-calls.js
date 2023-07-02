@@ -320,6 +320,31 @@ export async function fetchAdaStatTransactions(address) {
   }
 }
 
+export async function fetchAdaStatToken(policy) {
+
+  try {
+    const searchUrl = `https://adastat.net/api/rest/v1/tokens/${policy}.json?rows=transactions&dir=desc&limit=24&currency=usd`;
+    const searchResponse = await fetch(searchUrl);
+    const searchData = await searchResponse.json();
+    const token_metadata = searchData.data;
+    const recent_txs = searchData.rows;
+
+    return { token_metadata, recent_txs }
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function fetchPoolPmAddressData(address) {
+  // Fetch the details using the hash
+  const detailsUrl = `https://pool.pm/wallet/${address}`;
+  const detailsResponse = await fetch(detailsUrl);
+  const full = await detailsResponse.json();
+
+  return full;
+}
+
 export async function fetchAddressDetails(address) {
   try {
     // first search for the address like this:
@@ -474,17 +499,4 @@ export async function fetchAddressDetails(address) {
   } catch (error) {
     console.error(error);
   }
-}
-
-export async function fetchPoolPmAddressData(address) {
-  // Fetch the details using the hash
-  const detailsUrl = `https://pool.pm/wallet/${address}`;
-  const detailsResponse = await fetch(detailsUrl);
-  const full = await detailsResponse.json();
-
-  const {
-    lovelaces, tokens
-  } = full
-
-  return full;
 }

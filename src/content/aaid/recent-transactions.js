@@ -32,16 +32,12 @@ function a11yProps(index) {
   };
 }
 
-function HoldersTable({ rows, supply, token_price, fiat }) {
+function RecentTransactionsTable({ rows, token_price, fiat }) {
   const theme = useTheme();
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const calculatePercentage = (quantity) => {
-    return ((quantity / supply) * 100).toFixed(2); // Calculate percentage and round to 2 decimal places
   };
 
   const [selectedFiat, setSelectedFiat] = useState('USD');
@@ -54,17 +50,9 @@ function HoldersTable({ rows, supply, token_price, fiat }) {
   return (
     <Card sx={{ height: '100%' }}>
       <CardHeader
-        title="Top Holders"
+        title="Recent $FROGGIE Transactions"
         action={
           <div>
-          <Tabs
-            variant="scrollable" scrollButtons="auto"
-            textColor="primary" indicatorColor="primary"
-            value={value} onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="Table View" {...a11yProps(0)} />
-            <Tab label="Chart View" {...a11yProps(1)} />
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Fiat</InputLabel>
                 <Select
@@ -82,8 +70,6 @@ function HoldersTable({ rows, supply, token_price, fiat }) {
                 }
                 </Select>
               </FormControl>
-          </Tabs>
-          
           </div>
         }
       />
@@ -93,48 +79,45 @@ function HoldersTable({ rows, supply, token_price, fiat }) {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell >Address</TableCell>
+                  <TableCell >Transaction Hash</TableCell>
                   <TableCell >Quantity</TableCell>
-                  <Tooltip title='Percentage of Supply' placement='top'>
-                    <TableCell >POS</TableCell>
-                  </Tooltip>
-                  <TableCell >ADA Value</TableCell>
-                  <TableCell >Fiat Value</TableCell>
+                  <TableCell sx={{ minWidth: 150 }}>Fiat Value</TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
               {
-                rows.map(row => (
-                  <TableRow key={row.account_hash}>
-                    <TableCell><a href={'https://www.turtle-dao.com/' + row.address} hrefPass>{`${row.address.slice(0, 20)}...${row.address.slice(-20)}`}</a></TableCell>
-                    <TableCell>{Number(row.quantity).toLocaleString()}</TableCell>
-                    <TableCell>{calculatePercentage(row.quantity)}%</TableCell>
-                    <TableCell>₳ {Number(token_price * row.quantity).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</TableCell>
+          Object.entries(rows.recent_txs)
+          .map(([key, value], index) => {
+            console.log(value)
+            return (
+                  <TableRow key={key}>
+                  <TableCell >{value.tx_hash}</TableCell>
+                  <TableCell >{Number(value.quantity).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</TableCell>
                     {
                       selectedFiat === 'GBP' && (
                         <TableCell>
-                          £{Number(token_price * row.quantity * fiat[1]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          £{Number(token_price * value.quantity * fiat[1]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </TableCell>
                       )
                     }
                     {
                       selectedFiat === 'EUR' && (
                         <TableCell>
-                          €{Number(token_price * row.quantity * fiat[2]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          €{Number(token_price * value.quantity * fiat[2]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </TableCell>
                       )
                     }
                     {
                       selectedFiat === 'USD' && (
                         <TableCell>
-                          ${Number(token_price * row.quantity * fiat[0]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          ${Number(token_price * value.quantity * fiat[0]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </TableCell>
                       )
                     }
-
+                    
                   </TableRow>
-                ))
+                );})
               }
               </TableBody>
             </Table>
@@ -151,11 +134,10 @@ function HoldersTable({ rows, supply, token_price, fiat }) {
   );
 }
 
-HoldersTable.propTypes = {
-  rows: PropTypes.array.isRequired,
-  supply: PropTypes.number.isRequired,
+RecentTransactionsTable.propTypes = {
+  rows: PropTypes.object.isRequired,
   token_price: PropTypes.number.isRequired,
   fiat: PropTypes.object.isRequired,
 };
 
-export default HoldersTable;
+export default RecentTransactionsTable;

@@ -3,15 +3,15 @@ import SidebarLayout from 'src/layouts/SidebarLayout';
 import Footer from 'src/components/Footer';
 
 import { Grid, Container } from '@mui/material';
-import { fetchTTdata, fetchAdaStatHolders, fetchCardanoPrice } from 'src/api/fetch-calls'
+import { fetchTTdata, fetchAdaStatHolders, fetchCardanoPrice, fetchAdaStatToken } from 'src/api/fetch-calls'
 
 import ProfileCover from 'src/content/aaid/froggie/profile-cover';
 import Team from 'src/content/aaid/froggie/team';
 import PriceStats from 'src/content/aaid/price-stats';
 import TwitterFeed from 'src/content/aaid/froggie/twitter-feed';
 import HoldersTable from 'src/content/aaid/holders-table';
+import RecentTransactionsTable from 'src/content/aaid/recent-transactions';
 
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { useState } from 'react';
 
 
@@ -41,6 +41,8 @@ export async function getServerSideProps() {
     const { ada_usd: usd, ada_eur: eur, ada_gbp: gbp } = await fetchCardanoPrice();
     const fiat = [usd, gbp, eur]
 
+    const { token_metadata, recent_txs } = await fetchAdaStatToken('79906b9c8d2fbddeba9658387a2a1187f3edd8f546e5dc49225710a146524f47474945')
+
     const froggie_data = {
       price: Number(nativePrice).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
       daily_volume: Number(dailyVolume).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
@@ -54,6 +56,8 @@ export async function getServerSideProps() {
       },
       ada_compare: calculate_tokens_to_ada(nativePrice).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
       holders_rows: rows,
+      metadata: token_metadata,
+      recent_txs: recent_txs
     }
 
     return {
@@ -112,8 +116,11 @@ export default function AAIDfroggie({ froggie_data, fiat }) {
           <Grid item xs={12} md={4}>
             <TwitterFeed  />
           </Grid>
-          <Grid item xs={12} md={10}>
+          <Grid item xs={12} md={6}>
             <HoldersTable rows={rows} supply={supply} token_price={froggie_data.price} fiat={fiat}/>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <RecentTransactionsTable rows={froggie_data} token_price={froggie_data.price} fiat={fiat}/>
           </Grid>
         </Grid>
       </Container>

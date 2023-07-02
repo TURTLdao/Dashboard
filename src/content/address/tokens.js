@@ -78,7 +78,7 @@ const TokensTable = ({ poolpm_addr_data }) => {
               Object.entries(poolpm_addr_data.tokens)
               .filter(([key, value]) => {
                 if (filterEnabled) {
-                  return !(value.minted_quantity < 1000000) && (value.metadata.ticker || value.metadata.symbol);
+                  return !(value.minted_quantity < 1000000) && (value.metadata?.ticker || value.metadata?.symbol);
                 } else {
                   return !(value.minted_quantity < 1000000);
                 }
@@ -91,10 +91,10 @@ const TokensTable = ({ poolpm_addr_data }) => {
                   >
                   <TableCell align='left'>
                     <Typography variant='body1'>
-                      {value.metadata.name}
+                      {value.metadata?.name}
                     </Typography>
                     <Typography variant='subtitle1'>
-                      ${value.metadata.ticker || value.metadata.symbol}
+                      ${value.metadata?.ticker || value.metadata?.symbol}
                     </Typography>
                     
                   </TableCell>
