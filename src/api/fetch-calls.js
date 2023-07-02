@@ -323,7 +323,7 @@ export async function fetchAdaStatTransactions(address) {
 export async function fetchAdaStatToken(policy) {
 
   try {
-    const searchUrl = `https://adastat.net/api/rest/v1/tokens/${policy}.json?rows=transactions&dir=desc&limit=24&currency=usd`;
+    const searchUrl = `https://adastat.net/api/rest/v1/tokens/${policy}.json?rows=transactions&dir=desc&currency=usd`;
     const searchResponse = await fetch(searchUrl);
     const searchData = await searchResponse.json();
     const token_metadata = searchData.data;

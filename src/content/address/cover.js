@@ -51,7 +51,7 @@ export const AddressCover = ({ data, known_addresses, custom_strings, links, poo
 
         <Box>
           <Typography variant="h3" component="h3" gutterBottom>
-            {data.address.slice(0, 30)}...
+            {data.address.slice(0, 20)}...
           </Typography>
           
           <Typography variant="subtitle2">
@@ -79,13 +79,15 @@ export const AddressCover = ({ data, known_addresses, custom_strings, links, poo
       {
         links_info ? 
         <div align='center' style={{ marginTop: 10}}>
+          <div>
+            <Button href={links_info && links_info[0]} target='_blank' sx={{ mr: 1 }}  size="small" variant="contained">
+              Twitter
+            </Button>
+            <Button href={links_info && links_info[1]} target='_blank'  size="small" sx={{ ml: 1 }} variant="outlined">
+              Website
+            </Button>
+          </div>
           
-          <Button href={links_info && links_info[0]} target='_blank' sx={{ mr: 1 }}  size="small" variant="contained">
-                Twitter
-              </Button>
-              <Button href={links_info && links_info[1]} target='_blank'  size="small" sx={{ ml: 1 }} variant="outlined">
-                Website
-              </Button>
         </div>
         :
         null

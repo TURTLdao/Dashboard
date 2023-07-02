@@ -61,37 +61,6 @@ function calculatePrice(ada_usd, number) {
 }
 
 const RecentTransactionsTable = ({ tx_rows }) => {
-  const statusOptions = [
-    {
-      id: 'all',
-      name: 'Volume'
-    },
-    {
-      id: 'p',
-      name: 'Price'
-    },
-  ];
-
-  const [filters, setFilters] = useState({
-    status: null
-  });
-
-  const handleStatusChange = (e) => {
-    let value = null;
-
-    if (e.target.value !== 'all') {
-      value = e.target.value;
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      status: value
-    }));
-  };
-
-  const theme = useTheme();
-
-  const sortedCryptoOrders = applyFilters(tx_rows, filters);
 
   function convertUnixTime(unixTime) {
     const date = new Date(unixTime * 1000); // Convert Unix time to milliseconds
@@ -117,10 +86,64 @@ const RecentTransactionsTable = ({ tx_rows }) => {
     };
   }
 
+  const [selectedPolicy, setSelectedPolicy] = useState('');
+
+  // Get unique policy values
+  const uniquePolicies = Object.entries(tx_rows).flatMap(([, value]) =>
+  Object.values(value.tokens.rows).map((asset) => ({
+    policy: asset.policy,
+    assetName: asset.asset_name,
+  }))
+).reduce((unique, policy) => {
+  if (!unique.some(p => p.policy === policy.policy)) {
+    unique.push(policy);
+  }
+  return unique;
+}, []);
+  
+  // Filter the data based on the selected policy
+  const filteredData = selectedPolicy
+    ? Object.entries(tx_rows).filter(([key, value]) =>
+        Object.values(value.tokens.rows).some(
+          (asset) => asset.policy === selectedPolicy
+        )
+      )
+    : Object.entries(tx_rows);
+  
+
   return (
     <Card>
       <CardHeader
         title='Recent Transactions'
+        action={<>
+          <Select
+            value={selectedPolicy}
+            label='Filter Transactions'
+            onChange={(e) => setSelectedPolicy(e.target.value)}
+            displayEmpty
+            sx={{ minWidth: 200, marginBottom: 2 }}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 300,
+                },
+              },
+            }}
+          >
+            <MenuItem value="" disabled>
+              Select Asset
+            </MenuItem>
+            <MenuItem value="" key="clear" onClick={() => setSelectedPolicy('')}>
+              All Assets
+            </MenuItem>
+            {uniquePolicies.map((policy) => (
+              <MenuItem value={policy.policy} key={policy}>
+                {policy.assetName}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+        }
       />
       <Divider />
       <TableContainer sx={{ height: 400}}>
@@ -153,62 +176,87 @@ const RecentTransactionsTable = ({ tx_rows }) => {
                 </TableCell>
               </TableRow>
             </TableHead>
-
             <TableBody>
-            {
-              Object.entries(tx_rows).map(([key, value], index) => {
-                const convertedTime = convertUnixTime(value.time);
+              
+{selectedPolicy ? (
+  filteredData.map(([key, value], index) => {
+    const convertedTime = convertUnixTime(value.time);
 
-                return (
-                  <TableRow
-                    hover
-                  >
-                  <TableCell align='left'>
-                    <Typography variant='body1'>
-                      {convertedTime.date}
-                    </Typography>
-                    <Typography variant='subtitle1'>
-                      {convertedTime.local_time}
-                    </Typography>
-                    
-                  </TableCell>
-                  <TableCell align='center'>
-                    {value.epoch_no}
-                  </TableCell>
-                  <TableCell align='center'>
-                   ₳ {(value.amount / 1000000).toLocaleString(undefined, { minimumFractionDigits: 6, maximumFractionDigits: 6 })}
-                  </TableCell>
-                  <TableCell align='center'>
-                    {value.token}
-                  </TableCell>
-                  <TableCell align='center' >
-                    {
-                    Object.values(value.tokens.rows).map((asset, index) => (
-                      <Tooltip title={'Policy ID: ' + asset.policy}>
-                        <Chip
-                          sx={{
-                            mr: 0.5
-                          }}
-                          size="small"
-                          label={Number(asset.quantity).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }) + ' ' + asset.asset_name}
-                          color="secondary"
-                        />
-                      </Tooltip>))
-                    }
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Button href={'https://cardanoscan.io/transaction/' + value.tx_hash} target='_blank'>
-                      {`${value.tx_hash.substring(0, 10)}...${value.tx_hash.substring(value.tx_hash.length - 10)}`}
-                    </Button>
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Button href={'https://cardanoscan.io/block/' + value.block_no} target='_blank'>
-                      {value.block_no}
-                    </Button>
-                  </TableCell>
-                  </TableRow>
-                );
-              })}
+    return (
+      <TableRow hover key={index}>
+        <TableCell align='left'>
+          <Typography variant='body1'>{convertedTime.date}</Typography>
+          <Typography variant='subtitle1'>{convertedTime.local_time}</Typography>
+        </TableCell>
+        <TableCell align='center'>{value.epoch_no}</TableCell>
+        <TableCell align='center'>₳ {(value.amount / 1000000).toLocaleString(undefined, { minimumFractionDigits: 6, maximumFractionDigits: 6 })}</TableCell>
+        <TableCell align='center'>{value.token}</TableCell>
+        <TableCell align='center'>
+        {Object.values(value.tokens.rows).map((asset, index) => (
+          asset.policy === selectedPolicy && (
+            <Tooltip title={'Policy ID: ' + asset.policy} key={index}>
+              <Chip
+                sx={{ mr: 0.5 }}
+                size='small'
+                label={Number(asset.quantity).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }) + ' ' + uniquePolicies.find(policyObj => policyObj.policy === selectedPolicy)?.assetName}
+                color='secondary'
+              />
+            </Tooltip>
+          )
+        ))}
+        </TableCell>
+        <TableCell align='center'>
+          <Button href={'https://cardanoscan.io/transaction/' + value.tx_hash} target='_blank'>
+            {`${value.tx_hash.substring(0, 10)}...${value.tx_hash.substring(value.tx_hash.length - 10)}`}
+          </Button>
+        </TableCell>
+        <TableCell align='center'>
+          <Button href={'https://cardanoscan.io/block/' + value.block_no} target='_blank'>
+            {value.block_no}
+          </Button>
+        </TableCell>
+      </TableRow>
+    );
+  })
+) : (
+  Object.entries(tx_rows).map(([key, value], index) => {
+    const convertedTime = convertUnixTime(value.time);
+
+    return (
+      <TableRow hover key={index}>
+        <TableCell align='left'>
+          <Typography variant='body1'>{convertedTime.date}</Typography>
+          <Typography variant='subtitle1'>{convertedTime.local_time}</Typography>
+        </TableCell>
+        <TableCell align='center'>{value.epoch_no}</TableCell>
+        <TableCell align='center'>₳ {(value.amount / 1000000).toLocaleString(undefined, { minimumFractionDigits: 6, maximumFractionDigits: 6 })}</TableCell>
+        <TableCell align='center'>{value.token}</TableCell>
+        <TableCell align='center'>
+          {Object.values(value.tokens.rows).map((asset, index) => (
+            <Tooltip title={'Policy ID: ' + asset.policy} key={index}>
+              <Chip
+                sx={{ mr: 0.5 }}
+                size='small'
+                label={Number(asset.quantity).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 10 }) + ' ' + asset.asset_name}
+                color='secondary'
+              />
+            </Tooltip>
+          ))}
+        </TableCell>
+        <TableCell align='center'>
+          <Button href={'https://cardanoscan.io/transaction/' + value.tx_hash} target='_blank'>
+            {`${value.tx_hash.substring(0, 10)}...${value.tx_hash.substring(value.tx_hash.length - 10)}`}
+          </Button>
+        </TableCell>
+        <TableCell align='center'>
+          <Button href={'https://cardanoscan.io/block/' + value.block_no} target='_blank'>
+            {value.block_no}
+          </Button>
+        </TableCell>
+      </TableRow>
+    );
+  })
+)}
             </TableBody>
           </Table>
       </TableContainer>
