@@ -12,32 +12,13 @@ import Link from 'src/components/Link';
 import Head from 'next/head';
 
 import Logo from 'src/components/LogoSign';
-import Hero from 'src/content/Overview/Hero';
+import Hero from 'src/page-content/homepage/hero';
 
-const HeaderWrapper = styled(Card)(
-  ({ theme }) => `
-  width: 100%;
-  display: flex;
-  align-items: center;
-  height: ${theme.spacing(10)};
-  margin-bottom: ${theme.spacing(10)};
-`
-);
-
-const OverviewWrapper = styled(Box)(
-  ({ theme }) => `
-    overflow: auto;
-    background: ${theme.palette.common.white};
-    flex: 1;
-    overflow-x: hidden;
-`
-);
-
-function Overview() {
+function Homepage({ }) {
   return (
     <OverviewWrapper>
       <Head>
-        <title>TurtleDAO Platform</title>
+        <title>The TurtleDAO Platform</title>
       </Head>
       <HeaderWrapper>
         <Container maxWidth="lg">
@@ -53,11 +34,34 @@ function Overview() {
               <Box>
                 <Button
                   component={Link}
-                  href="/overview"
+                  href="/dashboard/"
                   variant="contained"
                   sx={{ ml: 2 }}
+                  size='small'
                 >
-                  TurtleDAO Platform
+                  Browse Platform
+                </Button>
+
+                <Button
+                  component={Link}
+                  href="https://twitter.com/_TurtleDAO"
+                  target='_blank'
+                  variant="outlined"
+                  sx={{ ml: 2, borderColor: '#00acee', color: '#00acee' }}
+                  size='small'
+                >
+                  Follow Twitter
+                </Button>
+
+                <Button
+                  component={Link}
+                  href="https://discord.gg/FNQ2BXpqkM"
+                  target='_blank'
+                  variant="outlined"
+                  sx={{ ml: 2, borderColor: '#7289DA', color: '#7289DA' }}
+                  size='small'
+                >
+                  Join Discord
                 </Button>
               </Box>
             </Box>
@@ -65,24 +69,25 @@ function Overview() {
         </Container>
       </HeaderWrapper>
       <Hero />
-      <Container maxWidth="lg" sx={{ mt: 8 }}>
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Typography textAlign="center" variant="subtitle1">
-          Infused with passion by{' '}
+          Made with ♥ by {' '}
           <Link
-            href="https://bloomui.com"
+            href="https://turtledao.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
           >
             TurtleDAO
           </Link>
+          {' \u{1F422}'}
         </Typography>
       </Container>
     </OverviewWrapper>
   );
 }
 
-export default Overview;
+export default Homepage;
 
-Overview.getLayout = function getLayout(page) {
+Homepage.getLayout = function getLayout(page) {
   return <BaseLayout>{page}</BaseLayout>;
 };

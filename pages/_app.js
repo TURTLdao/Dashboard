@@ -22,25 +22,23 @@ function TokyoApp(props) {
   Router.events.on('routeChangeComplete', nProgress.done);
 
   return (
-    <MeshProvider>
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <title>TurtleDAO Platform</title>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-        </Head>
-        <SidebarProvider>
-          <ThemeProvider>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <CssBaseline />
-              {getLayout(<Component {...pageProps} />)}
-            </LocalizationProvider>
-          </ThemeProvider>
-        </SidebarProvider>
-      </CacheProvider>
-    </MeshProvider>
+    <MeshProvider><CacheProvider value={emotionCache}>
+      <Head>
+        <title>Tokyo Free Black NextJS Javascript Admin Dashboard</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+      </Head>
+      <SidebarProvider>
+        <ThemeProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <CssBaseline />
+            {getLayout(<Component {...pageProps} />)}
+          </LocalizationProvider>
+        </ThemeProvider>
+      </SidebarProvider>
+    </CacheProvider></MeshProvider>
   );
 }
 

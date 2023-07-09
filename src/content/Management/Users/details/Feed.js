@@ -14,40 +14,46 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 function Feed() {
   const feed = [
     {
-      name: 'Nathan Kenpai',
-      jobtitle: 'Founder',
-      avatar: 'https://pbs.twimg.com/profile_images/1653692525218242560/5i3HzF1U_400x400.jpg',
-      twitter: 'https://twitter.com/LopezKanapi'
+      name: 'Munroe Dacks',
+      jobtitle: 'Senior Accountant',
+      company: 'Trudoo',
+      avatar: '/static/images/avatars/1.jpg'
     },
     {
-      name: 'Fishbowlian',
-      jobtitle: 'Froggie Intern',
-      avatar: 'https://pbs.twimg.com/profile_images/1652823043440529409/pk0SN_QU_400x400.jpg',
-      twitter: 'https://twitter.com/_Fishbowlian'
+      name: 'Gunilla Canario',
+      jobtitle: 'Associate Professor',
+      company: 'Buzzdog',
+      avatar: '/static/images/avatars/2.jpg'
     },
     {
-      name: 'Donatello - TurtleDAO',
-      jobtitle: 'Froggie Intern',
-      avatar: 'https://cdn.discordapp.com/avatars/479276363262590976/de863fa3bbff2c2bb156f9ae27690925.webp?size=128',
-      twitter: 'https://twitter.com/_TurtleDAO'
+      name: 'Rowena Geistmann',
+      jobtitle: 'Pharmacist',
+      company: 'Yozio',
+      avatar: '/static/images/avatars/3.jpg'
     },
     {
-      name: 'Vent',
-      jobtitle: 'Discord Moderator',
-      avatar: 'https://pbs.twimg.com/profile_images/1661334891856797696/0XHUl68A_400x400.jpg',
-      twitter: 'https://twitter.com/therealvent'
+      name: 'Ede Stoving',
+      jobtitle: 'VP Operations',
+      company: 'Cogibox',
+      avatar: '/static/images/avatars/4.jpg'
     },
     {
-      name: 'Shilliam BD Shanter',
-      jobtitle: 'Discord Moderator',
-      avatar: 'https://pbs.twimg.com/profile_images/1661559342385053697/WViqcf5m_400x400.jpg',
-      twitter: 'https://twitter.com/DeFi_Naut'
+      name: 'Crissy Spere',
+      jobtitle: 'Social Worker',
+      company: 'Babbleblab',
+      avatar: '/static/images/avatars/5.jpg'
+    },
+    {
+      name: 'Michel Greatbanks',
+      jobtitle: 'Research Assistant III',
+      company: 'Aimbu',
+      avatar: '/static/images/avatars/6.jpg'
     }
   ];
 
   return (
     <Card>
-      <CardHeader title="Team" />
+      <CardHeader title="Followers Feed" />
       <Divider />
       <Box p={2}>
         <Grid container spacing={0}>
@@ -56,19 +62,19 @@ function Feed() {
               <Box p={3} display="flex" alignItems="flex-start">
                 <Avatar src={_feed.avatar} />
                 <Box pl={2}>
+                  <Typography gutterBottom variant="subtitle2">
+                    {_feed.company}
+                  </Typography>
                   <Typography variant="h4" gutterBottom>
                     {_feed.name}
                   </Typography>
-                  <Typography variant="subtitle2" color="text.primary" sx={{ pb: 2 }}>
+                  <Typography color="text.primary" sx={{ pb: 2 }}>
                     {_feed.jobtitle}
                   </Typography>
                   <Button
                     variant="outlined"
                     size="small"
-                    href={_feed.twitter}
-                    target='_blank'
-                    startIcon={<AddTwoToneIcon />
-                    }
+                    startIcon={<AddTwoToneIcon />}
                   >
                     Follow
                   </Button>

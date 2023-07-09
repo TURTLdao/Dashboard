@@ -16,20 +16,21 @@ function Footer() {
         textAlign={{ xs: 'center', md: 'left' }}
         justifyContent="space-between"
       >
-        <Box>
-          <Typography variant="subtitle1">
-            &copy; 2023 - TurtleDAO Platform
-          </Typography>
-        </Box>
-        <Typography textAlign="center" variant="subtitle1">
-          Infused with passion by{' '}
+        <Typography
+          sx={{
+            pt: { xs: 2, md: 0 }
+          }}
+          variant="subtitle1"
+        >
+          Made with ♥ by {' '}
           <Link
-            href="https://www.turtle-dao.com"
+            href="https://turtledao.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
           >
             TurtleDAO
           </Link>
+          {' \u{1F422}'}
         </Typography>
       </Box>
     </FooterWrapper>

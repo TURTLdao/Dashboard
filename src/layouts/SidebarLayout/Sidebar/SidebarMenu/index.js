@@ -5,25 +5,11 @@ import { Avatar, ListSubheader, alpha, Box, List, styled, Button, ListItem, Tool
 } from '@mui/material';
 import NextLink from 'next/link';
 import { SidebarContext } from 'src/contexts/SidebarContext';
-import PropTypes from 'prop-types';
 
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-
-import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import BlurOnIcon from '@mui/icons-material/BlurOn';
-import BlurCircularIcon from '@mui/icons-material/BlurCircular';
-import CableIcon from '@mui/icons-material/Cable';
-import WalletIcon from '@mui/icons-material/Wallet';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-
-import { useEffect, useState } from 'react';
-import { useWallet, useWalletList, useLovelace, useAssets } from '@meshsdk/react'
-
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -167,123 +153,10 @@ const SubMenuWrapper = styled(Box)(
 `
 );
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open, wallets } = props;
-  const [selectedWallet, setSelectedWallet] = useState(selectedValue)
-  
-  const { connect, disconnect, connected } = useWallet()
-  
-
-  const handleClose = () => {
-    onClose(selectedValue);
-  };
-
-  const handleListItemClick = (value) => {
-    onClose(value);
-  };
-
-	const handleWalletSelection = (wallet) => {
-		localStorage.setItem('selectedWallet', JSON.stringify(wallet))
-		setSelectedWallet(wallet)
-		connect(wallet.name)
-	}
-
-	useEffect(() => {
-		const storedWallet = localStorage.getItem('selectedWallet')
-    if (storedWallet && !selectedWallet) {
-      setSelectedWallet(JSON.parse(storedWallet));
-      connect(JSON.parse(storedWallet).name);
-    }
-	}, [selectedWallet])
-
-
-  return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Connect Wallet</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {wallets.map((wallet) => (
-          <ListItem
-            onClick={() => handleWalletSelection(wallet)}
-            key={wallet.name}
-            component="a"
-          >
-            <Button
-              className={''}
-              disableRipple
-              startIcon={<Avatar src={wallet.icon} sx={{ bgcolor: '#1d1d1d', color: '#2d2d2d' }}/>}
-            >
-              {wallet.name}
-            </Button> 
-          </ListItem>
-        ))}
-
-        <ListItem >
-          <Button
-            className={''}
-            disableRipple
-            startIcon={<AddIcon/>}
-            href='https://docs.cardano.org/new-to-cardano/types-of-wallets/'
-            target='_blank'
-          >
-            Get Cardano Wallet
-          </Button>
-        </ListItem>
-      </List>
-    </Dialog>
-  );
-}
-
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-  wallets: PropTypes.array.isRequired
-};
-
 function SidebarMenu() {
   const { closeSidebar } = useContext(SidebarContext);
   const router = useRouter();
   const currentRoute = router.pathname;
-
-  // utils
-  const countUniqueItems = (data) => {
-    const uniquePolicyIds = new Set();
-    data.forEach((item) => {
-      uniquePolicyIds.add(item.policyId);
-    });
-    return uniquePolicyIds.size;
-  };
-
-  const countItems = (data) => {
-    const items = new Set();
-    data.forEach((item) => {
-      items.add(item);
-    });
-    return items.size;
-  };
-
-  // handle dapp
-	const wallets = useWalletList()
-  const { connect, disconnect, connected } = useWallet()
-  const lovelace = useLovelace();
-  const assets = useAssets();
-  const unique_assets = assets ? countUniqueItems(assets) : null;
-  const assets_count = assets ? countItems(assets) : null;
-
-  // handle model
-  const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(wallets[1]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (value) => {
-    setOpen(false);
-    setSelectedValue(value);
-  };
-  
-
 
   return (
     <>
@@ -292,15 +165,15 @@ function SidebarMenu() {
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
-                <NextLink href="/overview" passHref>
+                <NextLink href="/dashboard" passHref>
                   <Button
-                    className={currentRoute === '/overview' ? 'active' : ''}
+                    className={currentRoute === '/dashboard' ? 'active' : ''}
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
                     startIcon={<HomeIcon />}
                   >
-                    Overview
+                    Dashboard
                   </Button>
                 </NextLink>
               </ListItem>
@@ -322,7 +195,7 @@ function SidebarMenu() {
                 <NextLink href="/aaid/" passHref>
                   <Button
                     className={
-                      currentRoute === '/aaid/'
+                      currentRoute === '/aaid'
                         ? 'active'
                         : ''
                     }
@@ -350,27 +223,28 @@ function SidebarMenu() {
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
-                <NextLink href="/around-cardano/search-wallet" passHref>
+                <NextLink href="/cardano/search/" passHref>
                   <Button
                     className={
-                      currentRoute === '/around-cardano/search-wallet' || currentRoute === '/[address]'
+                      currentRoute === '/cardano/search'
                         ? 'active'
                         : ''
-                    }                    
+                    }
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
                     startIcon={<RemoveRedEyeIcon />}
                   >
-                    Address Explorer
+                    Cardano Explorer
                   </Button>
                 </NextLink>
               </ListItem>
+              
               <ListItem component="div">
-                <NextLink href="/around-cardano/trending-tokens" passHref>
+                <NextLink href="/cardano/trending-tokens" passHref>
                   <Button
                     className={
-                      currentRoute === '/around-cardano/trending-tokens'
+                      currentRoute === '/cardano/trending-tokens'
                         ? 'active'
                         : ''
                     }
@@ -383,107 +257,11 @@ function SidebarMenu() {
                   </Button>
                 </NextLink>
               </ListItem>
+
             </List>
-
-            <List
-              component="div"
-              subheader={
-                <ListSubheader component="div" disableSticky>
-                  Wallet
-                </ListSubheader>
-              }
-            >
-            <SubMenuWrapper>
-              <List component="div">
-                { !connected ?
-                <ListItem component="div">
-                    <Button
-                      className={
-                        currentRoute === '/aaid/'
-                          ? 'active'
-                          : ''
-                      }
-                      disableRipple
-                      onClick={handleClickOpen}
-                      component="a"
-                      startIcon={<CableIcon />}
-                    >
-                      Connect Wallet
-                    </Button>
-                    <SimpleDialog
-                      selectedValue={selectedValue}
-                      open={open}
-                      onClose={handleClose}
-                      wallets={wallets}
-                    />
-                </ListItem>
-                :
-                <div>
-                  <ListItem component="div">
-                    <NextLink href="/wallet" passHref>
-                      <Button
-                        className={currentRoute === '/wallet' ? 'active' : ''}
-                        disableRipple
-                        component="a"
-                        onClick={closeSidebar}
-                        startIcon={<WalletIcon />}
-                      >
-                        View Assets
-                      </Button>
-                    </NextLink>
-                  </ListItem>
-                  <ListItem component="div">
-                    <Button
-                      className={
-                        currentRoute === '/aaid/'
-                          ? 'active'
-                          : ''
-                      }
-                      disableRipple
-                      component="a"
-                      startIcon={<AttachMoneyIcon />}
-                    >
-                      ₳ {parseInt(lovelace) / 1000000}
-                    </Button>
-                  </ListItem>
-                  <ListItem component="div">
-                    <Tooltip placement="right" title='Unique Policy IDs within your wallet'>
-                    <Button
-                      className={
-                        currentRoute === '/aaid/'
-                          ? 'active'
-                          : ''
-                      }
-                      disableRipple
-                      component="a"
-                      startIcon={<BlurCircularIcon />}
-                    >
-                      Unique Assets: {unique_assets}
-                    </Button>
-                    </Tooltip>
-                  </ListItem>
-                  <ListItem component="div">
-                    <Button
-                      className={
-                        currentRoute === '/aaid/'
-                          ? 'active'
-                          : ''
-                      }
-                      disableRipple
-                      component="a"
-                      startIcon={<BlurOnIcon />}
-                    >
-                      Total Assets: {assets_count}
-                    </Button>
-                  </ListItem>
-                </div>
-                }
-              </List>
-            </SubMenuWrapper>
-          </List>
-
           </SubMenuWrapper>
         </List>
+
       </MenuWrapper>
     </>
   );

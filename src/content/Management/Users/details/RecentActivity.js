@@ -6,17 +6,12 @@ import {
   Divider,
   Avatar,
   useTheme,
-  styled,
-  Tooltip
+  styled
 } from '@mui/material';
-import PropTypes from 'prop-types';
 
-import PeopleIcon from '@mui/icons-material/People';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ShoppingBagTwoToneIcon from '@mui/icons-material/ShoppingBagTwoTone';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import PaidIcon from '@mui/icons-material/Paid';
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
+import StarTwoToneIcon from '@mui/icons-material/StarTwoTone';
 
 const AvatarPrimary = styled(Avatar)(
   ({ theme }) => `
@@ -27,145 +22,110 @@ const AvatarPrimary = styled(Avatar)(
 `
 );
 
-const RecentActivity = ({ data }) => {
+function RecentActivity() {
   const theme = useTheme();
 
   return (
     <Card>
-      <CardHeader title="Token Information" />
+      <CardHeader title="Recent Activity" />
       <Divider />
-
-      <Box px={2} py={2} display="flex" alignItems="flex-start">
+      <Box px={2} py={4} display="flex" alignItems="flex-start">
         <AvatarPrimary>
-          <AccountBalanceIcon />
+          <ShoppingBagTwoToneIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
+          <Typography variant="h3">Orders</Typography>
 
-          <Box display="flex">
+          <Box pt={2} display="flex">
             <Box pr={8}>
               <Typography
                 gutterBottom
                 variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(12)}` }}
+                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
               >
-                Price $ADA
+                Total
               </Typography>
-              <Typography variant="h3">
-                ₳ {data.price_data.price}
+              <Typography variant="h2">485</Typography>
+            </Box>
+            <Box>
+              <Typography
+                gutterBottom
+                variant="caption"
+                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
+              >
+                Failed
               </Typography>
+              <Typography variant="h2">8</Typography>
             </Box>
           </Box>
         </Box>
       </Box>
-
       <Divider />
-
-      <Box px={2} py={2} display="flex" alignItems="flex-start">
+      <Box px={2} py={4} display="flex" alignItems="flex-start">
         <AvatarPrimary>
-          <PeopleIcon />
+          <FavoriteTwoToneIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
+          <Typography variant="h3">Favourites</Typography>
 
-          <Box display="flex">
+          <Box pt={2} display="flex">
             <Box pr={8}>
               <Typography
                 gutterBottom
                 variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(12)}` }}
+                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
               >
-                Total Holders
+                Products
               </Typography>
-              <Typography variant="h3">
-                {data.price_data.holders}
+              <Typography variant="h2">64</Typography>
+            </Box>
+            <Box>
+              <Typography
+                gutterBottom
+                variant="caption"
+                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
+              >
+                Lists
               </Typography>
+              <Typography variant="h2">15</Typography>
             </Box>
           </Box>
         </Box>
       </Box>
-
       <Divider />
-
-      <Box px={2} py={2} display="flex" alignItems="flex-start">
+      <Box px={2} py={4} display="flex" alignItems="flex-start">
         <AvatarPrimary>
-          <PaidIcon />
+          <StarTwoToneIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
+          <Typography variant="h3">Reviews</Typography>
 
-          <Box display="flex">
+          <Box pt={2} display="flex">
             <Box pr={8}>
               <Typography
                 gutterBottom
                 variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(12)}` }}
+                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
               >
-                Daily Volume
+                Total
               </Typography>
-              <Typography variant="h3">
-                ₳ {data.price_data.daily_volume}
-              </Typography>
+              <Typography variant="h2">654</Typography>
             </Box>
-          </Box>
-        </Box>
-      </Box>
-
-      <Divider />
-
-      <Box px={2} py={2} display="flex" alignItems="flex-start">
-        <AvatarPrimary>
-          <AttachMoneyIcon />
-        </AvatarPrimary>
-        <Box pl={2} flex={1}>
-
-          <Box display="flex">
-            <Box pr={8}>
-              <Tooltip title={'Fully Diluted Marketcap'}>
-                <Typography
-                  gutterBottom
-                  variant="caption"
-                  sx={{ fontSize: `${theme.typography.pxToRem(12)}` }}
-                >
-                  FDM
-                </Typography>
-              </Tooltip>
-              <Typography variant="h3">
-                ₳ {data.price_data.fdm}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-
-      <Divider />
-
-      <Box px={2} py={2} display="flex" alignItems="flex-start">
-        <AvatarPrimary>
-          <CurrencyExchangeIcon />
-        </AvatarPrimary>
-        <Box pl={2} flex={1}>
-
-          <Box display="flex">
-            <Box pr={8}>
+            <Box>
               <Typography
                 gutterBottom
                 variant="caption"
-                sx={{ fontSize: `${theme.typography.pxToRem(12)}` }}
+                sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
               >
-                1 ADA Gets
+                Useful
               </Typography>
-              <Typography variant="h3">
-                {data.price_data.ada_compare} {data.price_data.ticker}
-              </Typography>
+              <Typography variant="h2">21</Typography>
             </Box>
           </Box>
         </Box>
       </Box>
-
     </Card>
   );
 }
-
-RecentActivity.propTypes = {
-  data: PropTypes.array.isRequired
-};
 
 export default RecentActivity;

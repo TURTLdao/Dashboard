@@ -8,6 +8,8 @@ import {
 } from '@mui/material';
 import Link from 'src/components/Link';
 
+const { PLATFORM_VERSION_NO } = require('src/consts/global.js');
+
 const LogoWrapper = styled(Link)(
   ({ theme }) => `
         color: ${theme.palette.text.primary};
@@ -111,10 +113,10 @@ function Logo() {
           }}
           overlap="circular"
           color="success"
-          badgeContent="1.6"
+          badgeContent={PLATFORM_VERSION_NO}
         >
           <LogoSignWrapper>
-            <img style={{ height: '100%'}} src='https://github.com/TURTLdao/TURTL-images/blob/main/TURTL-coin.png?raw=true'/>
+            <img style={{ height: '100%'}} src='/dao-images/turtledao.png'/>
           </LogoSignWrapper>
         </Badge>
       </LogoWrapper>

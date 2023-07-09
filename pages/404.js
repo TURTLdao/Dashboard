@@ -67,33 +67,24 @@ function Status404() {
                 fontWeight="normal"
                 sx={{ mb: 4 }}
               >
-                It's on us, we moved the content to a different page. The search
-                below should help!
+                It's on us, we moved the content to a different page or we haven't figured out how to do the magic with your URL.
+              </Typography>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                fontWeight="normal"
+                sx={{ mb: 4 }}
+              >
+                Let us know what happened if you think theres a mistake.
               </Typography>
             </Box>
             <Container maxWidth="sm">
               <Card sx={{ textAlign: 'center', mt: 3, p: 4 }}>
-                <FormControl variant="outlined" fullWidth>
-                  <OutlinedInputWrapper
-                    type="text"
-                    placeholder="Search terms here..."
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <ButtonSearch variant="contained" size="small">
-                          Search
-                        </ButtonSearch>
-                      </InputAdornment>
-                    }
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <SearchTwoToneIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-                <Divider sx={{ my: 4 }}>OR</Divider>
                 <Button href="/" variant="outlined">
                   Go to homepage
+                </Button>
+                <Button href="https://twitter.com/_turtledao" variant="outlined" sx={{ mx: 2 }}>
+                  Twitter
                 </Button>
               </Card>
             </Container>

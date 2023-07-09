@@ -149,14 +149,14 @@ const RecentOrdersTable = ({ cryptoOrders }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Logo</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right">Volume</TableCell>
+              <TableCell>Order Details</TableCell>
+              <TableCell>Order ID</TableCell>
+              <TableCell>Source</TableCell>
+              <TableCell align="right">Amount</TableCell>
+              <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
-
           <TableBody>
             {paginatedCryptoOrders.map((cryptoOrder) => {
               return (
@@ -219,6 +219,34 @@ const RecentOrdersTable = ({ cryptoOrders }) => {
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(cryptoOrder.status)}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Tooltip title="Edit Order" arrow>
+                      <IconButton
+                        sx={{
+                          '&:hover': {
+                            background: theme.colors.primary.lighter
+                          },
+                          color: theme.palette.primary.main
+                        }}
+                        color="inherit"
+                        size="small"
+                      >
+                        <EditTwoToneIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete Order" arrow>
+                      <IconButton
+                        sx={{
+                          '&:hover': { background: theme.colors.error.lighter },
+                          color: theme.palette.error.main
+                        }}
+                        color="inherit"
+                        size="small"
+                      >
+                        <DeleteTwoToneIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               );

@@ -105,93 +105,88 @@ function Hero() {
         container
       >
         <Grid item md={10} lg={8} mx="auto">
-          <LabelWrapper color="success">Version 1.6</LabelWrapper>
+          <LabelWrapper color="success">Version 1.0.0</LabelWrapper>
           <TypographyH1 sx={{ mb: 2 }} variant="h1">
-            TurtleDAO Platform
+            Tokyo Free Black Next.js Javascript Admin Dashboard
           </TypographyH1>
-          <TypographyH2
-            sx={{ lineHeight: 1.5, pb: 4 }}
-            variant="h4"
-            color="text.secondary"
-            fontWeight="bold"
-          >
-            <i>Inspiring trust in TurtleDAO verified projects.</i><br/>
-          </TypographyH2>
           <TypographyH2
             sx={{ lineHeight: 1.5, pb: 4 }}
             variant="h4"
             color="text.secondary"
             fontWeight="normal"
           >
-            Step into a future where transparency and accountability reign supreme, propelling you towards success and unyielding confidence.
+            High performance React template built with lots of powerful
+            Material-UI components across multiple product niches for fast &
+            perfect apps development processes
           </TypographyH2>
           <Button
             component={Link}
-            href="/overview"
+            href="/dashboards/tasks"
             size="large"
             variant="contained"
           >
-            Browse Platform
+            Browse Live Preview
           </Button>
           <Button
             sx={{ ml: 2 }}
             component="a"
             target="_blank"
             rel="noopener"
-            href="https://turtle-docs.vercel.app/whitepaper"
+            href="https://bloomui.com/product/tokyo-free-black-nextjs-javascript-material-ui-admin-dashboard/"
             size="large"
             variant="text"
           >
-            Whitepaper
+            Key Features
           </Button>
           <Grid container spacing={3} mt={5}>
-
-            <Grid item md={4}>
-              <NextJsAvatar>
-                <img style={{ height: '80%', width: '80%' }} src="https://dashboard-assets.dappradar.com/document/18492/jpgstore-dapp-marketplaces-cardano-logo-166x166_e0953ff920425eb5efa762fc5d9db83d.png" alt="NextJS" />
-              </NextJsAvatar>
-              <Typography variant="h4">
-                <Box sx={{ pb: 2 }}>
-                  <b>Powered by JPG.Store</b>
-                </Box>
-                <Typography component="span" variant="subtitle2">
-                  Discover NFT information powered by JPG.store
-                </Typography>
-              </Typography>
-            </Grid>
-
-            <Grid item md={4}>
-              <JsAvatar>
-                <img style={{ height: '80%', width: '80%' }} 
-                  src="https://seeklogo.com/images/C/cardano-ada-logo-4B6BADDB43-seeklogo.com.png"
-                />
-              </JsAvatar>
-              <Typography variant="h4">
-                <Box sx={{ pb: 2 }}>
-                  <b>Built for Cardano</b>
-                </Box>
-                <Typography component="span" variant="subtitle2">
-                  TurtleDAOs Platform is built specifically for Cardano
-                </Typography>
-              </Typography>
-            </Grid>
-
             <Grid item md={4}>
               <MuiAvatar>
-                <img style={{ height: '80%', width: '80%' }} 
-                  src="https://uploads-ssl.webflow.com/635b615fa5453d42d64fd2aa/63a87504c7b144cc212164b4_TtLogo2.webp"
+                <img
+                  src="/static/images/logo/material-ui.svg"
+                  alt="Material-UI"
                 />
               </MuiAvatar>
               <Typography variant="h4">
                 <Box sx={{ pb: 2 }}>
-                  <b>Powered by TapTools</b>
+                  <b>Powered by MUI (Material-UI)</b>
                 </Box>
                 <Typography component="span" variant="subtitle2">
-                  Don't worry if you don't own a Tappy NFT... or 5. You can still view some information here.
+                  A simple and customizable component library to build faster,
+                  beautiful, and accessible React apps.
                 </Typography>
               </Typography>
             </Grid>
-
+            <Grid item md={4}>
+              <NextJsAvatar>
+                <img src="/static/images/logo/next-js.svg" alt="NextJS" />
+              </NextJsAvatar>
+              <Typography variant="h4">
+                <Box sx={{ pb: 2 }}>
+                  <b>Built with Next.js</b>
+                </Box>
+                <Typography component="span" variant="subtitle2">
+                  Next.js gives you the best developer experience with all the
+                  features you need for production.
+                </Typography>
+              </Typography>
+            </Grid>
+            <Grid item md={4}>
+              <JsAvatar>
+                <img
+                  src="/static/images/logo/javascript.svg"
+                  alt="Javascript"
+                />
+              </JsAvatar>
+              <Typography variant="h4">
+                <Box sx={{ pb: 2 }}>
+                  <b>Built with Javascript</b>
+                </Box>
+                <Typography component="span" variant="subtitle2">
+                  Tokyo features a modern technology stack and is built with
+                  React + Javascript.
+                </Typography>
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

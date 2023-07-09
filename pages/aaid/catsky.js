@@ -1,83 +1,76 @@
 import Head from 'next/head';
+import { useState } from 'react';
+
 import SidebarLayout from 'src/layouts/SidebarLayout';
 import Footer from 'src/components/Footer';
 
-import { Grid, Container } from '@mui/material';
-import { fetchTTdata } from 'src/api/fetch-calls'
+import ProfileCover from 'src/page-content/aaid/profile-cover'
+import PriceStats from 'src/page-content/aaid/price-stats';
+import Team from 'src/page-content/aaid/team';
+import TopHolders from 'src/page-content/aaid/top-holders';
+import RecentTransactions from 'src/page-content/aaid/recent-txs';
 
-import ProfileCover from 'src/content/aaid/catsky/profile-cover';
-import Team from 'src/content/aaid/catsky/team';
-import PriceStats from 'src/content/aaid/price-stats';
-import TwitterFeed from 'src/content/aaid/catsky/twitter-feed';
+import { adastatTokenData } from 'src/api/address-data'
+import { taptoolsMarketData, cardanoPrice } from 'src/api/market-data'
+
+import { tokensToAda } from 'src/utils/balance'
+
+import { Grid, Container } from '@mui/material';
+
+const { DAO_SUPPORTED_ITEMS } = require('src/dao/dao-object.js');
 
 export async function getServerSideProps() {
-  const token_id = '0be55d262b29f564998ff81efe21bdc0022621c12f15af08d0f2ddb1.76ab3fb1e92b7a58ee94b712d1c1bff0e24146e8e508aa0008443e1db1f2244e';
-
-  const calculate_tokens_to_ada = (tokenPrice) => {
-    if (tokenPrice <= 0) {
-      return 0; // Invalid tokenPrice
-    }
-
-    const out = 1 / tokenPrice;
-    if (out < 1) {
-      return out.toFixed(5);
-    } else {
-      return (1 / tokenPrice);
-    }
-  };
+  const policy = DAO_SUPPORTED_ITEMS.catsky_token.policy_full;
+  const taptools_id = DAO_SUPPORTED_ITEMS.catsky_token.taptools_id;
 
   try {
-    const { circulatingSupply, dailyVolume, dilutedMarketCap, holders,
-      monthPercentChange, weekPercentChange, pricePercentChange, nativePrice,
-      numTransactions } = await fetchTTdata(token_id);
-    
-    const froggie_data = {
-      price: Number(nativePrice).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
-      daily_volume: Number(dailyVolume).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-      holders: Number(holders).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
-      transactions: Number(numTransactions).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
-      fdm: Number(dilutedMarketCap).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-      percent_change: {
-        daily: pricePercentChange,
-        weekly: weekPercentChange,
-        monthly: monthPercentChange,
-      },
-      ada_compare: calculate_tokens_to_ada(nativePrice).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
-    }
+    const market_data = await taptoolsMarketData(taptools_id);
+    const adastat = await adastatTokenData(policy);
+    const cardano_fiat_data = await cardanoPrice();
 
+    const token_data = {
+      price: Number(market_data.nativePrice).toLocaleString(undefined, { minimumFractionDigits: 10, maximumFractionDigits: 10 }),
+      daily_volume: Number(market_data.dailyVolume).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      holders: Number(market_data.holders).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      transactions: Number(market_data.numTransactions).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      fdm: Number(market_data.dilutedMarketCap).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+      percent_change: {
+        daily: market_data.pricePercentChange,
+        weekly: market_data.weekPercentChange,
+        monthly: market_data.monthPercentChange,
+      },
+      ada_compare: tokensToAda(market_data.nativePrice).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+      holders_rows: adastat.holders_row,
+      recent_txs: adastat.transactions_row
+    }
+    //console.log(token_data)
+  
     return {
       props: {
-        froggie_data
-      },
+        token_data, cardano_fiat_data
+    },
     };
   } catch (error) {
     console.error('Error:', error);
-    const froggie_data = {};
+    const token_data = {};
+    const cardano_fiat_data = {};
     return {
       props: {
-        froggie_data
+        token_data, cardano_fiat_data
       },
     };
   }
 }
 
-export default function AAIDfroggie({ froggie_data }) {
-  const information = {
-    description:
-      "Believers in Cardano. Catsky Token is more than just a token; its a mission to make a substantial impact in the crypto world. With continuous development, Catsky offers unique NFT airdrops to its holders, fostering a community driven by creativity and innovation. Dive into the thrilling and engaging crypto journey that Catsky Token provides.",
-    twitter: 'https://twitter.com/catskycrypto',
-    website: 'https://catsky.io/',
-    buy_link: 'https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=9b426921a21f54600711da0be1a12b026703a9bd8eb9848d08c9d921&tokenNameB=434154534b59',
-    price_data: froggie_data,
-    ticker: '$CATSKY',
-    twitter_handle: 'catskycrypto'
-  };
+export default function Catsky({ token_data, cardano_fiat_data }) {
+  const info = DAO_SUPPORTED_ITEMS.catsky_token;
 
   return (
     <>
       <Head>
         <title>Catsky Token - TurtleDAO Platform</title>
       </Head>
+
       <Container sx={{ mt: 3 }} maxWidth="lg">
         <Grid
           container
@@ -87,17 +80,45 @@ export default function AAIDfroggie({ froggie_data }) {
           spacing={3}
         >
           <Grid item xs={12} md={8}>
-            <ProfileCover user={information} />
+            <ProfileCover
+              info={info}
+            />
           </Grid>
+
           <Grid item xs={12} md={4}>
-            <PriceStats data={information}/>
+            <PriceStats
+              info={info}
+              token_data={token_data}
+              cardano_fiat_data={cardano_fiat_data}
+            />
           </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Team
+              info={info}
+            />
+          </Grid>
+
           <Grid item xs={12} md={8}>
-            <Team />
+            <TopHolders
+              info={info}
+              holders_rows={token_data.holders_rows}
+              cardano_fiat_data={cardano_fiat_data}
+              supply={info.supply}
+              token_price={token_data.price}
+            />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <TwitterFeed  />
+          {/*
+          <Grid item xs={12} md={12}>
+            <RecentTransactions
+              info={info}
+              transactions_rows={token_data.recent_txs}
+              cardano_fiat_data={cardano_fiat_data}
+              supply={info.supply}
+              token_price={token_data.price}
+            />
           </Grid>
+          */}
         </Grid>
       </Container>
       <Footer />
@@ -105,7 +126,7 @@ export default function AAIDfroggie({ froggie_data }) {
   );
 }
 
-AAIDfroggie.getLayout = (page) => (
+Catsky.getLayout = (page) => (
   <SidebarLayout>{page}</SidebarLayout>
 );
 

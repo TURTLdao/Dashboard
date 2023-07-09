@@ -80,14 +80,15 @@ function Sidebar() {
         />
         <Box p={2}>
           <Button
-            href="https://turtledao.vercel.app/"
+            href="https://bloomui.com"
             target="_blank"
             rel="noopener noreferrer"
             variant="contained"
+            color="success"
             size="small"
             fullWidth
           >
-            Visit TurtleDAO Website
+            Upgrade to PRO
           </Button>
         </Box>
       </SidebarWrapper>

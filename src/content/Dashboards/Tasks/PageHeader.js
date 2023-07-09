@@ -35,6 +35,10 @@ const AvatarPageTitle = styled(Avatar)(
 );
 
 function PageHeader() {
+  const user = {
+    name: 'Catherine Pike',
+    avatar: '/static/images/avatars/1.jpg'
+  };
 
   return (
     <Box
@@ -49,16 +53,17 @@ function PageHeader() {
         </AvatarPageTitle>
         <Box>
           <Typography variant="h3" component="h3" gutterBottom>
-            Welcome to the TurtleDAO Platform.
+            Welcome, {user.name}!
           </Typography>
           <Typography variant="subtitle2">
-            Inspiring trust in TurtleDAO verified & supported projects.
+            Manage your day to day tasks with style! Enjoy a well built UI
+            system.
           </Typography>
         </Box>
       </Box>
       <Box mt={{ xs: 3, md: 0 }}>
         <Button variant="contained" startIcon={<DocumentScannerTwoToneIcon />}>
-          Explore
+          Export
         </Button>
       </Box>
     </Box>
