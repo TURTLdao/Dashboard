@@ -14,6 +14,25 @@ import Head from 'next/head';
 import Logo from 'src/components/LogoSign';
 import Hero from 'src/page-content/homepage/hero';
 
+const HeaderWrapper = styled(Card)(
+  ({ theme }) => `
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: ${theme.spacing(10)};
+  margin-bottom: ${theme.spacing(10)};
+`
+);
+
+const OverviewWrapper = styled(Box)(
+  ({ theme }) => `
+    overflow: auto;
+    background: ${theme.palette.common.white};
+    flex: 1;
+    overflow-x: hidden;
+`
+);
+
 function Homepage({ }) {
   return (
     <OverviewWrapper>
