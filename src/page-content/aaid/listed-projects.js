@@ -33,7 +33,7 @@ function ListedProjects() {
             >
               <div align='center'>
                 <Avatar src={project.logo} variant='rounded' sx={{ mb: 1 }}/>
-                <Link href="/aaid/turtl" variant="h3" color="text.primary" >
+                <Link href={project.aaid_link} variant="h3" color="text.primary" >
                   {project.token_name}
                 </Link>
 
