@@ -25,7 +25,7 @@ function StarredProjects({ froggie_price, catsky_price }) {
           Supported TurtleDAO Projects
         </Typography>
         <Box>
-          <Button variant="outlined">
+          <Button variant="outlined" href='/aaid' hrefPass>
             View all projects
           </Button>
         </Box>
