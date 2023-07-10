@@ -38,7 +38,7 @@ const DAO_SUPPORTED_ITEMS = {
     slogan: 'Froggie is here for everyone. Froggie is the new wave \u{1F438}',
     desc: "Froggies are life, Froggies are love and we want Froggies to stay.",
     aaid_link: '/aaid/froggie',
-    logo: 'https://www.turtle-dao.com/token-images/froggie.png',
+    logo: 'https://github.com/TURTLdao/token-images/blob/main/froggie.png?raw=true',
     supply: 69000000000,
     policy: '79906b9c8d2fbddeba9658387a2a1187f3edd8f546e5dc49225710a1',
     policy_full: '79906b9c8d2fbddeba9658387a2a1187f3edd8f546e5dc49225710a146524f47474945',
