@@ -6,7 +6,7 @@ const PLATFORM_VERSION_NO = '1.7';
 const PLATFORM_VERSION = 'v' + PLATFORM_VERSION_NO;
 const PLATFORM_VERSION_LONG = 'Version: ' + PLATFORM_VERSION_NO;
 
-const TT_BUILD_ID = 'vzrdcKYjARE-oIRBCMYzq';
+const TT_BUILD_ID = 'yOIaXK_oBgVyiSJp4VCRr';
 
 const LATEST_NEWS = {
   0: {
